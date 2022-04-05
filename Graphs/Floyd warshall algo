@@ -1,0 +1,17 @@
+It is used to find shortest distance from every node to every other node in graph
+
+
+void shortest_distance(vector<vector<int>>&matrix){
+	    int v = matrix.size();
+	   
+	    for(int vertex = 0 ; vertex < v ; vertex++){
+	        for(int i=0 ; i<matrix.size() ; i++){
+	            for(int j=0 ; j<matrix[i].size() ; j++){
+	            
+	   matrix[i][j] = min(matrix[i][j] , matrix[i][vertex] + matrix[vertex][j]);
+	                
+	            }
+	            }
+        }
+
+    }

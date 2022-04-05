@@ -1,0 +1,24 @@
+We traverse graph level by level and print the nodes. 
+Data structure used : Queue
+
+
+void func(vector<vector<int>> &adj, int root){
+     queue <int> q;
+        q.push(root);
+        
+        while(!q.empty()){
+            int ele = q.front();
+            ans.push_back(ele);
+            q.pop();
+            for(int i=0 ; i<adj[ele].size() ; i++)
+            {
+                if(visited[adj[ele][i]] == 0)
+            {
+                visited[adj[ele][i]] = 1;
+                q.push(adj[ele][i]);
+            }
+            }
+        }
+} 
+
+TC : O(V+E)

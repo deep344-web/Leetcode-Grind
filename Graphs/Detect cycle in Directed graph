@@ -1,0 +1,24 @@
+
+Detect cycle using DFS by keeping track of nodes current in recursion stack and if any node is 
+found already visited and is currently in recursion stack then there is Cycle !!
+
+bool dfs(vector<int> adj[], vector<int> &dfsvis, vector<int> &vis, int root){
+        
+        vis[root] = 1;
+        dfsvis[root] = 1;
+        
+        for(int i : adj[root]){
+            if(vis[i] == 0){
+                if(dfs(adj, dfsvis, vis, i))
+                return true;
+            }
+            
+            else{
+                if(dfsvis[i] == 1)
+                return true;
+            }
+        }
+        
+        dfsvis[root] = 0;
+        return false;
+    }

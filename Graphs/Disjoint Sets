@@ -1,0 +1,45 @@
+This is a data structure used to add elements from different sets and find which element belongs to which set
+Used for various graph problems
+
+path compression to reduce the complexity of traversal
+
+int find(int i, vector<int> &parent){
+	if(parent[i] == i)
+	return i;
+	
+	else{
+		int par = find(parent[i], parent);
+		parent[i] = par;
+		return par;
+	}
+}
+
+
+union using rank will decrease height of tree
+
+void union(int i, int j, vector<int> &rank, vector<int> &parent){
+	int par_i = find(i, parent);
+	int par_j = find(j, parent);
+	
+	if(par_i == par_j)
+	return;
+	
+	int rank_i = rank[par_i];
+	int rank_j = rank[par_j];
+	
+	if(rank_i > rank_j){
+		parent[par_j] = par_i;
+		return; 
+	}
+	
+	else if(rank_j > rank_i){
+		parent[par_i] = par_j;
+		return;
+	}
+	
+	else{
+		parent[par_i] = par_j;
+		rank_j++;
+	}
+	
+}

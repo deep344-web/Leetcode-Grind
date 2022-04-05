@@ -1,0 +1,69 @@
+In graph a stongly connected component is component in which every node can be reached from every node. Every single node is scc in itself. We can find no of scc in graph by 2 algo's 
+
+- Kosaraju's Algorithm
+- Tarjan's Algorithm
+
+kosaraju's Algo
+In this topo sort of graph and transpose the graph and for every node in stack traverse the respective components
+
+
+ // topo sort 
+void DFS(vector<int> adj[], stack<int> &dfs, int root, vector<int> &vis){
+	    vis[root] = 1;
+	    for(int j : adj[root]){
+	        if(vis[j]  == 0)
+	        DFS(adj, dfs, j, vis);
+	    }
+	    
+	    dfs.push(root);
+	}
+
+ // dfs to visit each node	
+   void func(vector<int> trans[], vector<int> &vis, int root){
+       vis[root] = 1;
+       for(int i : trans[root]){
+           if(vis[i] == 0)
+           func(trans, vis, i);
+       }
+   }	
+	
+	
+	
+    int kosaraju(int V, vector<int> adj[])
+    {
+        stack<int> dfs;
+        vector<int> vis(V, 0);
+        
+        for(int i=0; i<V; i++){
+            if(vis[i] == 0){
+                DFS(adj, dfs, i, vis);
+            }
+        }
+        
+        
+        vector<int> transpose[V];
+        
+        for(int i=0; i<V; i++){
+            for(int j = 0; j <adj[i].size(); j++){
+                transpose[adj[i][j]].push_back(i);
+            }
+        }
+        
+       vector<int> visited(V, 0);
+       int comp = 0;
+       
+       while(!dfs.empty()){
+           int node = dfs.top();
+           dfs.pop();
+           if(visited[node] == 0){
+               func(transpose, visited, node);
+               comp++;
+           }
+         
+       }
+       
+       return comp;
+        
+    }
+
+    

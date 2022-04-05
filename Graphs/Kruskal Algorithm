@@ -1,0 +1,5 @@
+This is used to find Minimum spaning tree for a weighted Graph. Minimum spanning tree means 
+we will have n nodes and n-1 edges and the overall weight of the graph (sum of weights of all
+the edges of graph) will be minimum
+
+Kruskal is solved using disjoint set data structure

@@ -1,0 +1,43 @@
+
+
+Prims algorithm also gives minimum spanning tree
+Key vector will store the next node with min weight which is not included in spanning tree yet 
+MST vector will keep track of nodes which are already taken in tree
+parent will keep track who is parent of ith node in the tree
+
+int spanningTree(int V, vector<vector<int>> adj[])
+    {
+        vector<int> key(V, INT_MAX), parent(V, -1);
+        vector<bool> MST(V, false);
+        
+        key[0] = 0;
+        
+        for(int i= 0; i<V; i++){
+            
+            int min_key = INT_MAX, vertex;
+           
+            for(int k=0; k<key.size(); k++){
+                if((key[k] < min_key) && !MST[k]){
+                    min_key = key[k];
+                    vertex = k;
+                }
+            }
+            
+            
+            MST[vertex] = true;
+            
+            for(int j = 0; j < adj[vertex].size(); j++){
+                if(!MST[adj[vertex][j][0]] && (adj[vertex][j][1] < key[adj[vertex][j][0]])){
+                    key[adj[vertex][j][0]] = adj[vertex][j][1];
+                    parent[adj[vertex][j][0]] = vertex;
+                }
+            }
+        }
+        
+        int min_cost = 0;
+        for(int i=0; i<key.size(); i++){
+            min_cost += key[i];
+        }
+        
+        return min_cost;
+    }
