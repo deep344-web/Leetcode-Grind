@@ -28,6 +28,8 @@ stack<int> &mystack, vector<bool> &instack, int root, vector<vector<int>> &ans){
                 low[root] = min(low[root], low[j]);
             }
             else{
+
+                //low will be updated only when it is back edge and not for cross edges
                 if(instack[j]){
                     low[root] = min(low[root], disc[j]);
                 }

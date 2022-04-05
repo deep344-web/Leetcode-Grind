@@ -1,0 +1,30 @@
+* A graph is bipartite if all the nodes can be divided into 2 sets such that every edge connects vertices of 2 sets but no edge connects the vertices of same set.
+
+* To check if graph is bipartite we can try to 2 color all vertices of graph using 2 colors such that adjacent vertices don't have same color. If its possible then graph is bipartite otherwise not.
+
+* Here 2 colors are 0 and 1.
+
+bool BFS(vector<int> &color , vector<int> adj[] , int i){
+      queue<int> q;
+      q.push(i);
+      color[i] = 1;
+      
+      while(!q.empty()){
+          
+          int node = q.front();
+          q.pop();
+          
+          for(int i=0 ; i<adj[node].size() ; i++){
+              if(color[adj[node][i]] == -1)
+              {
+                  color[adj[node][i]] = 1 - color[node] ;
+                  q.push(adj[node][i]);
+              }
+              else if(color[adj[node][i]] == color[node])
+              return false;
+          }
+          
+      }
+      
+      return true;
+  }

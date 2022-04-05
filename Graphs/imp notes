@@ -1,4 +1,9 @@
+Graphs are of 2 types 
+-> Directed : Edge has some direction i.e 2 -> 3 means there is edge from 2 to 3 but not from 3 -> 2
+-> Undirected : Edge has no direction i.e 2 -> 3 means there is edge from 2 to 3 and also from 3 -> 2
+
+
 Graphs can be made in c++ in 2 ways 
  -> Adjacency List  
  -> Adjacency Matrix
-
+ 

@@ -1,0 +1,29 @@
+* Bridges are those edges of graph upon deletion of which graph is divided into more no of components than it earlier had. This can be found with help of Trajan's Algo's low and disc concept.
+* If there is no back edge from subgraph current node to any of the ancestor of node, then the edge we are currently at will be bridge 
+
+*while finding bridges we are not concerned about cross edges because even  cross edge is connecting the node with other node.
+
+int timer = 0;
+   	
+      void help(vector<int> adj[] , vector<int> &low , vector<int> &disc , 
+                vector<pair<int, int>> &ans , vector<int> &parent , int i){
+        low[i] = timer;
+        disc[i] = timer;
+        timer++;
+        
+        for(int j : adj[i]){
+            if(disc[j] == -1){
+                parent[j] = i;
+                help(adj , low , disc ,ans ,  parent , j);
+                low[i] = min(low[i] , low[j]);
+                
+                if(low[j] > disc[i])
+                ans.push_back({i , j});
+            }
+            
+            else if(parent[i] != j){
+                low[i] = min(low[i] , disc[j]);
+            }
+        }
+    }
+    

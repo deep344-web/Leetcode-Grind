@@ -1,0 +1,18 @@
+Path -> Route along the edges that start at a vertex and may or may not end at same vertex
+Circuit -> Route along the edges that start and end at same vertex
+
+Euler path -> It traverse every edge of graph exactly once
+Euler Circuit -> It traverse every edge of graph exactly once
+
+A graph is called Eulerian if it has an Eulerian Cycle and called Semi-Eulerian if it has an Eulerian Path.
+To find if graph is Eulerian or not we can see following condition : 
+
+-> Undirected graph 
+  * For this graph to have eulerian circuit all the nodes should have even degree.
+  * For this graph to have eulerian path all nodes should have even degree or exactly one node has odd degree.
+
+  -> Directed graph
+  * For this graph to have eulerian circuit every vertex should have equal indegree and outdegree.
+  * For this graph to have eulerian path atmost one node should have (in - out) degree = 1 and atmost one node should have (out - in) = 1 and all other nodes should have equal in and out degree.
+
+   Also graph should be connected.
