@@ -11,4 +11,6 @@ ans : [act cat tac] [god dog]
 
 
 
-* Most important application of trie is suggesting words to user while typing in phone. Because words we use daily are being stored in backend and when we type any char/ prefix device automatically starts suggesting us words with similar prefix which we used earlier. And the search is made efficient with the help of trie at backend. 
+* Most important application of trie is suggesting words to user while typing in phone. Because words
+ we use daily are being stored in backend and when we type any char/ prefix device automatically starts
+  suggesting us words with similar prefix which we used earlier. And the search is made efficient with the help of trie at backend. 
