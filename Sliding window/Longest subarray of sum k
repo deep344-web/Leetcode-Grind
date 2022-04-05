@@ -1,0 +1,36 @@
+Variable sized window concept to be used
+
+int lenOfLongSubarr(int A[], int N, int K)
+{
+ 
+    int i = 0, j = 0, sum = 0;
+    int max = INT_MIN;
+   
+    while (j < N) {
+        sum += A[right];
+        if (sum < K) {
+            j++;
+        }
+        else if (sum == K) {
+            max = max > sum ? max : (right - left + 1);
+            j++;
+        }
+        else if (sum > K) {
+            while (sum > K) {
+                sum -= A[left];
+                i++;
+            }
+            j++;
+        }
+    }
+    return max;
+}
+
+This technique will not work if the array has negative elements. Why ??
+Here once we hit a window of some size having sum = k , we record the ans and then we reduce the size of
+window because we are sure that further if we will add elements in exisiting window it will increase sum 
+as all the elements in array are positive but let's say if we have -ve elements also then it might be 
+possible that next couple of elements don't increase the sum but instead we get window of some greater 
+size. 
+Example  : [-5 , 8, -14, 2, 4, 12]
+here answer can be 0 to 4

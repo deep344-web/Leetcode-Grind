@@ -1,0 +1,139 @@
+* Trie is basically used for storing the data in such a way so that insertion , retrieval and search for a key can be done in O(n) time where n is length of key itself.
+
+* We need to mark the last node of every key as end of word node. 
+
+                     root
+                    /   \    \
+                    t   a     b
+                    |   |     |
+                    h   n     y
+                    |   |  \  |
+                    e   s  y  e
+                 /  |   |
+                 i  r   w
+                 |  |   |
+                 r  e   e
+                        |
+                        r
+
+
+
+class Trie{
+	public:
+		
+	char ch;
+	Trie *child[26];
+	int endWords = 0;
+	int prefix = 0;
+
+    
+};
+
+Trie* getTrieStruct (){
+	Trie *root = new Trie();
+	
+	root->ch = '/';
+	root->endWords = 0;
+	
+	for(int i=0; i<26; i++){
+		root->child[i] = NULL;
+	}
+	
+	return root;
+}
+
+
+bool search(string str, Trie *root){
+	
+	int i = 0, n = str.length();
+	
+	Trie *ptr = root;
+	
+	
+	while((i < n) && (ptr->child[str[i] - 'a'])){
+
+		ptr = ptr->child[str[i]-'a'];
+		i += 1;
+	}
+	
+	if(i == n && ptr->endWords > 0)
+	return true;
+	
+	return false;
+}
+
+string insert (string str, Trie *root){
+	Trie *ptr = root;
+	int i = 0;
+	int n = str.length();
+	
+	while((i < n) && ptr->child[str[i] - 'a']){
+		ptr = ptr->child[str[i] - 'a'];
+		ptr->prefix += 1;
+		i += 1;
+	}
+	
+	while(i < n){
+		Trie *node = new Trie();
+		node->ch = str[i];
+		node->prefix += 1;
+
+		for(int i=0; i<26; i++){
+		node->child[i] = NULL;
+	  }
+	  ptr->child[str[i] - 'a'] = node;
+	  ptr = node;
+	  i++;
+	}
+	
+	ptr->endWords += 1;
+
+	if(search(str, root)){
+		return "success!";
+	}
+	
+	return "failed";
+}
+
+
+int prefixCount(string prefix, Trie *root){
+	Trie *ptr = root;
+	int i =0, n = prefix.length();
+	
+	while((i < n) && ptr->child[prefix[i] - 'a']){
+		ptr = ptr->child[prefix[i] - 'a'];
+		i += 1;
+	}
+	
+	if(i == n && ptr->ch == prefix[i-1])
+	return ptr->prefix;
+	
+	return -1;
+}
+
+
+
+ string delete_(string str, Trie *root){
+ 	
+ 	if(search(str, root)){
+ 		int i = 0, n = str.length();
+	    Trie *ptr = root;
+	
+	while((i < n) && (ptr->child[str[i] - 'a'])){
+		ptr->prefix -= 1;
+		ptr = ptr->child[str[i]-'a'];
+		i += 1;
+	}
+	
+	if(i == n && ptr->endWords > 0)
+	    ptr->endWords -= 1;
+	    ptr->prefix -= 1;
+	}
+ 	
+	if(!search(str, root))
+	return "success!";
+	
+	return "Failed";
+ }
+
+

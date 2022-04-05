@@ -1,0 +1,22 @@
+int i = 0; j = 0;
+// i and j are keeping track of window 
+
+while(j < N){
+
+           //calculations
+            
+            //if condition has not been met yet then increase window size 
+            if(j-i + 1 < K)  
+            j++;
+            
+
+            //once the condition has been met then store the window size or whatever is asked
+            else if(j- i + 1 == K)
+            {
+                //store res
+                // remove calculations of elements from the left side
+                
+               //reduce the window 
+            }
+            
+        }

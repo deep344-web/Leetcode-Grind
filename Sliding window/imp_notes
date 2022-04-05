@@ -1,0 +1,22 @@
+Type of problems
+-> subarray / substring 
+-> window size given like k
+-> repeated calculations in array or string is happening
+
+There are 2 types of sliding windows :
+ * Fixed sized : In this we are given k or window size
+ * Variable sized : Here most of times we are asked to find max or min window size or indices of valid windows.
+
+ Some problems for understanding the concept
+ - Fixed size window
+ * Max/ Min subarray of size of k
+ * Ist -ve element in every window of size k
+ * Count occurences of given pattern in the given string
+ * maximum of every subarray of size k
+  
+- Variable size window
+* Largest/smallest subarray of sum k
+* Largest substring having k distinct characters
+* Length of largest substring having no repeating characters
+* Minimum window substring having all the characters of the given pattern.
+

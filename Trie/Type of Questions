@@ -1,0 +1,14 @@
+
+* Shortest Unique prefix for every word
+
+* Print all the anagrams together
+eg : {act,god,cat,dog,tac}
+ans : [act cat tac] [god dog]
+-> This problem can be solved using sorting each word and using hash map or by creating vector of size of 26 for each word and using hashmap. These approaches will be O(MN) time complexity.
+
+-> Using Trie can reduce TC to O(n). Here we will sort each word and insert it into trie and at leaf node store the index of original word in array and if any word exists already(which is possible as we have anagrams) then  only add the index at leaf node.
+-> Traverse the trie only once for each anagram.
+
+
+
+* Most important application of trie is suggesting words to user while typing in phone. Because words we use daily are being stored in backend and when we type any char/ prefix device automatically starts suggesting us words with similar prefix which we used earlier. And the search is made efficient with the help of trie at backend. 

@@ -1,0 +1,164 @@
+* We were given a string s and n queries where in each query we have change some char at some position
+ with different char in s. And after changing the char find the longest substring having only one char
+ repeating.
+
+ * Here we have frequent updates so segment tree can reduce time complexity.
+
+
+* Here in this we are calculating the longest substring for smallest part of the given string i.e if string is 
+"babacc" then ans for b  a  b  a  c  c individually is 1. Now if we combine 2 strings to form bigger one 
+like    cc    then answer for "cc" can be calculated with the help of answers of "c" and "c". For that reason
+      /     \
+    c         c    
+ we are forming sufix and prefix arrays and keeping count.
+ 
+
+ // Code of segment tree class
+class segmentTree{
+
+   public:
+   
+    vector<int> prefix;
+    vector<int> suffix;
+    vector<int> best;
+    vector<char> pre;
+    vector<char> suf;
+    vector<char> bes;
+    vector<int> size;
+    vector<int> pos;
+    int n;
+    string str;
+    
+    segmentTree(string s){
+        str = s;
+         n = str.length();
+         prefix = vector<int>(4*n + 5, 0);
+         suffix = vector<int>(4*n + 5, 0);
+         best = vector<int>(4*n + 5, 0);
+         pre = vector<char>(4*n + 5, '*');
+         suf = vector<char>(4*n + 5,  '*');
+         bes = vector<char>(4*n + 5, '*');
+         size = vector<int>(4*n + 5, '*');
+        
+         pos = vector<int> (n, -1);
+        
+        build(0, 0, n-1, str);
+    }
+    
+    void build(int index, int l, int h, string &str){
+        if(l > h)
+        return;
+    
+    if(l == h)
+    {
+        prefix[index] = suffix[index] = best[index] = 1;
+        pre[index] = suf[index] = bes[index] = str[l];
+        
+        size[index] = 1;
+        pos[l] = index;
+        return;
+    }
+    
+    
+       int mid = (l + h)/2;
+       build(2*index + 1, l, mid, str);
+       build(2*index + 2, mid+1, h, str);
+    
+        merge(index);
+    }
+    
+    void merge(int index){
+        int leftc = 2*index + 1;
+        int rightc = 2*index + 2;
+        
+        size[index] = size[leftc] + size[rightc];
+        
+        if(prefix[leftc] != size[leftc] ||  pre[leftc] != pre[rightc])
+        {
+            prefix[index] = prefix[leftc];
+            pre[index] = pre[leftc];
+        }
+        
+        else{
+            prefix[index] = prefix[leftc] + prefix[rightc];
+            pre[index] = pre[leftc];
+        }
+        
+        if(suffix[rightc] != size[rightc] || suf[rightc] != suf[leftc]){
+            suffix[index] = suffix[rightc];
+            suf[index] = suf[rightc];
+        }
+        
+        else
+        {
+            suffix[index] = suffix[rightc] + suffix[leftc];
+            suf[index] = suf[rightc];
+        }
+        
+        
+        if(best[leftc] > best[rightc])
+        {
+            best[index] = best[leftc];
+            bes[index] =  bes[leftc];
+        }
+        
+        else
+        {  
+            best[index] = best[rightc];
+            bes[index] =  bes[rightc];
+        }
+        
+        if(suf[leftc] == pre[rightc] && 
+           (suffix[leftc] + prefix[rightc]) > best[index]){
+            
+           best[index] = suffix[leftc] + prefix[rightc];
+            bes[index] = suffix[leftc];
+        }
+        
+       
+    }
+    
+    void update(int index, int l, int h, int j, char c){
+        
+        if(l > h)
+            return;
+        
+        if(l == h){
+            pre[index] = suf[index] = bes[index] = c;
+            return;
+        }
+        
+        
+        int mid = (l + h)/2;
+        
+        if(j >= l && j <= mid){
+            update(2 * index + 1, l, mid, j, c);
+        }
+        
+        else
+            update(2 * index + 2, mid+1, h, j, c);
+       
+        merge(index);
+    
+    }
+    
+};
+
+//function for the final ans
+ vector<int> longestRepeating(string s, string queryCharacters, 
+                                 vector<int>& queryIndices) 
+    {
+        segmentTree *seg = new segmentTree(s);
+        
+        vector<int> ans;
+        int siz = queryIndices.size();
+    
+        for(int i=0; i<siz; i++){
+            
+            seg->update(0, 0, s.length() - 1, 
+                        queryIndices[i], queryCharacters[i]);    
+            ans.push_back(seg->best[0]);
+        }
+        
+        return ans;
+    }
