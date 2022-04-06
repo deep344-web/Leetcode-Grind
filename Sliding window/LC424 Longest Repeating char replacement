@@ -1,0 +1,49 @@
+Problem statement :
+You are given a string s and an integer k. You can choose any character of the string and change it to any other uppercase English character. You can perform this operation at most k times.
+Return the length of the longest substring containing the same letter you can get after performing the above operations. 
+
+Approach : Lets say we got a window in which we have n unique char and char with highest frequency f, so if we want to convert that substring to string of same chars then all other chars need to be replaced with char of highest frequency. So if those chars are <= k then that is valid window.
+
+Code : 
+int characterReplacement(string s, int k) {
+        
+       
+        int i = 0, j = 0, ans = 0, max_count = 0;
+        int arr[26] = {0};
+        
+        while(j < s.length()){
+            
+            arr[s[j] - 'A']++;
+            max_count = max(max_count, arr[s[j] - 'A']);
+            
+            int window_size = j - i + 1;
+           
+            if((window_size - max_count) <= k){   
+            
+                ans = max(ans, window_size);
+                j++;
+            }
+            
+            else {
+                
+                while((j - i + 1 - max_count) > k){
+                    
+                    arr[s[i] - 'A']--;  
+                    max_count = 0;
+                    for(int letter=0; letter<26; letter++)
+                    {
+                    max_count = max(max_count, arr[letter]);
+                    }
+                    i++;
+                }
+                
+               
+                j++;
+            }
+            
+        }
+        
+        return ans;
+    }
+
+   

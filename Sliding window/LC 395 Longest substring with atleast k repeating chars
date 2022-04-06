@@ -1,0 +1,74 @@
+Problem statement :
+Given a string s and an integer k, return the length of the longest substring of s such that the frequency 
+of each character in this substring is greater than or equal to k.
+
+
+Approach : Here if we simply start with i = 0 and j = 0 and keep on adding char while iterating we would
+unknowingly add those chars also which don't have frequency even k . So we can fix the window size
+by fixing the no of unique chars in window. The moment no of unique chars in our window =  no of chars 
+having frequency >= k, we got our valid window. If window has more unique elements then reduce the
+window size. 
+
+Code : 
+ int longestSubstring(string s, int k) {
+        map<char, int> char_count;
+       
+        for(int i=0; i<s.length(); i++){
+            char_count[s[i]]++;
+        }
+        
+        int unique_chars = char_count.size();
+        int ans = 0;
+        
+       for(int curr_unique = 1; curr_unique <= unique_chars; curr_unique++){
+           int i = 0, j = 0 , unique = 0, freq_k = 0;
+            map<char, int> temp;
+            while(j < s.length()){
+            
+                if(unique <= curr_unique){
+                    temp[s[j]]++;
+                    
+                    if(temp[s[j]] == 1)
+                        unique++;
+                    
+                    if(temp[s[j]] == k)
+                        freq_k++;
+                    
+                    j++;
+                    
+                }
+                
+                else {
+                    
+                    if(temp[s[i]] == k)
+                        freq_k--;
+                    
+                    temp[s[i]]--;
+                    
+                    if(temp[s[i]] == 0){
+                        unique--;
+                        temp.erase(s[i]);
+                    }
+                    
+                    i++;
+                
+                }
+                
+                if(unique == curr_unique && unique == freq_k)
+                {
+                    ans = max(ans, j - i);
+                }
+             
+           }
+            
+        }
+        
+        
+        return ans;
+    
+        
+    }
+
+     TC : Unique Chars * O(N)
+    so unique chars can't be more than 26 so Ideally TC - O(N)
+    
