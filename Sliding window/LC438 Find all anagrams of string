@@ -1,0 +1,33 @@
+Problem statement : 
+Given two strings s and p, return an array of all the start indices of p's anagrams in s.
+
+Approach : Fixed size window of size = p's  length
+
+Code : 
+vector<int> findAnagrams(string s, string p) {
+        array<int, 26> char_count{0};
+        array<int, 26> temp_count{0};
+        vector<int> ans;
+        
+        for(int i=0; i<p.length(); i++){
+            char_count[p[i] - 'a']++;
+        }
+        
+        int i = 0, j = 0;
+        while(j < s.length()){
+            temp_count[s[j] - 'a']++;
+            
+            int window_size = j - i + 1;
+            if(window_size == p.length()){
+                  if(char_count == temp_count)
+                      ans.push_back(i);
+                
+                temp_count[s[i] - 'a']--;
+                i++;
+            }
+            
+            j++;
+        }
+        
+        return ans;
+    }

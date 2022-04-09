@@ -1,0 +1,73 @@
+Problem statement :
+You are given a string s of length n containing only four kinds of characters: 'Q', 'W', 'E', and 'R'.
+A string is said to be balanced if each of its characters appears n / 4 times where n is the length of 
+the string.
+Return the minimum length of the substring that can be replaced with any other string of the same 
+length to make s balanced. If s is already balanced, return 0.
+
+
+Approach : 
+Firstly find all the chars in string having occurences more than n/4 and store the extra count in map because we can replace these chars with some chars to form balanced string. So now we can find minimum window having all these extra chars. That window will be our answer.
+
+Code : 
+ int balancedString(string s) {
+        
+        array<int, 26> invalid{0};
+        array<int, 26> temp{0};
+        
+        int n = s.length(), cnt = 0;
+      
+        for(int i=0; i<n ; i++){
+            invalid[s[i] - 'A']++;
+        }
+     
+        
+        for(int i=0; i<26; i++){
+            if(invalid[i] > (n/4))
+            {
+                invalid[i] -=  n/4;
+                cnt += invalid[i];
+            }
+            else
+                invalid[i] = 0;
+        }
+        
+        int temp_count = 0;
+        if(temp_count == cnt)
+            return 0;
+        
+        int i = 0, j = 0, min_len = INT_MAX;
+        
+        while(j < n){
+            
+           if(invalid[s[j] - 'A'] > 0)
+           {
+               temp[s[j] - 'A']++;
+               if(temp[s[j] - 'A'] <= invalid[s[j] - 'A'])
+                   temp_count++;
+           }
+            
+            if(temp_count == cnt){
+                
+                while(temp_count == cnt){
+                    
+                    min_len = min(min_len, j - i + 1);
+                    
+                    if(temp[s[i] - 'A'] > 0)
+                    {
+                        temp[s[i] - 'A']--;
+                        if(temp[s[i] - 'A'] < invalid[s[i] - 'A'])
+                            temp_count--;
+                    }
+                    i++;
+                }
+                
+            }
+            
+            j++;
+            
+        }
+        
+        return min_len;
+    }
+

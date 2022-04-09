@@ -1,0 +1,42 @@
+Problem statement :
+Given a string s consisting only of characters a, b and c.
+Return the number of substrings containing at least one occurrence of all these characters a, b and c.
+
+Approach : same approach as LC 1248
+
+Code : 
+ unsigned int atmostK(string s){
+        unsigned int i = 0, j = 0;
+        unsigned int res = 0;
+        map<char, unsigned int> map1;
+        while(j < s.length()){
+            map1[s[j]]++;
+            
+            if(map1.size() <= 2){
+                res += (j - i + 1);
+            }
+            
+            else {
+                while(map1.size() > 2){
+                    map1[s[i]]--;
+                    if(map1[s[i]] == 0)
+                        map1.erase(s[i]);
+                    
+                    i++;
+                }
+                
+                res += (j - i + 1);
+            }
+            
+            j++;
+        }
+        
+        return res;
+    }
+    int numberOfSubstrings(string s) {
+         unsigned int n = s.length();
+         unsigned int total = n*(n+1)/2;
+         unsigned int ans = atmostK(s);
+        
+        return total - ans;
+    }

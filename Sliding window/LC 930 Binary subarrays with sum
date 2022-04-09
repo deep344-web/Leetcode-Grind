@@ -1,0 +1,38 @@
+Problem statement :
+Given a binary array nums and an integer goal, return the number of non-empty subarrays with 
+a sum goal.
+
+Approach : Same approach as LC 1248.
+
+Code : 
+ int atmostK(vector<int> &nums, int k){
+        int i = 0, j = 0, res = 0, sum = 0;
+         if(k < 0)
+             return 0;
+         
+        while(j < nums.size()){
+                sum += nums[j];
+            
+            if(sum <= k){
+                res += (j - i + 1);
+            }
+            
+            else {
+                while(sum > k){
+              
+                      sum -= nums[i];
+                       i++;
+                }
+                
+                res += (j - i + 1);
+            }
+            
+            j++;
+        }
+        
+        return res;
+    }
+    
+    int numSubarraysWithSum(vector<int>& nums, int goal) {
+       return atmostK(nums, goal) - atmostK(nums, goal - 1);   
+    }

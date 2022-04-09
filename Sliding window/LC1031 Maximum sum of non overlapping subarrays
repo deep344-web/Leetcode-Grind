@@ -1,0 +1,47 @@
+Problem statement :
+Given an integer array nums and two integers firstLen and secondLen, return the maximum sum 
+of elements in two non-overlapping subarrays with lengths firstLen and secondLen.
+
+Approach :
+Here we find prefix sum of the nums array. Now we have to cases either subarray1 occur before subarray2 
+or vica versa. So we need to run loop for both cases and in whichever case sum comes out to be maximum
+will be our answer.
+
+Code :
+ int maxSumTwoNoOverlap(vector<int>& nums, int f, int s) {
+         vector<int> prefix_sum;
+         prefix_sum.push_back(0);
+        for(int i=0; i<nums.size(); i++){
+            if(i == 0)
+                prefix_sum.push_back(nums[i]);
+            
+            else
+                prefix_sum.push_back(nums[i] + prefix_sum[i]);
+        }
+        
+        int res = 0, f_range = 0, s_range = 0;
+            
+        //Here firstlen subarray will be before secondLen
+
+        for(int i = f + s; i <prefix_sum.size(); i++){
+            int s_sum = prefix_sum[i] - prefix_sum[i- s];
+            int f_sum = prefix_sum[i-s] - prefix_sum[i- s -f];
+            
+            f_range = max(f_range, f_sum);
+            res = max(res, f_range + s_sum);
+            
+        }
+        
+         //Here secondLen subarray will be before firstLen
+        
+        for(int i = f + s; i < prefix_sum.size(); i++){
+            int f_sum = prefix_sum[i] - prefix_sum[i - f];
+            int s_sum = prefix_sum[i-f] - prefix_sum[i- f -s];
+            
+            s_range = max(s_range, s_sum);
+            res = max(res, s_range + f_sum);
+        }
+        
+        return res;
+        
+    }

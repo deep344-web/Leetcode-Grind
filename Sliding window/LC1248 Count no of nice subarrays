@@ -1,0 +1,60 @@
+Problem statement :
+Given an array of integers nums and an integer k. A continuous subarray is called nice if there are k 
+odd numbers on it. Return the number of nice sub-arrays.
+
+Approach : 
+How to find subarrays having atmost k distinct integers?
+We can use sliding window technique and run our right pointer as long as we get no of elements <= k.  For example in this array [1, 2, 1, 2, 3] where k = 2, when at first we get element = 1, our no of distinct elements is less than equals to k so we need to add all subarrays to our ans which are ending at current element i.e add the length of that subarrays. 
+[1]         elements = 1  subarrays ending at 1 is 1
+[1, 2]     elements = 2  subarrays ending at 2 is 2
+[1, 2, 1] elements=  2  subarrays ending at 1 is 3
+[1, 2, 1, 2] elements = 2 subarrays ending at 2 is 4
+
+Total subarrays in [1, 2, 1, 2] = 1 + 2 + 3 + 4 = 10 
+
+so we will keep on doing this until we add such element which increases our no of distinct elements. Here when we add 3 in our window , no of distict elements increase, so we need to reduce window size till we have no of distict element > k.
+Now [2, 3] will be final window. Add the subarrrays ending at 3 to answer. and move on.
+
+So this is how we find no of subarrays having distinct elements <= k. Now we can use same technique here to find no of nice subarrays. When we need to find no of subarrays having exactly k condition valid, like here we want exaclty k odd numbers.
+
+exactly k = (atmost k) - (atmost k-1)
+because atmost k will have all the subarrays fullfilling conditon i.e from 1 to k and atmost k-1 will have all the subarrays fullfilling condition from 1 to k-1, so if we subtract them we will get all subarrays having exactly k elements. 
+ 
+So here we treat odd no as 1 and even no as 0 and we find subarrays with sum atmost k. So hence this is how this kind of problems can be solved.
+
+Code :
+  int atmostK(vector<int> &nums, int k){
+        int i = 0, j = 0, res = 0, sum = 0;
+        while(j < nums.size()){
+            if(nums[j] % 2)
+                sum += 1;
+            
+            if(sum <= k){
+                res += (j - i + 1);
+            }
+            
+            else {
+                while(sum > k){
+                    if(nums[i] % 2)
+                      sum -= 1;
+                    
+                    i++;
+                }
+                
+                res += (j - i + 1);
+            }
+            
+            j++;
+        }
+        
+        return res;
+    }
+    
+    
+    
+    int numberOfSubarrays(vector<int>& nums, int k) {
+      return atmostK(nums, k) - atmostK(nums, k-1);
+    } 
+
+
+

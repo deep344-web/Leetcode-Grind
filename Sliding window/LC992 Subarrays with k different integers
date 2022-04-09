@@ -1,0 +1,37 @@
+Problem statement :
+Given an integer array nums and an integer k, return the number of good subarrays of nums.
+A good array is an array where the number of different integers in that array is exactly k.
+
+Approach : same approach which is discussed in LC 1248.
+
+  int atmostK(vector<int> &nums, int k){
+        int i = 0, j = 0, res = 0;
+        map<int, int> map1;
+        while(j < nums.size()){
+            map1[nums[j]]++;
+            
+            if(map1.size() <= k){
+                res += (j - i + 1);
+            }
+            
+            else {
+                while(map1.size() > k){
+                    map1[nums[i]]--;
+                    if(map1[nums[i]] == 0)
+                        map1.erase(nums[i]);
+                    i++;
+                }
+                
+                res += (j - i + 1);
+            }
+            
+            j++;
+        }
+        
+        return res;
+    }
+    
+    
+    int subarraysWithKDistinct(vector<int>& nums, int k) {
+        return atmostK(nums, k) - atmostK(nums, k-1);
+    }
