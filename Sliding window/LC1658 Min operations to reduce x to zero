@@ -1,0 +1,52 @@
+Problem statement :
+You are given an integer array nums and an integer x. In one operation, you can either remove the leftmost or the rightmost element from the array nums and subtract its value from x. Note that this modifies the array for future operations.
+
+Return the minimum number of operations to reduce x to exactly 0 if it is possible, otherwise, return -1.
+
+
+Approach :  Same as LC 1423. Here we need to make x = 0 in min operations , so we need to find larger elements at our side. So find max size window having sum = total sum - x.
+
+Code : 
+ int minOperations(vector<int>& nums, int x) {
+        int sum = 0;
+        for(int i=0; i<nums.size(); i++)
+            sum += nums[i];
+        
+        int req_sum = sum - x;
+        
+        if(req_sum < 0)
+            return -1;
+        
+        
+        
+        int i = 0, j = 0, max_win = 0, run_sum = 0;
+        
+        while(j < nums.size()){
+            run_sum += nums[j];
+            
+            
+            if(run_sum == req_sum){
+                max_win = max(max_win, j - i + 1);
+            }
+            
+            else if(run_sum > req_sum){
+                while(run_sum > req_sum){
+                    run_sum -= nums[i];
+                    i++;
+                }
+                
+                if(run_sum == req_sum)
+                    max_win = max(max_win, j - i + 1);
+            }
+            
+            j++;
+            
+        }
+        
+        if(req_sum != 0 && max_win == 0)
+            return -1;
+        
+        
+        return nums.size() - max_win;
+        
+    }

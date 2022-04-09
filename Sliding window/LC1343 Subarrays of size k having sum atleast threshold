@@ -1,0 +1,34 @@
+Problem statement :
+Given an array of integers arr and two integers k and threshold, return the number of sub-arrays 
+of size k and average greater than or equal to threshold.
+
+Approach : 
+Here if we multiply k with threshold, so now we need to find subarrays of size k having sum = threshold * k.
+
+Code : 
+  int numOfSubarrays(vector<int>& arr, int k, int threshold) {
+        int i = 0, j = 0, sum = 0, res = 0;
+      
+        while(j < arr.size()){
+            sum += arr[j];
+            
+            if(j - i + 1 == k){
+                if(sum >= (threshold * k))
+                    res++;
+            }
+            
+            else if(j - i + 1 > k)
+            {
+                sum -= arr[i];
+                i++;
+                
+                if(sum >= threshold * k)
+                    res++;
+            }
+            
+            j++;
+            
+        }
+        
+        return res;
+    }

@@ -1,0 +1,45 @@
+Problem statement :
+Given a string s, return the maximum number of ocurrences of any substring under the following rules:
+* The number of unique characters in the substring must be less than or equal to maxLetters.
+* The substring size must be between minSize and maxSize inclusive.
+
+Approach : 
+Here maxSize actually doesn't matter, if we find any substring of size greater than minSize then only no of distinct chars will increase but the occurence will not be affected at all. So we will find all substrings of size minSize fulfilling condition 1 and store them in map. Return count of string occuring maximum no of times.
+
+Code : 
+ int maxFreq(string s, int maxLetters, int minSize, int maxSize) {
+      
+      map<string , int> map2;
+        int i = 0, j = 0, ans = 0;
+        while(j < s.length()){
+            map1[s[j]]++;
+             
+            if(j - i + 1 == minSize)
+            {
+                if(map1.size() <= maxLetters)
+                {
+                    map2[s.substr(i, minSize)]++;
+                    ans = max(ans, map2[s.substr(i, minSize)]);
+                }
+                
+            }
+            
+            else if(j - i + 1 > minSize){
+                map1[s[i]]--;
+                if(map1[s[i]] == 0)
+                    map1.erase(s[i]);
+                
+                i++;
+                if(map1.size() <= maxLetters)
+                {
+                    map2[s.substr(i, minSize)]++;
+                    ans = max(ans, map2[s.substr(i, minSize)]);
+                }
+                
+            }
+            j++;
+        }
+        
+        return ans;
+      
+    }

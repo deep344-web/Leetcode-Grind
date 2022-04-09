@@ -1,0 +1,43 @@
+Problem statement: 
+There are several cards arranged in a row, and each card has an associated number of points. The points are given in the integer array cardPoints.
+In one step, you can take one card from the beginning or from the end of the row. You have to take exactly k cards.
+Your score is the sum of the points of the cards you have taken.
+Given the integer array cardPoints and the integer k, return the maximum score you can obtain.
+
+Approach : At first this won't look sliding window question. But after thinking a bit I figured out that here we need to find max score and also the elements I will pick will be either all from front or all from back or some from front and some from back.  So if we remove the middle part of array somehow, we will get max score by adding all the elements remaining. So here size = (total elements of array - k) will be size of continous subarray which we need to remove. Also as we want max score at our side, so we need to remove longest subarray  of size having minimum sum. 
+
+
+Code : 
+int maxScore(vector<int>& nums, int k) {
+        int win_size = nums.size() - k;
+        if(win_size < 0)
+            return -1;
+        
+        int i = 0, j = 0, min_sum = INT_MAX, sum = 0;
+        while(j < nums.size()){
+            sum += nums[j];
+            
+            if(j - i + 1 == win_size){
+                min_sum = min(min_sum, sum);
+            }
+            
+            else if(j - i + 1 > win_size){
+                sum -= nums[i];
+                i++;
+                
+                min_sum = min(min_sum, sum);
+            }
+            j++;
+        }
+        
+        int total = 0;
+        for(int k=0; k<nums.size(); k++){
+            total += nums[k];
+        }
+        
+        return total - min_sum;
+        
+        
+    }
+
+    

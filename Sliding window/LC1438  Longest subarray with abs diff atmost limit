@@ -1,0 +1,47 @@
+Problem statement : 
+Given an array of integers nums and an integer limit, return the size of the longest non-empty 
+subarray such that the absolute difference between any two elements of this subarray is less than 
+or equal to limit.
+
+Approach : 
+We will first create window of size k and see the absolute difference between max and min element of that
+window and if that is atmost limit then that is valid window. So to keep track of max and min element 
+we can use deque.
+
+Code :
+int longestSubarray(vector<int>& nums, int limit) {
+        deque<int> max_q, min_q;
+        int i = 0, j = 0, ans = 0;
+        while(j < nums.size()){
+            while(max_q.size() > 0 && nums[max_q.back()] <= nums[j])
+                max_q.pop_back();
+            
+            max_q.push_back(j);
+            
+            while(min_q.size() > 0 && nums[min_q.back()] >= nums[j])
+                min_q.pop_back();
+            
+            min_q.push_back(j);
+            
+            if(abs(nums[min_q.front()] - nums[max_q.front()]) <= limit){
+                ans = max(ans, j - i + 1);
+            }
+            
+            else {
+                while(abs(nums[min_q.front()] - nums[max_q.front()]) > limit){
+                    if(i == min_q.front())
+                        min_q.pop_front();
+                    
+                    if(i == max_q.front())
+                        max_q.pop_front();
+                    
+                    i++;
+                }
+            }
+                
+            j++;
+            
+        }
+        
+        return ans;
+    }
