@@ -1,0 +1,41 @@
+Set 
+* Set always contains unique elements. It has been implemented using balanced BST in STL C++.
+* It is of 2 types: 
+   - Ordered
+   - Unordered. 
+* Ordered means the elements will be in sorted form (asc or desc).
+* Unordered means the elements will be in unsorted form i.e random.
+* No random access is possible. 
+* By default elements are  stored in ordered form. 
+ Syntax : 
+   set<int> set1;
+
+Some imp functions in set : 
+lower_bound(ele) : ele having same value or immediate greater will be returned.
+upper_bound(ele) : ele which is immediate greater will be returned.
+erase(ele) : ele will be removed from the set
+remove(itr) : ele pointed by the iterator will be removed.
+
+
+
+Multiset : 
+Can contains duplicate element. Same properties as set. 
+* Here if you will erase any element then it's possible that all the occurences of that element will be removed from the set. So if you want to delete only one occurence then do like this : erase(set.find(ele))
+
+syntax : 
+multiset<int> s;
+
+How to iterate over set ?
+for(auto i : s){
+    cout<<i<<" ";
+}
+
+Time complexities : O(Log n) time for insertion, deletion and lower_bound/upper_bound
+
+Unordered set: 
+* Contains elements in any order not in sorted form. No random access.
+* Time complexity for insertion and deletion O(1) in avg case. Here we don't have any function to find lower_bound and upper_bound.
+
+syntax : 
+unordered_set<int> s;
+

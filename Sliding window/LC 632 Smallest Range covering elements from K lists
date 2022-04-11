@@ -1,0 +1,75 @@
+Problem statement : 
+You have k lists of sorted integers in non-decreasing order. Find the smallest range that includes at least one number from each of the k lists.
+We define the range [a, b] is smaller than range [c, d] if b - a < d - c or a < c if b - a == d - c.
+
+Approach : 
+Same concept of question (Merge k sorted arrays) will be used. Here we will store all elements of first column i.e first element of every row in priority queue and now that we have one element of each list, find max and min element in that queue and the difference of both will give us a valid range. So we can remove smallest element from queue and add the new element from same list whose element was removed. Obviously the new element will be greater than the previous one and now if we find difference of max and min element of queue, it will again give us a valid range and may be a smaller one.
+
+Here because it we have arrays so keep track of row no of all elements in priority queue, we can create class and add elements as class objects in queue.
+
+Code: 
+class Element{
+    public:
+    
+    int value;
+    int index;
+    int row;
+    
+    Element(int v, int i, int r){
+        value = v;
+        index = i;
+        row = r;
+    }
+};
+
+struct compare{
+     bool operator()(Element e1, Element e2)
+   {
+     
+        return e1.value > e2.value;
+    
+    }
+    
+};
+
+
+ vector<int> smallestRange(vector<vector<int>>& nums) {
+        priority_queue <Element, vector<Element>, compare> pq;
+        
+        int min_ele = INT_MAX, max_ele = INT_MIN;
+        for(int i=0; i<nums.size(); i++){
+            pq.push(Element(nums[i][0], 0, i));
+         //   min_ele = min(min_ele, nums[i][0]);
+            max_ele = max(max_ele, nums[i][0]);
+            
+        }
+        
+        int range = INT_MAX;
+        vector<int> ans;
+        while(pq.size() > 0){
+            
+            if(range > max_ele - pq.top().value)
+            {
+                range = min(range, max_ele - pq.top().value);
+                if(ans.size() > 0)
+                ans.clear();
+                
+                ans.push_back(pq.top().value);
+                ans.push_back(max_ele);
+            }
+            Element top_ele = pq.top();
+            pq.pop();
+            
+            int next_index = top_ele.index + 1;
+            int row = top_ele.row;
+            
+            if(nums[top_ele.row].size() == next_index)
+                break;
+            
+            pq.push(Element(nums[row][next_index], next_index, row));
+            max_ele = max(max_ele, nums[row][next_index]);
+        }
+        
+        return ans;
+        
+    }
