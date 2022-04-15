@@ -1,8 +1,11 @@
-Dijkstra's algo can be used to find shortest distance in weighted graph when all the weights are positive. If we have negative weights then may be we will stuck in negative cycle (endless loop)
+Dijkstra's algo can be used to find shortest distance in weighted graph when all 
+the weights are positive. If we have negative weights then may be we will stuck 
+in negative cycle (endless loop)
 
 For detecting if the graph has any negative cycle Bellman ford's Algo can be used
 
-We will relax the n edges n-1 no of times and even after this many iterations if the distance still reduces for some node then there is negative cycle
+We will relax the n edges n-1 no of times and even after this many iterations if
+ the distance still reduces for some node then there is negative cycle
 
 int isNegativeWeightCycle(int n, vector<vector<int>>edges){
 	    

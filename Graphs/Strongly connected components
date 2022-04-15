@@ -1,10 +1,13 @@
-In graph a stongly connected component is component in which every node can be reached from every node. Every single node is scc in itself. We can find no of scc in graph by 2 algo's 
+In graph a stongly connected component is component in which every node can be 
+reached from every node. Every single node is scc in itself. We can find no of 
+scc in graph by 2 algo's 
 
 - Kosaraju's Algorithm
 - Tarjan's Algorithm
 
 kosaraju's Algo
-In this topo sort of graph and transpose the graph and for every node in stack traverse the respective components
+In this topo sort of graph and transpose the graph and for every node in stack 
+traverse the respective components
 
 
  // topo sort 

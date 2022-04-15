@@ -1,4 +1,6 @@
-* Trie is basically used for storing the data in such a way so that insertion , retrieval and search for a key can be done in O(n) time where n is length of key itself.
+* Trie is basically used for storing the data in such a way so that insertion , 
+retrieval and search for a key can be done in O(n) time where n is length of key 
+itself.
 
 * We need to mark the last node of every key as end of word node. 
 

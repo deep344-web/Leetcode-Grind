@@ -1,5 +1,6 @@
 Set 
-* Set always contains unique elements. It has been implemented using balanced BST in STL C++.
+* Set always contains unique elements. It has been implemented using balanced 
+  BST in STL C++.
 * It is of 2 types: 
    - Ordered
    - Unordered. 

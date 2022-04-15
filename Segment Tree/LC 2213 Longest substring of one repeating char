@@ -1,13 +1,15 @@
-* We were given a string s and n queries where in each query we have change some char at some position
- with different char in s. And after changing the char find the longest substring having only one char
- repeating.
+* We were given a string s and n queries where in each query we have change some 
+char at some position with different char in s. And after changing the char find 
+the longest substring having only one char repeating.
 
  * Here we have frequent updates so segment tree can reduce time complexity.
 
 
-* Here in this we are calculating the longest substring for smallest part of the given string i.e if string is 
-"babacc" then ans for b  a  b  a  c  c individually is 1. Now if we combine 2 strings to form bigger one 
-like    cc    then answer for "cc" can be calculated with the help of answers of "c" and "c". For that reason
+* Here in this we are calculating the longest substring for smallest part of the 
+given string i.e if string is "babacc" then ans for b  a  b  a  c  c individually
+is 1. Now if we combine 2 strings to form bigger one like    cc    then answer 
+for "cc" can be calculated with the help of answers of "c" and "c". For that 
+reason
       /     \
     c         c    
  we are forming sufix and prefix arrays and keeping count.

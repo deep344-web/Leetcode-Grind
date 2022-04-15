@@ -1,11 +1,13 @@
-Ariticulation points are nodes when deleted (along with edges of that node) breaks the graph into more
-number of components than earlier. These can be found with the same concept used in tarjan's algorithm
+Ariticulation points are nodes when deleted (along with edges of that node) breaks
+the graph into more number of components than earlier. These can be found with the
+same concept used in tarjan's algorithm
 
-* If there is root node having more than 1 children then it is AP. For this we keep track of no of children 
-and if parent of node is -1 then its root node.
-* If non root node has child v such that no node in the subgraph  rooted with v has a back edge to any of
-ancestors of non root node, then it is AP. For this if low of adjacent node greater than or equal to
-discovery of node then that means we don't have any back edge. 
+* If there is root node having more than 1 children then it is AP. For this we 
+keep track of no of children and if parent of node is -1 then its root node.
+* If non root node has child v such that no node in the subgraph  rooted with v 
+has a back edge to any of ancestors of non root node, then it is AP. For this if 
+low of adjacent node greater than or equal to discovery of node then that means 
+we don't have any back edge. 
 
 void func(vector<int> adj[], vector<int> &disc, vector<int> &low, 
        vector<int> &parent, vector<bool> &artic, int node){
@@ -31,7 +33,7 @@ void func(vector<int> adj[], vector<int> &disc, vector<int> &low,
            
         }
         
-        //here we are not concerned with only backedges, If we find any cross edge also we update low 
+   //here we are not concerned with only backedges, If we find any cross edge also we update low 
         else if(parent[node] != j){
             low[node] = min(low[node], disc[j]);
         }

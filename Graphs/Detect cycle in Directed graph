@@ -1,6 +1,7 @@
 
-Detect cycle using DFS by keeping track of nodes current in recursion stack and if any node is 
-found already visited and is currently in recursion stack then there is Cycle !!
+Detect cycle using DFS by keeping track of nodes current in recursion stack and 
+if any node is found already visited and is currently in recursion stack then 
+there is Cycle !!
 
 bool dfs(vector<int> adj[], vector<int> &dfsvis, vector<int> &vis, int root){
         

@@ -1,7 +1,8 @@
 
 
 Prims algorithm also gives minimum spanning tree
-Key vector will store the next node with min weight which is not included in spanning tree yet 
+Key vector will store the next node with min weight which is not included in 
+spanning tree yet 
 MST vector will keep track of nodes which are already taken in tree
 parent will keep track who is parent of ith node in the tree
 

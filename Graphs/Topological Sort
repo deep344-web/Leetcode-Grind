@@ -1,6 +1,8 @@
 
-Topo sort can be found for directed acyclic graphs. It consists of the all the nodes of the graph in 
-way such that node will come before all of its adjacent nodes having incoming edges
+Topo sort can be found for directed acyclic graphs. It consists of the all the 
+nodes of the graph in 
+way such that node will come before all of its adjacent nodes having incoming 
+edges
 
 It can be found using 2 different methods : 
  - DFS

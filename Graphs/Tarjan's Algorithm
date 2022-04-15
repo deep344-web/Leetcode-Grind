@@ -6,9 +6,10 @@ cross edge -> when there  any of above relation is not present
 * In this low is keeping track of the lowest ancestor node  this node can visit.
 * we update low of current node with help of low of adjacent nodes.
 * low of root node will be equal to disc time of the node.
-* if we find any adjacent already visited and present in recursive stack then this must be back edge
-and we can update low of current node with disc of that node. We can take low of that node
- because that may cause cascading effect.
+* if we find any adjacent already visited and present in recursive stack then 
+this must be back edge
+and we can update low of current node with disc of that node. We can take low of 
+that node because that may cause cascading effect.
 
  int timer = 0;
     

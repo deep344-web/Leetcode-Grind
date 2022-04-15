@@ -1,6 +1,7 @@
 
-Detect cycle using DFS by keeping track of parent of nodes  and if any adjacent node is found 
-already visited and is not parent of current node then there is Cycle !!
+Detect cycle using DFS by keeping track of parent of nodes  and if any adjacent
+node is found already visited and is not parent of current node then there is 
+Cycle !!
 
 bool dfs(vector<int> adj[], vector<int> &vis, int root, int parent){
         vis[root] = 1;

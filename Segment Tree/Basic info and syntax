@@ -1,5 +1,5 @@
-* Segment Trees can be used to solve Range Min/Max & Sum Queries and Range Update Queries in
- O (log n) time.
+* Segment Trees can be used to solve Range Min/Max & Sum Queries and Range 
+Update Queries in O (log n) time.
  * In problems where updates are very frequent.
 
  

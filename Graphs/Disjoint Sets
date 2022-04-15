@@ -1,5 +1,5 @@
-This is a data structure used to add elements from different sets and find which element belongs to which set
-Used for various graph problems
+This is a data structure used to add elements from different sets and find which 
+element belongs to which set Used for various graph problems
 
 path compression to reduce the complexity of traversal
 
