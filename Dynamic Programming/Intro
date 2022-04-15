@@ -1,0 +1,17 @@
+* Dynamic Programming : It is optimization of plain recursion. When we have questions where we are asked to find something after exploring all the possible cases, there we need to apply recursion. Sometimes in recursion we try to solve bigger problem by breaking down it into smaller subproblem. 
+
+* When the recursive solution has overlapping subproblems, we sometimes solve the same subproblem again and again which increases the time complexity to exponential. So reduce the time complexity we can store the results of the subproblems somewhere and later when we again encounter same subproblem somewhere during recursion we can be saved from new recursion calls. This storage technique is also called memoization (Top down). It is called top down because we are starting with bigger problem first and then we keep on going deep in recursion till we find solution of the smallest subproblem. 
+
+* There is one other way of doing dp which is Bottom Up. This is more kind of converting the recursive solution to iterative version. Here we first compute solution for smaller subproblems and then eventually find solution of bigger problem by combining the result of smaller ones.  
+
+There are some patterns of questions where DP is applied : 
+* 0 - 1 Knapsack problem
+* Unbounded knapsack 
+* Fabonacci problem
+* Longest common subsequence (LCS)
+* Longest Increasing subsequence (LIS)
+* Kadane's Algorithm
+* Matrix Chain Multiplication
+* DP on trees
+* DP on grids
+* Buy and sell stocks - Variation

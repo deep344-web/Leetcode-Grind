@@ -1,0 +1,63 @@
+Problem statement : 
+Given an array of integers, find the length of the longest (strictly) increasing 
+subsequence from the given array.
+
+Approach:
+Here we can keep track of previous index we have taken and compare it with 
+element at current index. If the element if greater than previous then we have 
+two options, either we can take it into our running subsequence or not take it.
+
+Code: 
+ (Recursion + Memoization)
+int func(int *arr, int n, int ind, int prev_ind, 
+     vector<vector<int>> &dp){
+         
+         if(ind == n){
+             return 0;
+         }
+         
+         if(dp[ind][prev_ind + 1] != -1)
+         return dp[ind][prev_ind + 1];
+         
+         
+         int notake = func(arr, n, ind + 1, prev_ind, dp);
+         int take = 0;
+         if(prev_ind == -1 || arr[prev_ind] < arr[ind])
+         take = 1 + func(arr, n, ind + 1 , ind, dp);
+         
+         
+         return dp[ind][prev_ind + 1] =  max(take, notake);
+   
+     }
+
+int longestSubsequence(int n, int a[])
+    {
+       vector<vector<int>> dp(n+1 , vector<int>(n+1, 0));
+       return func(a, n, n-1, n, dp);
+    }
+
+
+Tabulation : Here we are implementing another approach although we can convert
+the above recursive code to bottom up one. Here we are trying to keep track of
+longest increasing subsequence form which ends at current index.
+
+ int longestSubsequence(int n, int a[])
+    {
+        vector<int> dp(n, 1);
+        int maxi = 1;
+       for(int i=0; i<n; i++){
+           for(int j=0; j < i; j++){
+               if(a[j] < a[i]){
+                   dp[i] = max(dp[i], 1 + dp[j]);
+               }
+           }
+           
+           maxi = max(maxi, dp[i]);
+       }
+       
+       return maxi;
+    }
+
+    Time Complexity : O(N^2)
+    Space Complexity: O(N)
+     

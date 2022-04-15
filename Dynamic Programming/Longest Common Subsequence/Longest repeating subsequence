@@ -1,0 +1,33 @@
+Problem statement :
+Given a string str, find the length of the longest repeating subsequence such 
+that it can be found twice in the given string. The two identified subsequences 
+A and B can use the same ith character from string str if and only if that ith 
+character has different indices in A and B.
+
+Approach :
+Here I want the common subsequence but in such way that the chars which are 
+same shouldn't be on same index. They should be on different indices.
+
+ Code : 
+ 	int func(int x, int y, string s, string t, vector<vector<int>> &dp){
+        
+        if(x < 0 || y < 0)
+        return 0;
+        
+        if(dp[x][y] != -1)
+        return dp[x][y];
+        
+        int ans = 0;
+        if(s[x] == t[y] && x != y)
+        {
+            ans = 1 + func(x-1, y-1, s, t, dp);
+        }
+        
+        else
+        {
+            ans = max(func(x-1, y, s, t, dp) , func(x, y-1, s, t, dp));
+        }
+        
+        return dp[x][y] = ans;
+        
+    }

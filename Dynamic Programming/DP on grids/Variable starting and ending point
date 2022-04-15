@@ -1,0 +1,72 @@
+Problem statement : 
+You have been given an N*M matrix filled with integer numbers, find the maximum 
+sum that can be obtained from a path starting from any cell in the first row to 
+any cell in the last row.
+From a cell in a row, you can move to another cell directly below that row, or 
+diagonally below left or right.
+
+Approach : 
+Variable ending point problem has been done. Here we have more than one starting
+points so for every starting point we can call the recursive function and find
+maximum path.
+
+Code : 
+(Recursion + Memoization)
+
+int ways(int i, int j, int n , int m , vector<vector<int>> &mat){
+    
+     if(j < 0 || j > m)
+        return -1e9;
+    
+    if(i == 0)
+        return mat[i][j];
+    
+    int leftdia = mat[i][j] + ways(i-1, j-1, n, m, mat);
+    int up = mat[i][j] + ways(i-1, j, n, m, mat);
+    int rightdia = mat[i][j] + ways(i-1, j+1, n, m, mat);
+    
+    return max(leftdia, max(up, rightdia));
+}
+
+
+int getMaxPathSum(vector<vector<int>> &matrix)
+{
+    int n = matrix.size(), m = matrix[0].size();
+    vector<vector<int>> dp(n, vector<int>(m, -1));
+    int maxi = -1e9;
+    for(int col=0; col<m; col++){
+        maxi = max(maxi, ways(n-1, col, n-1, m-1,  matrix));
+    }
+    
+    return maxi;
+}
+
+
+Tabulation
+int getMaxPathSum(vector<vector<int>> &matrix)
+{
+    int n = matrix.size(), m = matrix[0].size();
+    vector<vector<int>> dp(n, vector<int>(m, 0));
+    int maxi = -1e9;
+   
+    int up, left, right;
+    for(int i=0; i<n; i++){
+        for(int j=0; j<m; j++){
+            if(i == 0){
+                dp[i][j] = matrix[i][j];
+            }
+            else{
+                up = dp[i-1][j];
+                left = j > 0 ? dp[i-1][j-1] : -1e9;
+                right = j < m-1 ? dp[i-1][j+1] : -1e9;
+                
+                dp[i][j] = matrix[i][j] + max(up, max(left, right));
+            }
+        }
+    }
+    
+    for(int col=0; col<m; col++){
+        maxi = max(maxi, dp[n-1][col]);
+    }
+    return maxi;
+}

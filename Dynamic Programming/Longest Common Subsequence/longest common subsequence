@@ -1,0 +1,105 @@
+Problem statement : 
+Given two sequences, find the length of longest subsequence present in both of 
+them. Both the strings are of uppercase.
+
+Approach : 
+This is new pattern in DP problems. Let's take two strings S[0.....n-1] and 
+T[0.....m-1] , now if we start from last char of both strings, there can be two 
+cases i.e either both chars are same or both are different. So if they are same 
+we got 1 char and then we will move to different/adjacent chars. If the chars are
+not same then there may be chance of matching of the current char with some other
+char of the second string and same is the case with the second string. So the 
+following recursive code will help to explore all the possible cases. 
+
+
+Code : 
+
+    (Recursion + Memoization)
+ int func(int x, int y, string s, string t, vector<vector<int>> &dp){
+        
+        if(x < 0 || y < 0)
+        return 0;
+        
+        if(dp[x][y] != -1)
+        return dp[x][y];
+        
+        int ans = 0;
+        if(s[x] == t[y])
+        {
+            ans = 1 + func(x-1, y-1, s, t, dp);
+        }
+        
+        else
+        {
+            ans = max(func(x-1, y, s, t, dp) , func(x, y-1, s, t, dp));
+        }
+        
+        return dp[x][y] = ans;
+        
+    }
+    
+    
+    int lcs(int x, int y, string s1, string s2)
+    {
+        vector<vector<int>> dp(x, vector<int>(y, -1));
+        return func(x-1, y-1, s1, s2, dp);
+    }
+
+
+    Tabulation 
+
+   int longestCommonSubsequence(string text1, string text2) {
+    int n = text1.length() , m = text2.length();
+        
+        int arr[n+1][m+1];
+        
+        for(int i=0 ; i<n+1 ; i++)
+        {
+            for(int j=0 ; j<m+1 ; j++)
+            {
+                if(i == 0 || j == 0)
+                    arr[i][j] = 0;
+                
+                else if(text1[i-1] == text2[j-1])
+                    arr[i][j] = 1 + arr[i-1][j-1];
+                
+                else
+                {
+                    arr[i][j] = max(arr[i-1][j]  , arr[i][j-1]);
+                }
+            }
+        }
+        
+        return arr[n][m];
+        
+        
+}
+
+
+
+Print longest common subsequence
+string print_lcs(string a, string b, vector<vector<int>> &lcs_v)
+{
+    int n = a.length(), m = b.length();
+      int len = lcs_v[n][m];
+    
+    string ans = "";
+      int i = n, j = m;
+      while(i > 0 && j > 0){
+          if(a[i-1] == b[j-1]){
+              ans += a[i-1];
+              i--;
+              j--;
+          }
+
+      else if(lcs_v[i-1][j] > lcs_v[i][j-1])
+      {
+            i--;
+      }
+      else
+           j--;
+    }
+
+    reverse(ans.begin(), ans.end());
+    return ans;
+}

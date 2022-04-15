@@ -1,0 +1,42 @@
+Problem statement : 
+Given an integer array nums, return the number of longest increasing 
+subsequences.
+
+Approach : While finding the longest common subsequence length, we will keep 
+another array count which will keep count of the no of times the subsequence with
+that length occured. So if when we run j loop for every i and find that we can
+attach ith element at the back of some jth element and get better length of LIS, then we will make the count of ith element equals to count of jth element. If we get sequence of same length by attaching ith element back of jth element then we
+will increment the count of ith element by jth element which will tell by how many different ways the sequence with this length can be formed.
+
+Code : 
+ int findNumberOfLIS(vector<int>& a) {
+        int n = a.size();
+        vector<int> dp(n, 1), count(n, 1);
+        int maxi = 1, maxi_cnt = 0;
+       for(int i=0; i<n; i++){
+           for(int j=0; j < i; j++){
+               if(a[j] < a[i]){
+                   if(dp[i] < dp[j] + 1)
+                   {
+                       dp[i] = dp[j] + 1;
+                       count[i] = count[j];
+                   }
+                   
+                   else if(dp[i] == dp[j] + 1)
+                   {
+                       count[i] += count[j];
+                   }
+                  
+               }
+           }
+           
+           maxi = max(maxi, dp[i]);
+       }
+        
+        for(int i=0; i<n; i++){
+            if(dp[i] == maxi)
+                maxi_cnt += count[i];
+        }
+        
+        return maxi_cnt;
+    }

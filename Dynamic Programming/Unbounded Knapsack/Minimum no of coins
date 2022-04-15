@@ -1,0 +1,43 @@
+Problem statement : 
+Given a value V and array coins[] of size M, the task is to make the change for 
+V cents, given that you have an infinite supply of each of coins{coins1, coins2,
+ ..., coinsm} valued coins. Find the minimum number of coins to make the change. 
+ If not possible to make change then return -1.
+
+Approach : 
+Same approach, just a change that here we have to find min no of coins
+
+Code :
+
+ int func(int index, int value, int *S, vector<vector<int >> &dp){
+        
+        if(index == 0)
+        {
+            if(value % S[index] == 0)
+            return value/S[index];
+            
+            else
+            return INT_MAX;
+        }
+        
+        if(dp[index][value] != -1)
+        return dp[index][value];
+        
+        
+        
+          int npick = func(index-1, value, S, dp);
+          int pick = 1e9;
+        if(S[index] <= value)
+        {
+            pick = 1 + func(index, value - S[index], S, dp);
+        }
+        
+        return dp[index][value] = min(npick ,pick);
+        
+    }
+	int minCoins(int coins[], int M, int V) 
+	{ 
+	    vector<vector<int>> dp(M, vector<int>(V+1, -1));
+	    int ans = func(M-1, V, coins, dp);
+	    return ans >= 1e9 ? -1 : ans ;
+	} 

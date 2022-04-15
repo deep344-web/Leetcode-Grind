@@ -1,0 +1,76 @@
+Knapsack problem : 
+- Fractional Knapsack (greedy)
+- 0-1 Knapsack
+- Unbounded Knapsack
+
+Problem statement : 
+You are given weights and values of N items, put these items in a knapsack of 
+capacity W to get the maximum total value in the knapsack. Note that we have 
+only one quantity of each item.
+
+Approach : Here we have to fill W with all the items. For a particular item we 
+have only two options. Either we can take it or don't take it. If we take it then
+value of that item will be added and W will be decreased by weight of that item. 
+If you don't take it then W will remain as it is and no weight will be added. So 
+the recursive approach will this only and that can be optimized using memoization.
+
+    (Recursive +  Memoization)
+
+int func(int index, int W, int *wt, int *val, vector<vector<int>> &dp){
+       
+        if(index == 0){
+            if(W >= wt[index])
+            return val[index];
+            
+            return 0;
+        }
+        
+        if(dp[index][W] != -1)
+        return dp[index][W];
+        
+        int npick = func(index-1, W, wt, val, dp);
+        int pick = INT_MIN;
+        if(W >= wt[index]){
+            pick = val[index] + func(index-1, W- wt[index], wt, val, dp);
+        }
+        
+        return dp[index][W] =  max(npick, pick);
+    }
+    
+    
+    int knapSack(int W, int wt[], int val[], int n) 
+    { 
+        
+        vector<vector<int>> dp(n, vector<int>(W+1, -1));
+       return func(n-1 , W, wt, val, dp);
+    }
+
+
+(Bottom up Approach)
+
+int knapSack(int W, int wt[], int val[], int n) 
+    { 
+        int dp[n+1][W+1];
+        for(int i=0 ; i<n+1 ; i++){
+            for(int j=0; j<W+1 ; j++)
+            {
+                if(i == 0 || j == 0)
+                dp[i][j] = 0;
+            }
+        }
+        
+        
+        for(int i=1 ; i<n+1; i++)
+        {
+            for(int j=1 ; j<W+1 ; j++){
+                if(wt[i-1] <= j){
+                    dp[i][j] = max(val[i-1] + dp[i-1][j- wt[i-1]] , dp[i-1][j]);
+                }
+                else 
+                dp[i][j] = dp[i-1][j];
+            }
+        }
+        
+        return dp[n][W];
+    
+    }

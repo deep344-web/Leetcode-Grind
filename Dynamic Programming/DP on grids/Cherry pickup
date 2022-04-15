@@ -1,0 +1,113 @@
+Problem statement : 
+ou are given an n x n grid representing a field of cherries, each cell is one of 
+three possible integers.
+* 0 means the cell is empty, so you can pass through,
+* 1 means the cell contains a cherry that you can pick up and pass through, or
+* -1 means the cell contains a thorn that blocks your way.
+
+Return the maximum number of cherries you can collect by following the rules 
+below:
+
+* Starting at the position (0, 0) and reaching (n - 1, n - 1) by moving right or 
+down through valid path cells (cells with value 0 or 1).
+* After reaching (n - 1, n - 1), returning to (0, 0) by moving left or up through 
+valid path cells.
+* When passing through a path cell containing a cherry, you pick it up, and the 
+cell becomes an empty cell 0.
+* If there is no valid path between (0, 0) and (n - 1, n - 1), then no cherries 
+can be collected.
+
+Approach: same as ninja and his friends problem. Here also we can start 2 
+different paths at same time. Calculating paths individually will not work as 
+backtracking is not possible.
+
+
+Code : 
+   (Recursion + Memoization)
+
+int func(int i1, int j1, int i2, int j2, int r, int c,
+            vector<vector<int>> &grid, vector<vector<vector<vector<int>>>> &dp){
+        
+        if(i1 > r || i2 > r || j1 > c || j2 > c || grid[i1][j1] == -1 ||
+           grid[i2][j2] == -1)
+        return INT_MIN;
+        
+        if(i1 == r && j1 == c) 
+            return grid[i1][j1];
+        
+        if(i2 == r && j2 == c)
+            return grid[i2][j2];
+        
+        if(dp[i1][j1][i2][j2] != -1)
+            return dp[i1][j1][i2][j2];
+        
+        int maxi = INT_MIN;
+        
+       
+        maxi = max(maxi, func(i1 + 1, j1, i2 + 1, j2 , r, c, grid, dp));
+        maxi = max(maxi, func(i1, j1 + 1, i2, j2 + 1, r, c, grid, dp));
+        maxi = max(maxi, func(i1 + 1, j1, i2, j2+ 1, r, c, grid, dp));
+        maxi = max(maxi, func(i1, j1 + 1, i2+1, j2, r, c, grid, dp));
+        
+        if(i1 == i2 && j1 == j2)
+            return dp[i1][j1][i2][j2] = grid[i1][j1] + maxi;
+        
+        else
+        return dp[i1][j1][i2][j2] = maxi + grid[i1][j1] + grid[i2][j2];
+        
+    }
+    
+    int cherryPickup(vector<vector<int>>& grid) {
+        int n = grid.size(), m = grid[0].size();
+        
+        vector<vector<vector<vector<int>>>> dp(n, vector<vector<vector<int>>>
+                (n, vector<vector<int>>(m, vector<int>(m, -1))));
+        
+        int ans = func(0, 0, 0, 0, n-1, m-1, grid, dp);
+    
+        if(ans <= 0)
+            return 0;
+        
+        return ans;
+    }
+
+TC : O(N * N * M * M) ~ O(N^4)
+SC : O(N * N * M * M) ~ O(N^4)
+
+* Here we can compute j2 from i1, i2 and j1 using Manhatten's distance.
+       i1 + j1 = i2 + j2  =>   j2 = i1 + j1 - i2
+
+TC and SC will reduce to O(N^3)
+Code : 
+int func(int i1, int j1, int i2, int r, int c,
+              vector<vector<int>> &grid, vector<vector<vector<int>>> &dp){
+        int j2 = i1 + j1 - i2;
+    
+        if(i1 > r || i2 > r || j1 > c || j2 > c || grid[i1][j1] == -1 ||
+           grid[i2][j2] == -1)
+        return INT_MIN;
+        
+        if(i1 == r && j1 == c) 
+            return grid[i1][j1];
+        
+        if(i2 == r && j2 == c)
+            return grid[i2][j2];
+        
+        if(dp[i1][j1][i2] != -1)
+            return dp[i1][j1][i2];
+        
+        int maxi = INT_MIN;
+        
+       
+        maxi = max(maxi, func(i1 + 1, j1, i2 + 1 , r, c, grid, dp));
+        maxi = max(maxi, func(i1, j1 + 1, i2, r, c, grid, dp));
+        maxi = max(maxi, func(i1 + 1, j1, i2, r, c, grid, dp));
+        maxi = max(maxi, func(i1, j1 + 1, i2+1, r, c, grid, dp));
+        
+        if(i1 == i2 && j1 == j2)
+            return dp[i1][j1][i2] = grid[i1][j1] + maxi;
+        
+        else
+        return dp[i1][j1][i2] = maxi + grid[i1][j1] + grid[i2][j2];
+        
+    }

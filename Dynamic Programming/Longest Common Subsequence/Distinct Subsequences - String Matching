@@ -1,0 +1,36 @@
+Problem statement:
+Given two strings s and t, return the number of distinct subsequences of s which 
+equals t.
+
+Approach :
+Here we need to find all the the cases when we find t as subsequence in s. So it
+ is kind of knapsack's variation where we have 2 options i.e either we match char
+  of t with s and reduce indices of both or the other case we don't match char 
+  and reduce index of s and index of t will remain as it is.
+
+Code : 
+
+  int func(int i, int j, string &s, string &t, vector<vector<int>> &dp){
+        if(j < 0)
+            return 1;
+        
+        if(i < 0)
+            return 0;
+        
+        if(dp[i][j] != -1)
+            return dp[i][j];
+        
+        if(s[i] == t[j]){
+            return dp[i][j] = func(i-1, j-1, s, t, dp) + func(i-1, j, s, t, dp);
+        }
+        else
+            return dp[i][j] = func(i-1, j, s, t, dp);
+        
+    }
+    
+    int numDistinct(string s, string t) {
+        int n = s.length(), m = t.length();
+        vector<vector<double>> dp(n+1, vector<double>(m+1, -1));
+        return func(n-1, m-1, s, t, dp);
+
+    }

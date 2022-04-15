@@ -1,0 +1,59 @@
+Problem statement : 
+Given an input string (s) and a pattern (p), implement wildcard pattern matching 
+with support for '?' and '*' where:
+'?' Matches any single character.
+'*' Matches any sequence of characters (including the empty sequence).
+The matching should cover the entire input string (not partial).
+
+Approach : Same approach as LCS. Here also we will compare the char of string 
+with char of pattern and if they match , we decrease the indices in both, 
+otherwise return false. Because here we want to mach the entire pattern with 
+entire string.
+
+Code : 
+ int func(string s, string p, int i, int j, vector<vector<int>> &dp){
+           
+        if(i < 0 && j < 0)
+            return true;
+        
+        if(i < 0){
+            if(p[j] == '*')
+                return func(s, p, i, j-1, dp);
+            
+            else
+                return false;
+        }
+        
+        if(i < 0 || j < 0)
+            return false;
+        
+        if(dp[i][j] != -1)
+            return dp[i][j];
+        
+        bool finalans;
+        
+        if(s[i] == p[j] || p[j] == '?')
+           finalans = func(s, p, i-1, j-1, dp) ;
+        
+        else if(p[j] == '*')
+        {
+            
+           finalans = func(s, p, i, j-1, dp) or
+               func(s, p, i-1, j, dp);
+        }
+        
+        else
+            finalans = false;
+        
+        dp[i][j] = finalans;
+        return finalans;
+            
+    }
+    
+    
+    bool isMatch(string s, string p) {
+        int n = s.length(), m = p.length();
+       vector<vector<bool>> dp(n+1, vector<bool>(m+1,false));
+        return func(s, p, n-1, m-1, dp) ;
+
+    }

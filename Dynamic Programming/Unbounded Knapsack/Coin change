@@ -1,0 +1,44 @@
+Problem statement : 
+Given a value N, find the number of ways to make change for N cents, if we have 
+infinite supply of each of S = { S1, S2, .. , SM } valued coins.
+
+Approach : Same approach as unbounded knapsack as we can pick one coin any no of 
+times but here the change is we need to find total ways.
+
+ Code : 
+    long long int func(int index, int value, int *S, 
+    vector<vector<long long int >> &dp){
+        
+        if(index == 0)
+        {
+            if(value % S[index] == 0)
+            return 1;
+            
+            else
+            return 0;
+        }
+        
+        if(dp[index][value] != -1)
+        return dp[index][value];
+        
+        
+        
+         long long int npick = func(index-1, value, S, dp);
+         long long int pick = 0;
+        if(S[index] <= value)
+        {
+            pick = func(index, value - S[index], S, dp);
+        }
+        
+        return dp[index][value] = (npick + pick);
+        
+    }
+  
+  
+  
+    long long int count(int S[], int m, int n) {
+        
+        vector<vector<long long int>> dp(m, vector<long long int>(n+1, -1));
+        return func(m-1, n, S, dp);
+    }
+ 

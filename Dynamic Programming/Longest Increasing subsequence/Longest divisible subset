@@ -1,0 +1,54 @@
+Problem statement : 
+Given a set of distinct positive integers nums, return the largest subset answer
+such that every pair (answer[i], answer[j]) of elements in this subset satisfies:
+answer[i] % answer[j] == 0, or
+answer[j] % answer[i] == 0
+If there are multiple solutions, return any of them.
+
+Approach : 
+We have one rule in maths i.e if b is divisible by a and c is divisible by b 
+then c is also divisible by a.
+b % a = 0
+c % b = 0
+c % a = 0
+
+So if we sort the array as we are not concerned with order and have to find 
+subset and find longest sequence such that this every current element is 
+divisible by previous element, our work will be done.
+
+Code : 
+vector<int> largestDivisibleSubset(vector<int>& a) {
+        
+         sort(a.begin(), a.end());
+         int n = a.size();
+         vector<int> dp(n, 1), hash(n, 0);
+        
+        for(int i=0; i<n; i++)
+            hash[i] = i;
+        
+         int maxi = 1, end_index = 0;
+         for(int i=0; i<n; i++){
+             for(int j=0; j < i; j++){
+                 if(a[i] % a[j] == 0 && dp[i] < (dp[j] + 1)){
+                   dp[i] =  1 + dp[j];
+                   hash[i] = j;
+               }
+           }
+           
+           if(maxi < dp[i])
+           {
+               maxi = dp[i];
+               end_index = i;
+           }
+          
+       } 
+        vector<int> ans;
+        while(end_index != hash[end_index]){
+            ans.push_back(a[end_index]);
+            end_index = hash[end_index];
+        }
+        
+       ans.push_back(a[end_index]);
+       return ans;   
+    }
+

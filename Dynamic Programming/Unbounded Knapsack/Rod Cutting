@@ -1,0 +1,37 @@
+Problem statement :
+Given a rod of length N inches and an array of prices, price[] that contains 
+prices of all pieces of size smaller than N. Determine the maximum value 
+obtainable by cutting up the rod and selling the pieces.
+
+ Approach : 
+Let L be length of the cut you can make on rod. So here L can be used more than 
+once. We can cut the rod into same length of peices. So it is same as unbounded 
+knapsack problem.
+
+Code : 
+ 
+ int cutRod(int price[], int n) {
+           vector<int> dp(n+1, -1);
+     
+     
+   for(int i=0; i <= n; i++){
+       for(int j=0; j <= n; j++){
+           if(i == 0 || j == 0)
+           dp[j] = 0;
+           
+           else{
+               int exc = -1e9;
+               if(j >= i)
+                  exc = price[i-1] + dp[j-i];
+                  
+                int inc = dp[j];
+                
+                dp[j] = max(inc, exc);
+           }
+           
+       }
+   }
+   
+   return dp[n];
+     
+    }

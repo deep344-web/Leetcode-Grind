@@ -1,0 +1,31 @@
+Problem statement : 
+Given two strings X and Y of lengths m and n respectively, find the length of the
+smallest string which has both, X and Y as its sub-sequences.
+
+Approach : As we have to find smallest string, so we need to first find what all 
+chars are already same in both strings and that will occur once in our final 
+string. Then length of all the remaining chars will be added to the length of 
+common chars string. For finding common chars, we can use LCS.
+
+Code : 
+int shortestCommonSupersequence(string X, string Y, int m, int n)
+    {
+        int dp[m+1][n+1];
+        for(int i=0 ; i<m+1 ; i++){
+            for(int j=0 ; j<n+1 ; j++){
+                if(i == 0 || j == 0)
+                dp[i][j] = 0;
+                
+                else if(X[i-1] == Y[j-1])
+                dp[i][j] = dp[i-1][j-1] +1;
+                
+                else 
+                dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
+            }
+        }
+        
+        int ans = m+n-dp[m][n];
+        
+        return ans;
+        
+    }

@@ -1,0 +1,58 @@
+Problem statement : 
+You are present at point ‘A’ which is the top-left cell of an M X N matrix, your
+ destination is point ‘B’, which is the bottom-right cell of the same matrix. 
+ Your task is to find the total number of unique paths from point ‘A’ to point 
+ ‘B’.To traverse in the matrix, you can either move Right or Down at each step.
+
+Approach : This can be solved using recursion as we have to traverse each and 
+every path. Starting from (0, 0) at every cell we have to options (right, down)
+and if we some how reach bottom right cell, return 1.
+
+
+
+Code :
+(Recursion + Memoization)
+int ways(int i, int j, int m , int n , vector<vector<int>> &dp){
+    if(i == m-1 && j == n-1)
+        return 1;
+    
+    if(i > m-1 || j > n-1)
+        return 0;
+    
+    if(dp[i][j] != -1)
+        return dp[i][j];
+    
+    int r = ways(i, j+1, m, n, dp);
+    int d = ways(i+1, j, m, n, dp);
+    
+    return dp[i][j] = r+d;
+}
+
+int uniquePaths(int m, int n) {
+    vector<vector<int>> dp(m, vector<int>(n, 0));
+    return ways(0, 0, m, n, dp);
+}
+
+(Tabulation + Space optimization)
+
+int uniquePaths(int m, int n) {
+
+    vector<int> dp(n, 0);
+    int up, left;
+    for(int i= 0; i<m; i++){
+        for(int j= 0; j<n; j++){
+            if(i == 0 && j == 0)
+                dp[j] = 1;
+            
+            else{
+                up = i > 0   ?  dp[j] : 0;
+                left = j > 0 ?  dp[j-1] : 0;
+                dp[j] = up + left;
+            }
+        }
+     }
+    return dp[n-1];
+}
+
+Time complexity : O(M*N)
+Space complexity: O(M)

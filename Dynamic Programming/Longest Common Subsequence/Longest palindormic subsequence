@@ -1,0 +1,30 @@
+Problem statement : 
+Given a String, find the longest palindromic subsequence.
+
+Approach : 
+Palindrome means that string should be equal to its reverse. So if we reverse the
+given string and find the no of common chars in both strings, that will give us 
+palindromic subsequence.
+
+Code : 
+int longestPalinSubseq(string A) {
+        int m = A.length();
+        string B = A;
+        reverse(A.begin(), A.end());
+        int dp[m+1][m+1];
+        for(int i=0 ; i<m+1 ; i++){
+            for(int j=0 ; j<m+1 ; j++){
+                if(i == 0 || j == 0)
+                dp[i][j] = 0;
+                
+                else if(B[i-1] == A[j-1])
+                dp[i][j] = dp[i-1][j-1] +1;
+                
+                else 
+                dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
+            }
+        }
+        
+        return dp[m][m];
+        
+    }

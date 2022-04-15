@@ -1,0 +1,65 @@
+Problem statement : You are given an integer array nums and an integer target.
+You want to build an expression out of nums by adding one of the symbols '+' and 
+'-' before each integer in nums and then concatenate all the integers.
+
+For example, if nums = [2, 1], you can add a '+' before 2 and a '-' before 1 and 
+concatenate them to build the expression "+2-1". Return the number of different 
+expressions that you can build, which evaluates to target.
+
+Approach : suppose we have array as [a, b, c, d] and target = k. And we do 
+(a+b) - (c+d) = k i.e here a, b are given '+' sign and c, d are given '-' sign. 
+So we need to find no of subsets in array such that diff is target. So 
+sum of subset1 + sum of subset2 = Total sum
+sum of subset1 - sum of subset2 = K
+sum of subset1 = (Total sum + K)/2;
+
+so now the problem is reduced to finding no of subsets having 
+sum = (Total_sum + K)/2.
+
+
+
+Code : 
+ int func(int index, vector<int> &arr, int sum, vector<vector<int>> &dp){
+        
+        if(index < 0)
+        {
+            if(sum == 0)
+                return 1;
+            
+            return 0;
+        }
+        
+        if(dp[index][sum] != -1)
+            return dp[index][sum];
+        
+        int notake = func(index-1, arr, sum, dp);
+        int take = 0;
+        if(arr[index] <= sum){
+            take = func(index-1, arr, sum-arr[index], dp);
+        }
+        
+        return dp[index][sum] = notake + take;
+    }
+    
+    
+    int findTargetSumWays(vector<int>& arr, int diff) {
+        int n = arr.size(), total_sum = 0;
+
+        for(int i=0; i<arr.size(); i++)
+            total_sum += arr[i];
+        
+        //If sum is odd or sum/2 is negative or greater than total_sum so
+        // it is not possible to get that sum from this array because array has
+        // all the positive elements.
+        
+        int sum = (total_sum + diff);
+        if(sum % 2)
+            return 0;
+        
+        sum = sum/2;
+        if(sum > total_sum || sum < 0)
+            return 0;
+        
+      vector<vector<int>> dp(n, vector<int>(sum+1, -1));
+      return func(n-1, arr, sum, dp);
+    }

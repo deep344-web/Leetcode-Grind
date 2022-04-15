@@ -1,0 +1,67 @@
+Problem statement: 
+You are given an array of words.
+wordA is a predecessor of wordB if and only if we can insert exactly one letter
+anywhere in wordA without changing the order of the other characters to make 
+it equal to wordB.
+Return the length of the longest possible word chain with words chosen from the 
+given list of words.
+
+
+Approach :Here we can sort the entire array on basis of length of strings as we 
+need to find longest subset and order doesn't matter. So now we can use same 
+approach as LIS and find longest sequence which can made ending at current index.
+
+Code : 
+struct compare{
+     bool operator()(string s, string t)
+     {
+         return s.length() < t.length();
+     }
+    
+};
+ bool possible(string &a, string &b){
+        if(a.length() != b.length() + 1)
+            return false;
+        
+        int i = 0, j = 0;
+        while(i < a.length()){
+            if(a[i] == b[j])
+            {
+                i++; j++;
+            }
+            
+            else
+                i++;
+        }
+        
+        if(i == a.length() && j == b.length())
+            return true;
+        
+        else if(i == a.length() - 1 && j == b.length())
+            return true;
+        
+        return false;
+            
+    }
+    
+    
+    int longestStrChain(vector<string>& arr) {
+        
+        sort(arr.begin(), arr.end(), compare());
+        
+        int n = arr.size();
+        vector<int> dp(n, 1);
+        int maxi = 1;
+        
+        for(int i=0; i<n; i++){
+           for(int j=0; j < i; j++){
+               if(possible(arr[i], arr[j])){
+                   dp[i] = max(dp[i], 1 + dp[j]);
+               }
+           }
+           
+           maxi = max(maxi, dp[i]);
+       }
+       
+       return maxi;
+    }

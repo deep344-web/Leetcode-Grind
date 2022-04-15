@@ -1,0 +1,59 @@
+Problem statement : 
+Given a ‘N’ * ’M’ maze with obstacles, count and return the number of paths to 
+reach the right-bottom cell from the top-left cell. A cell in the given maze has 
+a value -1 if it is a blockage or dead-end, else 0. From a given cell, we are 
+allowed to move to cells (i+1, j) and (i, j+1) only. 
+
+Approach : same approach as total unique paths with one change that if we somehow
+reach a cell which is having obstacle then we will return 0 from there.
+
+Code : 
+(Recursion + Memoization)
+
+int mod = (int)(1e9 + 7);
+int ways(int i, int j, vector<vector<int>> mat,
+         vector<vector<int>> &dp){
+    if(i == 0 && j == 0)
+        return 1;
+    
+    if(i < 0 || j < 0 || mat[i][j] == -1)
+        return 0;
+    
+    if(dp[i][j] != -1)
+        return dp[i][j];
+ 
+    int up = ways(i-1, j, mat, dp);
+    int left = ways(i, j-1, mat, dp);
+    
+    return dp[i][j] = (up + left)%mod;
+}
+
+int mazeObstacles(int n, int m, vector< vector< int> > &mat) {
+    vector<vector<int>> dp(n, vector<int>(m, -1));
+    return ways(n-1, m-1, mat, dp);
+}
+
+   (Tabulation + space optimization)
+
+int mazeObstacles(int n, int m, vector< vector< int> > &mat) {
+    vector<vector<int>> dp(n, vector<int>(m, -1));
+    
+    int up, left;
+    for(int i=0; i<n; i++){
+        for(int j=0; j<m; j++){
+            if(i == 0 && j == 0)
+                dp[i][j] = 1;
+            
+            else if(mat[i][j] == -1)
+                dp[i][j] = 0;
+            
+            else{
+                up = i > 0 ? dp[i-1][j] : 0;
+                left = j > 0 ? dp[i][j-1] : 0;
+                dp[i][j] = (up + left)%mod;
+            }
+        }
+    }
+    
+    return dp[n-1][m-1];
+}

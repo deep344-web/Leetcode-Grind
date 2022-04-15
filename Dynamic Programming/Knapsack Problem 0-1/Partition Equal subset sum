@@ -1,0 +1,45 @@
+Problem statement : 
+Given an array arr[] of size N, check if it can be partitioned into two parts 
+such that the sum of elements in both parts is the same.
+
+ Approach : If the array can be divided into two such parts then obviously there
+ will be subset in array such that sum of the elements of that subset will be 
+ total sum /2. So here we need to find whether the array has any subset such that
+  sum = total_sum/2. Same as subset sum problem.
+
+ Code :
+  int equalPartition(int N, int arr[])
+    {
+        int sum = 0;
+        for(int i=0; i<N; i++)
+        sum += arr[i];
+        
+        //If the total sum if odd then we can't find any subset as our array has only integers
+        if(sum % 2 != 0)
+        return 0;
+        
+        sum = sum / 2;
+        
+        vector<vector<int>> dp(N, vector<int>(sum+1, 0));
+        for(int i=0; i<N; i++)
+        dp[i][0] = 1;
+        
+        for(int j=1; j<= sum; j++)
+        {
+            if(j == arr[0])
+            dp[0][j] = 1;
+            
+        }
+        
+        for(int i=1; i<N; i++){
+            for(int j=1; j<= sum; j++){
+                if(dp[i-1][j-arr[i]] == 1 || dp[i-1][j] == 1)
+                dp[i][j] = 1;
+                
+                else
+                dp[i][j] = 0;
+            }
+        }
+        
+        return dp[N-1][sum];
+    }   

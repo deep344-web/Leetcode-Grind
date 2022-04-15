@@ -1,0 +1,102 @@
+Problem statement : 
+Given two strings s and t. Return the minimum number of operations required to 
+convert s to t.
+The possible operations are permitted:
+Insert a character at any position of the string.
+Remove any character from the string.
+Replace any character from the string with any other character.
+ 
+
+ Approach : 
+Here we will try all possible cases when we match strings char by char. If the
+ char match reduce the indices, if they don't match we have 3 options : 
+delete - If we delete char of string s then call will be func(i-1, j)
+insert - If we insert char in string s then call will be func(i, j-1)
+replace - If we replace char in string s then call will be func(i-1, j-1)
+
+
+Code : 
+        ( Recursion + Memoization )
+
+int func(string s, string t, int n, int m, vector<vector<int>> &dp){
+      
+      if(n < 0 && m < 0)
+      return 0;
+      
+      if(n < 0 || m < 0)
+      {
+          return n < 0 ? m+1 : n+1;
+      }
+      
+      if(dp[n][m] != -1)
+      return dp[n][m];
+      
+      
+      
+      int ans = 0;
+      if(s[n] == t[m])
+       ans = func(s, t, n-1, m-1, dp);
+       
+       else
+       {
+           ans = 1 + min(func(s, t, n-1, m-1, dp), min(func(s, t, n, m-1, dp), 
+           func(s, t, n-1 , m, dp)));
+       }
+       
+       return dp[n][m] = ans;
+  }
+  
+  
+  
+    int editDistance(string s, string t) {
+        
+    
+      int n= s.length(), m = t.length();
+      
+      vector<vector<int>> dp(n+1, vector<int>(m+1, 0));
+      
+      return func(s, t, n-1, m-1, dp);
+
+    }
+
+
+    Tabulation 
+
+  int editDistance(string s, string t) {
+        
+    
+      int n= s.length(), m = t.length();
+      
+      vector<vector<int>> dp(n+1, vector<int>(m+1, 0));
+    
+      dp[0][0] = 0;
+      
+      for(int j =1; j<m+1; j++)
+          dp[0][j] = j;
+      
+      for(int i=1; i<n+1; i++)
+      dp[i][0] = i;
+      
+      
+      int del, ins, rep;
+      for(int i=1; i<n+1; i++){
+          for(int j=1; j<m+1; j++){
+              if(s[i-1] == t[j-1])
+                dp[i][j] = dp[i-1][j-1];
+       
+       else
+       {
+           
+           del = dp[i-1][j];
+           ins = dp[i][j-1];
+           rep = dp[i-1][j-1];
+           
+           dp[i][j] = 1 +  min(del, min(ins, rep));
+           
+       }
+       
+    }
+}
+   return dp[n][m];
+
+    }
