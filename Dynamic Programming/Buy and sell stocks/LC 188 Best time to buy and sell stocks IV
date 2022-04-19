@@ -1,0 +1,40 @@
+Problem statement : You are given an integer array prices where prices[i] is 
+the price of a given stock on the ith day, and an integer k.Find the maximum 
+profit you can achieve. You may complete at most k transactions.
+
+Note: You may not engage in multiple transactions simultaneously (i.e., you must sell the stock before you buy again).
+
+
+Code : 
+ int func(int ind, int buy, int k, vector<int> &arr, 
+              vector<vector<vector<int>>> &dp){
+        
+         if(k == 0 || ind == arr.size())
+             return 0;
+        
+        if(dp[buy][k][ind] != -1)
+            return dp[buy][k][ind];
+        
+        if(buy == 1){
+            
+            int dobuy = func(ind+1, 0, k, arr, dp) - arr[ind];
+            int notbuy = func(ind+1, 1, k, arr, dp);
+            
+            return dp[buy][k][ind]= max(dobuy, notbuy);   
+        }
+        
+        else
+        {
+         
+            int dosell = arr[ind] + func(ind+1, 1, k-1, arr, dp);
+            int notsell = func(ind+1, 0, k, arr, dp);
+            
+            return dp[buy][k][ind] = max(dosell, notsell);
+        
+        }
+    }
+    int maxProfit(int k, vector<int>& prices) {
+          int n = prices.size();
+        vector<vector<vector<int>>> dp(2, vector<vector<int>>(k+1, vector<int>(n, -1)));
+        return func(0, 1, k, prices, dp);
+    }

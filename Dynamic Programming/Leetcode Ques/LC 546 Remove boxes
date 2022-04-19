@@ -1,0 +1,69 @@
+Problem statement : 
+You are given several boxes with different colors represented by different 
+positive numbers.
+
+You may experience several rounds to remove boxes until there is no box left. 
+Each time you can choose some continuous boxes with the same color (i.e., 
+composed of k boxes, k >= 1), remove them and get k * k points.
+
+Return the maximum points you can get.
+
+
+
+Approach : So first form groups of same consecutive number like G1... Gn. 
+Now there can be two cases : 1st is we remove the first group and 
+add the cost of that cost(G1) + func(G2...Gn) 
+2nd case can be that we wish to combine the G1 with some Gi which has same 
+values, so in that case we will solve it like func(G2.... Gi-1) + func(Gi...Gn)
+
+Now that we have combined it with other group, so we can keep track of the 
+length of combined group using extra variable, and when we delete 1st group acc
+to case 1 : we will delete length of extra + length of first group.
+
+
+CODE :
+ int t[101][101][101];
+    int solve(int i, int j, int extra, vector<pair<int, int>> &v){
+        
+        if(i > j)
+            return 0;
+        
+        if(t[i][j][extra] != -1)
+           return t[i][j][extra];
+            
+        int cost;
+        int size = v[i].second + extra;
+        cost = (size*size) + solve(i+1, j, 0, v);
+        
+        for(int k= i+1; k <= j; k++){
+            if(v[k].first == v[i].first){
+                int ans = solve(i+1, k-1, 0, v) + 
+                    solve(k, j, extra + v[i].second , v);
+                
+                cost = max(cost, ans);
+            }
+        }
+        
+        return t[i][j][extra] = cost;
+        
+    }
+    
+    
+    int removeBoxes(vector<int>& boxes) {
+        int n = boxes.size();
+        vector<pair<int, int>> v;
+        
+        int i = 0; 
+        while(i < n){
+            int j = i;
+            i++;
+            while(i < n && boxes[i] == boxes[i-1]){
+                i++;
+            }
+            
+            v.push_back({boxes[j], i - j});
+        }
+        
+        memset(t, -1, sizeof(t));
+        return solve(0, v.size()-1, 0, v);
+    }

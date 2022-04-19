@@ -1,0 +1,35 @@
+Problem statement : 
+You are given an array prices where prices[i] is the price of a given stock on the ith day, and an integer fee representing a transaction fee. Find the maximum profit you can achieve. You may complete as many transactions as you like, but you need to pay the transaction fee for each transaction.
+
+Note: You may not engage in multiple transactions simultaneously (i.e., you must sell the stock before you buy again).
+
+Code : 
+  int func(int ind, int buy, int fee,vector<int> &arr, vector<vector<int>> &dp){
+        
+        if(ind >= arr.size())
+            return 0;
+        
+        if(dp[buy][ind] != -1)
+            return dp[buy][ind];
+        
+        if(buy){
+            int by = -arr[ind] + func(ind + 1, 0, fee, arr, dp);
+            int notbuy =  func(ind + 1, 1, fee, arr, dp);
+            return dp[buy][ind]= max(by, notbuy);   
+        }
+        
+        else
+        {
+            int sell = arr[ind] - fee + func(ind + 1, 1, fee, arr, dp);
+            int notsell = func(ind + 1, 0, fee, arr, dp);
+             return dp[buy][ind] = max(sell, notsell);
+        
+        }
+    }
+    
+
+    int maxProfit(vector<int>& a, int fee) {
+          int n = a.size();
+        vector<vector<int>> dp(2, vector<int>(n, -1));
+        return func(0, 1, fee, a, dp);
+    }

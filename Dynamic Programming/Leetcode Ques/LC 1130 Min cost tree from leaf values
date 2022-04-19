@@ -1,0 +1,56 @@
+Problem statement : 
+Given an array arr of positive integers, consider all binary trees such that:
+
+Each node has either 0 or 2 children;
+The values of arr correspond to the values of each leaf in an in-order traversal
+of the tree. The value of each non-leaf node is equal to the product of the 
+largest leaf value in its left and right subtree, respectively.
+Among all possible binary trees considered, return the smallest possible sum of
+the values of each non-leaf node. It is guaranteed this sum fits into a 32-bit
+integer.
+
+A node is a leaf if and only if it has zero children.
+
+
+Approach : variation of MCM
+
+Code : 
+int func(vector<int> &arr, int i, int j, vector<vector<int>> &dp){
+        if(i == j)
+            return 0;
+        
+        if(i > j)
+            return 0;
+        
+        if(dp[i][j] != -1)
+            return dp[i][j];
+        
+        int cost = INT_MAX;
+        
+        for(int k = i; k <j; k++){
+            int a = func(arr, i, k, dp);
+            int b = func(arr, k+1, j, dp);
+            
+            int max_left = arr[i];
+            for(int max_l = i; max_l <= k ; max_l ++){
+                max_left = max(max_left, arr[max_l]);
+            }
+            
+            int max_right = arr[k+1];
+            for(int max_r = k+1; max_r <= j; max_r++)
+            {
+                max_right = max(max_right, arr[max_r]);
+            }
+            
+            cost = min(cost, a + b + max_right * max_left);
+        }
+        
+        return dp[i][j] = cost;
+    }
+    
+    
+    int mctFromLeafValues(vector<int>& arr) {
+        int n = arr.size();
+        vector<vector<int>> dp(n, vector<int>(n, -1));
+        return func(arr, 0, n-1, dp);
+    }

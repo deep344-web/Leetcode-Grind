@@ -1,0 +1,36 @@
+Problem statement : 
+You are given an array prices where prices[i] is the price of a given stock on the ith day. Find the maximum profit you can achieve. You may complete as many transactions as you like (i.e., buy one and sell one share of the stock multiple times) with the following restrictions:
+
+After you sell your stock, you cannot buy stock on the next day (i.e., cooldown one day).
+Note: You may not engage in multiple transactions simultaneously (i.e., you must sell the stock before you buy again).
+
+Code : 
+int func(int ind, int buy, vector<int> &arr, vector<vector<int>> &dp){
+        
+        if(ind >= arr.size())
+            return 0;
+        
+        if(dp[buy][ind] != -1)
+            return dp[buy][ind];
+        
+        if(buy){
+            int by = -arr[ind] + func(ind + 1, 0, arr, dp);
+            int notbuy =  func(ind + 1, 1, arr, dp);
+            return dp[buy][ind]= max(by, notbuy);   
+        }
+        
+        else
+        {
+            int sell = arr[ind] + func(ind + 2, 1, arr, dp);
+            int notsell = func(ind + 1, 0, arr, dp);
+             return dp[buy][ind] = max(sell, notsell);
+        
+        }
+    }
+    
+    
+    int maxProfit(vector<int>& a) {
+        int n = a.size();
+        vector<vector<int>> dp(2, vector<int>(n, -1));
+        return func(0, 1, a, dp);
+    } 

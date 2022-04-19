@@ -1,0 +1,47 @@
+Problem statement : 
+Given two strings s1 and s2, return the lowest ASCII sum of deleted characters 
+to make two strings equal.
+
+
+approach : same as lcs just adding ascii value of non matching chars.
+
+Code : 
+    int minimumDeleteSum(string s1, string s2) {
+        
+        int n = s1.length(), m = s2.length();
+        vector<vector<int>> dp(n+1, vector<int>(m+1, -1));
+        
+        for(int i=0; i<n+1; i++){
+            for(int j=0; j<m+1; j++){
+                if(i == 0 && j == 0)
+                    dp[i][j] = 0;
+                
+                else if(i == 0 || j == 0)
+                {
+                    if(i == 0)
+                        dp[i][j] = int(s2[j-1]) + dp[i][j-1];
+                    
+                    else
+                        dp[i][j] = int(s1[i-1]) + dp[i-1][j];
+                }
+                
+                else
+                {
+                    if(s1[i-1] == s2[j-1]){
+                        dp[i][j] = dp[i-1][j-1];
+                    }
+                    
+                    else
+                    {
+                        int a = s1[i-1] + dp[i-1][j];
+                        int b = s2[j-1] + dp[i][j-1];
+                        dp[i][j] = min(a, b);
+                    }
+                }
+                    
+            }
+        }
+        
+        return dp[n][m];
+        
+    }
