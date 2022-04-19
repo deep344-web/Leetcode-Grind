@@ -1,0 +1,40 @@
+Problem statement : 
+There is an m x n grid with a ball. The ball is initially at the position 
+[startRow, startColumn]. You are allowed to move the ball to one of the four 
+adjacent cells in the grid (possibly out of the grid crossing the grid boundary).
+ You can apply at most maxMove moves to the ball.
+
+Given the five integers m, n, maxMove, startRow, startColumn, return the number 
+of paths to move the ball out of the grid boundary. Since the answer can be very
+ large, return it modulo 109 + 7.
+
+Code : 
+ int mod = 1e9 + 7;
+    int func(int i, int j, int m, int n, int maxMove, 
+    vector<vector<vector<int>>> &dp){
+        
+        //maxMoves are exhausted but still ball is within boundary
+        if(maxMove == 0 && i >= 0 && j >= 0 && i <= m && j <= n)
+            return 0;
+        
+        //ball is out of boundary 
+        if(i < 0 || j < 0  || i > m || j > n)
+            return 1;
+        
+        if(dp[i][j][maxMove] != -1)
+            return dp[i][j][maxMove];
+        
+        int right = func(i, j+1, m, n, maxMove-1, dp);
+        int left  = func(i, j-1, m, n, maxMove-1, dp);
+        int up    = func(i-1, j, m, n, maxMove-1, dp);
+        int down  = func(i+1, j, m, n, maxMove-1, dp);
+        
+        return dp[i][j][maxMove] = ((right + left) % mod + (up + down) % mod) % mod;
+        
+    }
+    
+    
+    int findPaths(int m, int n, int maxMove, int startRow, int startColumn) {
+        vector<vector<vector<int>>> dp(m, vector<vector<int>>(n, vector<int>(maxMove+1, -1)));
+        return func(startRow, startColumn, m-1, n-1, maxMove, dp);
+    }

@@ -1,0 +1,39 @@
+Problem statement: 
+You have n dice and each die has k faces numbered from 1 to k.
+
+Given three integers n, k, and target, return the number of possible ways (out of the kn total ways) to roll the dice so the sum of the face-up numbers equals target. Since the answer may be too large, return it modulo 109 + 7.
+
+Approach : 
+Here lets say if we want sum 7 then we need to return all permutations of combination.
+Eg : 1+6 , 2+5, 3+4, 5+2, 4+3, 6+1 
+So we need to iterate the 6 numbers everytime we take a number
+
+Code : 
+int mod = 1e9 + 7;
+    int func(int k, int target, int n, vector<vector<int>> &dp){ 
+        
+        if(n == 0){
+            return target == 0 ? 1 : 0; 
+        }
+        
+        if(target == 0)
+            return 0;
+        
+        if(dp[n][target] != -1)
+            return dp[n][target];
+        
+        int ways = 0;
+        for(int i=1; i <= k; i++){
+            if(i <= target){
+                ways = (ways + func(k, target - i, n-1, dp)) % mod;
+            }
+        }
+        
+        return dp[n][target] = ways;
+    }
+    
+    
+    int numRollsToTarget(int n, int k, int target) {
+        vector<vector<int>> dp(n+1, vector<int>(target+1, -1));
+        return func(k, target, n, dp);
+    }

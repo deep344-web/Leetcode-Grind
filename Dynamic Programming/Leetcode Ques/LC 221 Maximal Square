@@ -1,0 +1,55 @@
+Problem statement : 
+Given an m x n binary matrix filled with 0's and 1's, find the largest square 
+containing only 1's and return its area.
+
+Approach : This problem can be solved like we solved histogram problem using stack.
+
+Using DP, this problem can be solved as squares are of size 1*1, 2*2, 3*3,...etc. 
+So if we found one cell with value as 1 then we got square of size 1*1. Now if we
+squares of 1 from left, up and diagonal direction we will form a square of size 
+2*2.
+ 
+      1      //1*1
+
+      1  1
+      1  1  //2*2
+
+Code : 
+ int func(int i, int j, int n, int m, vector<vector<char>> &mat, 
+ vector<vector<int>> &dp){
+        
+        if(i < 0 || i > n || j < 0 || j > m || mat[i][j] == '0')
+            return 0;
+        
+        
+       if(dp[i][j] != -1)
+           return dp[i][j];
+        
+        int right = func(i, j+1,n, m, mat, dp);
+        int down = func(i+1, j, n, m, mat, dp);
+        int diag = func(i+1, j+1, n, m, mat, dp);
+        
+        return dp[i][j] = 1 + min(right, min(down, diag));
+        
+    }
+    
+    
+    int maximalSquare(vector<vector<char>>& matrix) {
+        int n = matrix.size();
+        int m = matrix[0].size();
+        vector<vector<int>> dp(n, vector<int>(m, -1));
+        
+        int ans = 0;
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                if(matrix[i][j] == '1')
+                {
+                    int dim = func(i, j, n-1, m-1, matrix, dp);
+                   ans = max(ans, dim*dim);
+                    
+                }
+            }
+        }
+        
+        return ans;
+    }

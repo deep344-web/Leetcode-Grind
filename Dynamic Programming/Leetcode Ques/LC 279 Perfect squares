@@ -1,0 +1,45 @@
+Problem statement : 
+Given an integer n, return the least number of perfect square numbers that sum 
+to n. A perfect square is an integer that is the square of an integer; in other 
+words, it is the product of some integer with itself. For example, 1, 4, 9, and 
+16 are perfect squares while 3 and 11 are not.
+
+Approach : 
+Same like unbounded knapsack problem.
+
+Code : 
+ int func(int sum, int num, vector<vector<int>> &dp){
+        
+        if(sum == 0)
+            return 0;
+        
+        if(num == 1){
+            return sum/num;
+        }
+        
+        if(dp[sum][num] != -1)
+            return dp[sum][num];
+        
+        int notake = func(sum, num-1, dp);
+        int take = 1e9;
+        
+        if(sum >= num*num){
+            take = 1 + func(sum - (num*num), num, dp);
+        }
+        
+        return dp[sum][num] = min(notake, take);
+        
+    } 
+    
+    
+    int numSquares(int n) {
+        int num = 1;
+         while(num*num < n){
+             num += 1;
+         }
+        
+        vector<vector<int>> dp(n+1, vector<int>(num+1, -1));
+        int ans = func(n, num, dp);
+        return ans;
+         
+    }

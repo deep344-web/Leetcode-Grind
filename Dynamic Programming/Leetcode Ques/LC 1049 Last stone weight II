@@ -1,0 +1,57 @@
+Problem statement :
+You are given an array of integers stones where stones[i] is the weight of the 
+ith stone.
+
+We are playing a game with the stones. On each turn, we choose any two stones and 
+smash them together. Suppose the stones have weights x and y with x <= y. The 
+result of this smash is:
+
+If x == y, both stones are destroyed, and
+If x != y, the stone of weight x is destroyed, and the stone of weight y has new 
+weight y - x.
+At the end of the game, there is at most one stone left.
+
+Return the smallest possible weight of the left stone. If there are no stones 
+left, return 0. 
+
+Approach : 
+It is kind of subset sum problem. Here if we divide the array in 2 subsets such 
+that difference between sum of elements of the subsets is minimum. It will work.
+
+
+Code : 
+ int lastStoneWeightII(vector<int>& stones) {
+        int t_sum = 0;
+        int n = stones.size();
+        for(int i = 0; i<n; i++)
+            t_sum += stones[i];
+        
+        int sum = t_sum;
+        vector<vector<bool>> dp(n+1, vector<bool>(sum+1, false));
+      
+        for(int i=1; i<n+1; i++){
+            for(int j=0; j <= sum; j++){
+                if(j == 0)
+                {
+                    dp[i][j] = true;
+                }
+                else {
+                    bool notake = dp[i-1][j];
+                    bool take = false;
+                    if(stones[i-1] <= j)
+                        take = dp[i-1][j - stones[i-1]];
+                    
+                    dp[i][j] = take || notake;
+                }   
+            }
+        }
+
+         int min_diff = INT_MAX;
+         for(int j = 0; j <= sum; j++){
+            if(dp[n][j])
+               min_diff = min(min_diff, abs(j - (t_sum - j)));
+        }
+        
+        return min_diff;
+        
+    }

@@ -1,0 +1,33 @@
+Problem statement :
+You have two types of tiles: a 2 x 1 domino shape and a tromino shape. You may rotate these shapes.
+Given an integer n, return the number of ways to tile an 2 x n board. Since the answer may be very large, return it modulo 109 + 7.
+
+In a tiling, every square must be covered by a tile. Two tilings are different if and only if there are two 4-directionally adjacent cells on the board such that exactly one of the tilings has both squares occupied by a tile.
+
+Approach : 
+https://leetcode.com/problems/domino-and-tromino-tiling/discuss/116664/Schematic-explanation-of-two-equivalent-DP-recurrence-formula
+
+The final reccurence relation will be T(n) = 2*T(N-1) + T(N-3)
+
+Code : 
+ int mod = 1e9 + 7;
+    int func(int cols, vector<int> &dp){
+      if(cols == 0)
+          return 1;
+        
+       if(cols <= 2)
+           return cols;
+        
+        if(dp[cols] != -1)
+            return dp[cols];
+        
+        return dp[cols] =  ((2*func(cols-1, dp)) % mod + func(cols - 3, dp)% mod)%mod;
+      
+    }
+    
+    
+    
+    int numTilings(int n) {
+        vector<int> dp(n+1, -1);
+        return func(n, dp);
+    }

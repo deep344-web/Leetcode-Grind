@@ -1,0 +1,68 @@
+Problem statement : 
+You are given an array of binary strings strs and two integers m and n.
+
+Return the size of the largest subset of strs such that there are at most m 0's 
+and n 1's in the subset.
+
+A set x is a subset of a set y if all elements of x are also elements of y.
+
+
+Code : 
+int func(vector<pair<int, int>> &strings, int index, int m, int n, 
+            vector<vector<vector<int>>> &dp){
+        
+        if(m == 0 && n == 0)
+            return 0;
+        
+        if(index == 0){
+             int size = strings[index].first;
+             int ones = strings[index].second;
+             int zeroes = size - ones;
+            
+             if(n >= ones && m >= zeroes){
+                  return 1;
+             }
+            
+            else
+              return 0; 
+        }
+        
+        if(dp[index][m][n] != -1)
+            return dp[index][m][n];
+        
+        
+        int notake = func(strings, index-1, m, n, dp);
+        int take = 0;
+        
+        int size = strings[index].first;
+        int ones = strings[index].second;
+        int zeroes = size - ones;
+        if(n >= ones && m >= zeroes){
+            take = 1 + func(strings, index-1, m - zeroes, n - ones, dp);
+        }
+        
+        return dp[index][m][n] = max(notake, take);
+        
+    }
+    
+    
+    
+    int findMaxForm(vector<string>& strs, int m, int n) {
+        vector<pair<int, int>> strings;
+        
+        for(int i=0; i<strs.size(); i++){
+            string a = strs[i];
+            int cnt = 0;
+            for(int j=0; j<a.length(); j++){
+                if(a[j] == '1')
+                    cnt++;
+            }
+            strings.push_back({a.length(), cnt});
+        }
+        
+        int siz = strings.size();
+vector<vector<vector<int>>> dp(siz, vector<vector<int>>(m+1, vector<int>(n+1, -1)));
+        
+        return func(strings, siz - 1 , m, n, dp);
+        
+    }

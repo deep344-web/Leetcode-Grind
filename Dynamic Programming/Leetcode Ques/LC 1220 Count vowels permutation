@@ -1,0 +1,66 @@
+Problem statement : 
+Given an integer n, your task is to count how many strings of length n can be 
+formed under the following rules:
+
+Each character is a lower case vowel ('a', 'e', 'i', 'o', 'u')
+Each vowel 'a' may only be followed by an 'e'.
+Each vowel 'e' may only be followed by an 'a' or an 'i'.
+Each vowel 'i' may not be followed by another 'i'.
+Each vowel 'o' may only be followed by an 'i' or a 'u'.
+Each vowel 'u' may only be followed by an 'a'.
+Since the answer may be too large, return it modulo 10^9 + 7.
+
+Code : 
+ int mod = 1e9 + 7;
+    int func(int n, char prev_char, map<pair<char, int>, int> &map1){
+        if(n == 0)
+            return 1;
+        
+        if(map1.find({prev_char, n}) != map1.end())
+            return map1[{prev_char, n}];
+        
+        int ans = 0;
+        if(prev_char == 'a'){
+             ans = (ans + func(n-1, 'e', map1)) % mod;
+        }
+        
+        else if(prev_char == 'e'){
+            ans = ((ans + func(n-1, 'a', map1)) % mod + func(n-1, 'i', map1)) % 
+            mod; 
+        }
+        
+        else if(prev_char == 'i'){
+            ans = ((func(n-1, 'a', map1) + func(n-1, 'e', map1)) % mod + 
+                   (func(n-1, 'o', map1) + func(n-1, 'u', map1)) % mod) % mod; 
+        }
+        
+        else if(prev_char == 'o'){
+            ans = ((ans + func(n-1, 'i', map1)) % mod + func(n-1, 'u', map1)) % 
+            mod;
+        }
+        
+        else {
+            ans += func(n-1, 'a', map1);
+        }
+        
+        map1[{prev_char, n}] = ans;
+        return ans;
+    }
+    
+    
+    int countVowelPermutation(int n) {
+        
+        char arr[5] = {'a', 'e', 'i', 'o', 'u'};
+    
+        map<pair<char, int>, int> map1;
+        int ways = 0;
+        for(int i=0; i<5; i++){
+            ways = (ways + func(n-1, arr[i], map1)) % mod;
+        }
+        
+        return ways;
+        
+    }
+
+    This can be solved in O(n) by giving an integer value to each char and 
+    forming dp matrix rather than map sc : O(n*5)
