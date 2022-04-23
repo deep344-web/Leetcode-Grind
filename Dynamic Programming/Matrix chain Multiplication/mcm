@@ -1,0 +1,35 @@
+Problem statement : 
+Given a sequence of matrices, find the most efficient way to multiply 
+these matrices together. The efficient way is the one that involves the 
+least number of multiplications.
+
+The dimensions of the matrices are given in an array arr[] of size N 
+(such that N = number of matrices + 1) where the ith matrix has the 
+dimensions (arr[i-1] x arr[i]).
+
+Code : 
+int solve(int *arr, int i, int j, vector<vector<int>> &dp){
+     if(i >= j)
+     return 0;
+     
+     if(dp[i][j] != -1)
+     return dp[i][j];
+     
+     int min_cost = INT_MAX;
+     for(int k = i; k < j; k++){
+         int cost1 = solve(arr, i, k, dp);
+         int cost2 = solve(arr, k+1, j, dp);
+         int cost = arr[i-1] * arr[k] * arr[j];
+         
+         min_cost = min(min_cost, cost1 + cost2 + cost);
+     }
+     
+     return dp[i][j] = min_cost;
+ }
+
+
+    int matrixMultiplication(int N, int arr[])
+    {
+        vector<vector<int>>dp(N, vector<int>(N, -1));
+        return  solve(arr, 1, N-1, dp);
+    }

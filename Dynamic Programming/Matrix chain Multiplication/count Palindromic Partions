@@ -1,0 +1,86 @@
+Problem statement : Given a string s, partition s such that every substring of the 
+partition is a palindrome. Return all possible palindrome partitioning of s.
+
+A palindrome string is a string that reads the same backward as forward.
+
+
+Code : 
+ bool isPalindrome(string &s, int i, int j){
+    while(i <= j){
+        if(s[i] != s[j])
+        return false;
+        
+        i++;
+        j--;
+    }
+    
+    return true;
+}
+
+
+
+void func(int i, int j, string &str, vector<string>&temp, vector<vector<string>> &ans){
+    
+    if(i > j)
+    {
+            ans.push_back(temp);   
+            return;
+    }
+  
+    for(int k = i; k <= j; k++){
+        string sub = str.substr(i, k - i + 1);
+        if(isPalindrome(str, i, k)){
+            temp.push_back(sub);
+            func(k+1, j, str, temp, ans);
+            temp.pop_back();
+        }
+    }
+
+}
+    vector<vector<string>> partition(string s) {
+        int n = s.length();
+        vector<string> temp;
+        vector<vector<string>> ans;
+        func(0, n-1, s, temp, ans);
+        
+        return ans;
+    }
+
+
+    We can optimize it by storing isPalindrome
+
+int t[20][20];
+
+void func(int i, int j, string &str, vector<string>&temp, vector<vector<string>> &ans){
+    
+    if(i > j)
+    {
+            ans.push_back(temp);   
+            return;
+    }
+    
+  
+    for(int k = i; k <= j; k++){
+               
+        if(str[i] == str[k] && ((k - i) <= 2 || t[i+1][k-1] == 1)){
+            t[i][k] = 1;
+            string sub = str.substr(i, k - i + 1);
+            temp.push_back(sub);
+            func(k+1, j, str, temp, ans);
+            temp.pop_back();
+        }
+    }
+
+}
+    vector<vector<string>> partition(string s) {
+        int n = s.length();
+        
+        memset(t, 0, sizeof(t));
+        
+        vector<string> temp;
+        vector<vector<string>> ans;
+        
+        func(0, n-1, s, temp, ans);
+        
+        return ans;
+    }
