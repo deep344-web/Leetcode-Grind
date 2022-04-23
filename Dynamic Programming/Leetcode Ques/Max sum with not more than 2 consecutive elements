@@ -1,0 +1,29 @@
+Problem statement : 
+Given a sequence of positive numbers, find the maximum sum that can be formed which has no three consecutive elements present.
+
+same as house robber problem
+
+Code : 
+int func(vector<int> &arr, int ind, int *t){
+    if(ind < 0)
+	  return 0;
+	
+	if(t[ind] != -1)
+	  return t[ind];
+
+    int case1 = func(arr, ind-1, t);
+    int case2 = ind >= 0 ? (arr[ind] + func(arr, ind-2, t)) : 0;
+    int case3 = ind >= 1 ? (arr[ind] + arr[ind-1] + func(arr, ind-3, t)):0;
+
+    return t[ind] = max(case1, max(case2, case3));
+
+}
+
+int maxSum(vector<int> &a, int n) 
+{
+	int t[n];
+	for(int i=0; i<n; i++)
+		t[i] = -1;
+	
+	return func(a, n-1, t);
+}

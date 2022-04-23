@@ -1,0 +1,43 @@
+Problem statement : 
+Each house has a certain amount of money stashed, the only constraint stopping you from robbing each of them is that adjacent houses have security systems connected and it will automatically contact the police if two adjacent houses were broken into on the same night.
+
+Given an integer array nums representing the amount of money of each house, return the maximum amount of money you can rob tonight without alerting the police.
+
+Code : 
+  int func(int ind, vector<int> arr, vector<int> &dp){
+        
+        if(ind < 0)
+            return 0;
+        
+        if(dp[ind] != -1)
+            return dp[ind];
+        
+        int notake = func(ind-1, arr, dp);
+        int take = arr[ind] + func(ind-2, arr, dp);
+        
+        
+        return  dp[ind] = max(notake, take);
+       
+    }
+    
+    
+    int rob(vector <int>& nums) {
+        vector<int> dp(nums.size() +1, -1);
+        return func(nums.size() - 1 , nums, dp);
+    }
+
+
+Tabulation
+  int rob(vector<int>& nums) {
+        int max_inc = nums[0], max_exc = 0, max_so = max(max_inc, max_exc);
+        
+        for(int i=1; i<nums.size(); i++){
+        
+            int temp  = max_inc;
+            max_inc =  max_exc + nums[i];
+            max_exc = max(max_exc, temp);
+        }
+        
+        return max_inc >= max_exc ? max_inc : max_exc;
+        
+    }
