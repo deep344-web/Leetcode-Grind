@@ -1,0 +1,49 @@
+Problem statement : 
+Given a string s, partition s such that every substring of the partition is a
+palindrome. Return the minimum cuts needed for a palindrome partitioning of s.
+
+Code : 
+int t[2000];
+       bool isPalindrome(string &s, int i, int j){
+              while(i <= j){
+                  if(s[i] != s[j])
+                    return false;
+        
+                  i++;
+                  j--;
+         }
+    
+    return true;
+}
+    
+    int solve(int i, int j, string &s){
+        
+        if(i >= j)
+            return 0;
+        
+         if(t[i] != -1)
+            return t[i];
+        
+
+        if(isPalindrome(s, i, j))
+            return 0;
+        
+        int ans = INT_MAX;
+   
+        for(int k = i; k < j; k++){
+            if(isPalindrome(s, i, k)){
+               int temp = 1 + solve(k+1, j, s);
+               ans = min(ans, temp);
+            }
+        }
+        
+        return t[i] = ans;
+        
+        
+    }
+    
+    
+    int minCut(string s) {
+        memset(t, -1, sizeof(t));
+        return solve(0, s.length()-1, s);
+    }
