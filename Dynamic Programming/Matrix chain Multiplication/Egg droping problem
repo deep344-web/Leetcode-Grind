@@ -1,0 +1,70 @@
+Problem statement : 
+You are given k identical eggs and you have access to a building with n
+ floors labeled from 1 to n. You know that there exists a floor f where 
+ 0 <= f <= n such that any egg dropped at a floor higher than f will 
+ break, and any egg dropped at or below floor f will not break.
+
+Each move, you may take an unbroken egg and drop it from any floor x 
+(where 1 <= x <= n). If the egg breaks, you can no longer use it. However, 
+if the egg does not break, you may reuse it in future moves.
+
+Return the minimum number of moves that you need to determine with 
+certainty what the value of f is.
+
+Approach : Here out of n floors we have to choose 1 floor each time and try
+to drop egg from this floor. Now we have two cases : Egg breaks or egg 
+doesn't break. If egg breaks then the no of floors left to explore will be
+k-1 and if the doesn't break then the floors left to explore will be 
+n-k. Out of these two cases whichever gives more no of attempts will be 
+worst case. We have to find minimum no of attempts out of the worst cases.
+
+So we can use binary search in order to find kth floor. We will find answer
+for both cases and store answer. If left is less than right which mean if 
+I go right I will be getting more number of  moves in worst case which is 
+the ultimate goal, so I reduced the problem in half because I only care 
+abount max number of moves in worst case so I go to right only using this: 
+l = mid+1; otherwise the right < left which means I need to go left to 
+maximize it, which is right = mid-1;.
+
+Code : 
+ int t[101][10001];
+    int solve(int eggs, int floors){
+        if(floors == 0 || floors == 1)
+            return floors;
+        
+        if(eggs == 1)
+            return floors;
+
+        if(t[eggs][floors] != -1)
+            return t[eggs][floors];
+        
+
+        int low = 1, high = floors, ans = INT_MAX;
+        while(low <= high){
+            
+            int k = (low + high)/2;
+            
+            int left = solve(eggs-1, k-1);
+            int right = solve(eggs, floors - k);
+            
+            ans = min(ans, 1 + max(left, right));  
+            
+            if(left < right){
+                low = k + 1;
+            }
+            
+            else
+                high = k-1;
+            
+        }
+        
+        return t[eggs][floors] = ans;
+        
+    }
+    
+    
+    
+    int superEggDrop(int eggs, int floors) {
+        memset(t, -1, sizeof(t));
+        return solve(eggs, floors);
+    }

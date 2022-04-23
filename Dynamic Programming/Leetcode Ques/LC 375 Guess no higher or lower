@@ -1,0 +1,36 @@
+Problem statement : 
+We are playing the Guessing Game. The game will work as follows:
+
+* I pick a number between 1 and n.
+* You guess a number.
+* If you guess the right number, you win the game.
+* If you guess the wrong number, then I will tell you whether the number I picked is higher or lower, and you will continue guessing.
+* Every time you guess a wrong number x, you will pay x dollars. If you run out of money, you lose the game.
+Given a particular n, return the minimum amount of money you need to guarantee a win regardless of what number I pick.
+
+Approach : Variation of Egg Droping problem
+
+Code : 
+ int t[201][201];
+    int solve(int i, int j){
+        if(i >= j)
+            return 0;
+        
+        if(t[i][j] != -1)
+            return t[i][j];
+        
+        int ans = INT_MAX;
+        for(int k = i; k <= j; k++){
+           ans = min(ans,  k + max(solve(k+1, j) ,  solve(i, k-1)));
+        }
+        
+        return t[i][j] = ans;
+        
+    }
+    
+    
+    
+    int getMoneyAmount(int n) {
+        memset(t, -1, sizeof(t));
+        return solve(1, n);
+    }
