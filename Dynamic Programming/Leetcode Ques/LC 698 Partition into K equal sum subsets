@@ -1,0 +1,69 @@
+Problem statement : 
+Given an integer array nums and an integer k, return true if it is possible to
+ divide this array into k non-empty subsets whose sums are all equal.
+
+ Approach : DP + Bitmask
+For every element of array we have k options so we can form k size subset array with all elements = sum of array / k. Now for every index of array we can take decision out of these k options. This will take time plus we have to save states of subset array. So now as we have solved beautiful array question, we will use DP with bitmask. Bitmask will keep track of the elements of array which we utilized and each time we form sum = target, we again make curr sum = 0 and again try to form the given sum till all the elements of array are used.
+
+Code : 
+ bool func(int &bitmask, vector<int> &nums, int tar, int curr, 
+              map<pair<int, int>, bool> &map1){
+
+        if(bitmask == 0)
+            return curr == 0 ? true : false;
+        
+        if(curr == 0){
+            return func(bitmask, nums, tar, tar, map1);
+        }
+            
+        if(map1.find({bitmask, curr}) != map1.end())
+            return map1[{bitmask, curr}];
+
+        bool res = false;
+        
+        for(int j = 0; j < nums.size(); j++){
+            int mask = 1 << j;
+            if((bitmask & mask) != 0 && (curr - nums[j]) >= 0)
+            {
+                mask = ~mask;
+                bitmask = bitmask & mask;
+                if(func(bitmask, nums, tar, curr - nums[j], map1))
+                {
+                     res = true;
+                    break;
+                }
+                mask = ~mask;
+                bitmask = bitmask | mask;
+            }
+           
+        }
+         
+        map1[{bitmask, curr}] = res;
+        return res;
+        
+        
+    }
+    
+    
+    bool canPartitionKSubsets(vector<int>& nums, int k) {
+        
+        int sum = 0;
+        for(int i=0; i<nums.size(); i++){
+            sum  += nums[i];
+        }
+        
+        if(sum % k)
+            return false;
+        
+        sum = sum / k;
+        
+        sort(nums.begin(), nums.end(), greater<int>());
+        
+        int n = nums.size();
+        int mask = pow(2, n) - 1;
+        
+        map<pair<int, int>, bool> map1;
+        
+        return func(mask, nums, sum, sum, map1);
+        
+    }

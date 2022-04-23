@@ -1,0 +1,45 @@
+Problem statement : 
+You are given an integer array nums of length n.
+
+Assume arrk to be an array obtained by rotating nums by k positions clock-wise. 
+We define the rotation function F on nums as follow:
+
+F(k) = 0 * arrk[0] + 1 * arrk[1] + ... + (n - 1) * arrk[n - 1].
+Return the maximum value of F(0), F(1), ..., F(n-1).
+
+The test cases are generated so that the answer fits in a 32-bit integer.
+
+Approach : 
+Lets take an array [a, b, c]
+F(0) = a*0 + b*1 + c*2
+F(1) = c*0 + a*1 + b*2 
+F(1) - F(0) = c*0 + a*1 + b*2 - a*0 - b*1 - c*2
+            = a*1 + b*2 - b*1 - c*2
+            = a + b - 2c + c - c 
+            = a + b + c - 3c
+          X = sum(arr) - (len of array * last elmenet)
+
+F(1) =  F(0) + X
+
+Code : 
+ int maxRotateFunction(vector<int>& nums) {
+        int n = nums.size();
+        
+        int fun_sum = 0, sum = 0;
+        for(int i=0; i<nums.size(); i++){
+            fun_sum += (nums[i] * i);
+            sum += nums[i];
+        }
+        
+        int max_sum = fun_sum;
+        int ind = n-1;
+        for(int i = 1; i < nums.size(); i++){
+           int curr_fun = fun_sum + sum - n*nums[ind];
+            max_sum = max(max_sum, curr_fun);
+            
+            fun_sum = curr_fun;
+            ind--;
+        }
+        
+        return max_sum;
+    }

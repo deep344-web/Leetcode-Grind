@@ -1,0 +1,35 @@
+Problem statement : 
+Given a positive integer n, you can apply one of the following operations:
+
+If n is even, replace n with n / 2.
+If n is odd, replace n with either n + 1 or n - 1.
+Return the minimum number of operations needed for n to become 1.
+
+Code : 
+ int solve(long long int n, map<long long int, int> &map1){
+        if(n == 1)
+            return 0;
+        
+        if(map1.find(n) != map1.end())
+            return map1[n];
+        
+        int op = 0;
+        
+        if(n % 2){
+            op = 1 + min(solve(n-1, map1), solve(n+1, map1));
+        }
+        
+        else{
+             op = 1 + solve(n/2, map1);
+        }
+        
+        map1[n] = op;
+        return  op;
+        
+    }
+    
+    
+    int integerReplacement(int n) {
+       map<long long int, int> map1;
+        return solve((long long int )n, map1);
+    }

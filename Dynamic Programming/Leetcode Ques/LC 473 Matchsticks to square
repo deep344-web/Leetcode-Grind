@@ -1,0 +1,64 @@
+Problem statement : 
+You are given an integer array matchsticks where matchsticks[i] is the length of the ith matchstick. You want to use all the matchsticks to make one square. You should not break any stick, but you can link them up, and each matchstick must be used exactly one time.
+Return true if you can make this square and false otherwise.
+
+Approach : ques is exactly same as LC 698
+
+Code : 
+  bool func(int &bitmask, vector<int> &nums, int tar, int curr, 
+              map<pair<int, int>, bool> &map1){
+
+        if(bitmask == 0)
+            return curr == 0 ? true : false;
+        
+        if(curr == 0){
+            return func(bitmask, nums, tar, tar, map1);
+        }
+            
+        if(map1.find({bitmask, curr}) != map1.end())
+            return map1[{bitmask, curr}];
+
+        bool res = false;
+        
+        for(int j = 0; j < nums.size(); j++){
+            int mask = 1 << j;
+            if((bitmask & mask) != 0 && (curr - nums[j]) >= 0)
+            {
+                mask = ~mask;
+                bitmask = bitmask & mask;
+                if(func(bitmask, nums, tar, curr - nums[j], map1))
+                {
+                     res = true;
+                    break;
+                }
+                mask = ~mask;
+                bitmask = bitmask | mask;
+            }
+           
+        }
+         
+        map1[{bitmask, curr}] = res;
+        return res;
+        
+        
+    }
+    bool makesquare(vector<int>& nums) {
+         int sum = 0;
+        for(int i=0; i<nums.size(); i++){
+            sum  += nums[i];
+        }
+        
+        if(sum % 4)
+            return false;
+        
+        sum = sum / 4;
+        
+        sort(nums.begin(), nums.end(), greater<int>());
+        
+        int n = nums.size();
+        int mask = pow(2, n) - 1;
+        
+        map<pair<int, int>, bool> map1;
+        
+        return func(mask, nums, sum, sum, map1);
+    }

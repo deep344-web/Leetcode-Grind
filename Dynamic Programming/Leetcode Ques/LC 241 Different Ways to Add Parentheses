@@ -1,0 +1,73 @@
+Problem statement : 
+Given a string expression of numbers and operators, return all possible results from computing all the different possible ways to group numbers and operators. You may return the answer in any order.
+
+Code : 
+vector<int> solve(int i, int j, vector<string> &exp){
+         
+         vector<int> ans;
+         
+         if(i == j)
+         {
+            ans.push_back(stoi(exp[i]));
+            return ans;
+         }
+         
+         for(int k=i; k <= j ; k++){
+             
+        if(exp[k] == "+" || exp[k] == "-" || exp[k] == "*" || exp[k] == "/"){
+             
+                 vector<int> a = solve(i, k-1, exp);
+                 vector<int> b = solve(k+1, j, exp);
+                 
+                 int res;
+                  for(int v1=0; v1<a.size(); v1++){
+                      for(int v2=0; v2<b.size(); v2++){
+                           if(exp[k] == "*")
+                              ans.push_back(a[v1]*b[v2]);
+                               
+                           else if(exp[k] == "+")
+                                ans.push_back(a[v1] + b[v2]);
+                               
+                           else if(exp[k] == "-")
+                                ans.push_back(a[v1] - b[v2]);
+                          
+                           else
+                               ans.push_back(a[v1]/b[v2]);
+                      }
+                     
+                  }
+             }
+             
+         }
+         
+         return ans;
+     }
+    
+    
+    
+    vector<int> diffWaysToCompute(string expression) {
+        vector<string> exp;
+        int i = 0;
+        while(i<expression.length()){
+            if(isdigit(expression[i])){
+               string num = "";
+            
+            while(isdigit(expression[i]) && i < expression.length()){
+                num += expression[i++];
+            }
+
+                exp.push_back(num);
+            }
+            
+            else{
+                string str;
+                str += expression[i];
+                exp.push_back(str);
+                i++;
+            }
+
+        }
+        
+       
+        return solve(0, exp.size()-1, exp);
+    }

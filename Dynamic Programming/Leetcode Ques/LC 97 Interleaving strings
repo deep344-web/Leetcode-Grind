@@ -1,0 +1,136 @@
+Problem statement : 
+Given strings s1, s2, and s3, find whether s3 is formed by an interleaving of 
+s1 and s2. An interleaving of two strings s and t is a configuration where they
+are divided into non-empty substrings such that:
+
+s = s1 + s2 + ... + sn
+t = t1 + t2 + ... + tm
+|n - m| <= 1
+The interleaving is s1 + t1 + s2 + t2 + s3 + t3 + ... or t1 + s1 + t2 + s2 + t3 + s3 + ...
+Note: a + b is the concatenation of strings a and b.
+
+
+Code : 
+TC : O(N^3)
+SC : O(N^3)
+
+int t[200][200][200];
+    
+    int solve(int i, int j, int k, string s1, string s2, string s3){
+        
+        if(i < 0 && j < 0)
+        {
+            return k < 0 ? 1 : 0;
+        }
+        
+        if(i < 0 || j < 0){
+            if(k < 0)
+                return 0;
+            
+            if(j >= 0 && s2[j] == s3[k]){
+                return solve(i, j-1, k-1, s1, s2, s3);
+            }
+            
+            else if(i >= 0 && s1[i] == s3[k]){
+                return solve(i-1, j, k-1, s1, s2, s3);
+            }
+            
+            return 0;
+        }
+        
+        if(t[i][j][k] != -1)
+           return t[i][j][k];
+        
+        int ans = -1;
+        
+        if(s1[i] == s3[k] && s2[j] == s3[k])
+        {
+         ans = solve(i-1, j, k-1, s1, s2, s3) || solve(i, j-1, k-1, s1, s2,s3);
+        }
+        
+        else if(s1[i] == s3[k]){
+            ans = solve(i-1, j, k-1, s1, s2, s3);
+        }
+        
+        else if(s2[j] == s3[k]){
+            ans = solve(i, j-1, k-1, s1, s2, s3);
+        }
+        
+        else
+            ans = 0;
+        
+        return t[i][j][k] = ans;
+        
+    }
+    
+    
+    bool isInterleave(string s1, string s2, string s3) {
+        int n = s1.length();
+        int m = s2.length();
+        int k = s3.length();
+        
+        if(n + m != k)
+            return false;
+        
+        
+        memset(t, -1, sizeof(t));
+        int ans = solve(n-1, m-1, k-1, s1, s2, s3);
+        return ans == 1 ? true : false;
+    }
+
+Optimized approach 
+TC : O(N^2)
+SC : O(N^2)
+
+  int t[101][101];
+    bool solve(int i, int j, string s1, string s2, string s3){
+        
+        if(i < 0 && j < 0)
+            return true;
+        
+        if(i < 0 || j < 0){
+            if(i < 0 && s2[j] == s3[j]){
+                if(solve(i, j-1, s1, s2, s3))
+                    return true;
+            }
+            
+            else if( j < 0 && s1[i] == s3[i]){
+                if(solve(i-1, j, s1, s2, s3))
+                    return true;
+            }
+            
+            return false;
+        }
+        
+        if(t[i][j] != -1)
+            return t[i][j];
+        
+        bool ans = false;
+        if(s1[i] == s3[i+j+1])
+        {
+           if(solve(i-1, j, s1, s2, s3))
+               ans = true;
+        }
+        
+        if(s2[j] == s3[i+j+1])
+        {
+            if(solve(i, j-1, s1, s2, s3))
+                ans = true;
+        }
+        
+        t[i][j] = ans;
+        return ans;
+        
+    }
+    
+    
+    
+    bool isInterleave(string s1, string s2, string s3) {
+        int n = s1.length(), m = s2.length(), k = s3.length();
+        if(n + m != k)
+            return false;
+        
+        memset(t, -1, sizeof(t));
+        
+        return solve(n-1, m-1, s1, s2, s3);
+    }
