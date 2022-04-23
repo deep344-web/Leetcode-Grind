@@ -1,0 +1,71 @@
+Problem statement : 
+A wiggle sequence is a sequence where the differences between successive 
+numbers strictly alternate between positive and negative. The first difference 
+(if one exists) may be either positive or negative. A sequence with one element
+and a sequence with two non-equal elements are trivially wiggle sequences.
+
+Approach : I used O(N^2) approach of LIS to solve this. There was an optimized 
+approach as well which I couldn't come up with. In that approach we are keeping
+track of valleys and peaks. And we are trying to maximise the ans when ever we 
+get any element greater than previous (so if previous was a valley then dec must
+have increased and now that we found a no greater than prev we will do 
+inc = dec+1) Same is the case when we find a valley that is curr element is 
+smaller than previous.
+
+
+Code : 
+TC : O(N^2)
+SC : O(N)
+
+int wiggleMaxLength(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> last_pos_diff(n, 1), last_neg_diff(n, 1);
+        
+        int max_len = 1;
+        
+        for(int i=1; i<n; i++){
+            
+            //traverse negative vector to fill pos[i]
+            for(int j = 0; j < i; j++){
+                if(nums[i] - nums[j] > 0)
+                    last_pos_diff[i] = max(last_pos_diff[i], last_neg_diff[j] + 1);
+            }
+            
+             //traverse positive vector to fill neg[i]
+            for(int j = 0; j < i; j++){
+                if(nums[i] - nums[j] < 0)
+                    last_neg_diff[i] = max(last_neg_diff[i], last_pos_diff[j] + 1);
+            }
+            
+            int ans = max(last_pos_diff[i], last_neg_diff[i]);
+            max_len = max(max_len, ans);
+        }
+        
+        return max_len;
+        
+}
+
+TC : O(N)
+SC : O(1)
+
+  int wiggleMaxLength(vector<int>& nums) {
+        int n = nums.size();
+        
+        int inc = 1, dec = 1;
+        
+        for(int i=1; i<n; i++){
+            if(nums[i] > nums[i-1]){
+                inc = dec + 1;
+            }
+            
+            else if(nums[i] < nums[i-1]){
+                dec = inc + 1;
+            }
+           
+        }
+        
+        return max(inc, dec);
+        
+    }
+
+
