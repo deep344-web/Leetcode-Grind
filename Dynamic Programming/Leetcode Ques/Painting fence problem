@@ -1,0 +1,30 @@
+Problem statement : 
+Given a fence with n posts and k colors, find out the number of ways of 
+painting the fence so that not more than two consecutive fences have the
+ same colors.
+
+
+ Code : 
+ int mod = 1e9 + 7;
+    long long int t[5001][101];
+    
+    long long int solve(int n, int k){
+        if(n == 1)
+        return k;
+        
+        if(n == 2)
+        return k*k;
+        
+        if(t[n][k] != -1)
+        return t[n][k];
+        
+        long long int two_fence = ((k-1)*solve(n-2, k)) % mod;
+        long long int one_fence = ((k-1)*solve(n-1, k)) % mod;
+        
+        return t[n][k] = (two_fence + one_fence) % mod;
+    }
+    
+    long long countWays(int n, int k){
+        memset(t, -1, sizeof(t));
+       return solve(n, k);
+    }

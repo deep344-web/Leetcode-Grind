@@ -1,0 +1,27 @@
+Problem statement : Given N friends, each one can remain single or can be paired up with some other friend. Each friend can be paired only once. Find out the total number of ways in which friends can remain single or can be paired up.
+
+Code : 
+int mod = 1e9 + 7;
+long long int solve(int n, long long int *t){
+    if(n == 1 || n == 0)
+    return n;
+    
+    if(n == 2)
+    return 2;
+    
+    if(t[n] != -1)
+    return t[n];
+  
+  long long int single = solve(n-1, t);
+  long long int pair = (solve(n-2, t) * (n-1)) % mod;
+    
+    return t[n] = (single + pair) % mod;
+}
+
+
+    int countFriendsPairings(int n) 
+    { 
+        long long int t[n+1];
+        memset(t, -1, sizeof(t));
+        return solve(n, t);
+    }

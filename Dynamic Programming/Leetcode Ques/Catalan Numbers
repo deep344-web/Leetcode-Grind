@@ -1,0 +1,10 @@
+catalan numbers is series of natural no which has applications in many interesting
+problems.
+
+* Count how n paranthesis can be arranged
+* count how many binary search trees can be formed with n values
+* count how many full binary trees can be formed with n+1 leaves
+
+
+C0 = 1 
+C(n+1) = sum (i = 0 -> n) (Ci * Cn-i)

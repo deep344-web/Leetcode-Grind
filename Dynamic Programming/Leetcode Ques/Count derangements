@@ -1,0 +1,87 @@
+Problem statement : 
+A Derangement is a permutation of n elements, such that no element appears 
+in its original position. For example, a derangement of {0, 1, 2, 3} is 
+{2, 3, 1, 0}. Given a number n, find the total number of Derangements of a
+ set of n elements.
+
+Approach : same as painting fence, friends pairing problem here we need
+to find recurrence relation. So if I have to take decision for nth element
+I have n-1 positions to place it. Now there is case if next element takes 
+pos of nth element and nth element takes pos of next element then we have 
+n-2 elements left to be placed. Else if this swap doesn't happen in that 
+case no of elements left to be placed will be n-1.
+we can use dp with bitmask but it will be high complexity. Also because
+elements are not repetitive so we can use this approach.
+
+Code : 
+int mod = 1e9 + 7;
+long long int solve(int n, long long int *dp)
+{
+	if(n == 1)
+		return 0;
+	
+	if(n == 2)
+		return 1;
+	
+	if(dp[n] != -1)
+		return dp[n];
+	
+	return dp[n] = (n-1) * (solve(n-1, dp) + solve(n-2, dp));
+}
+
+
+long long int countDerangements(int n) {
+	long long int dp[n+1] = {0};
+	dp[1] = 0;
+	dp[2] = 1;
+	for(int i=3; i <= n; i++)
+	{
+		dp[i] = ((i-1) * (dp[i-1] + dp[i-2]) % mod) % mod;
+	}
+	
+	return dp[n];
+}
+
+
+* In case we are given array of repeated elements, then this approach will
+not work. For that we can use DP + Bitmask. Below is code snippet. use 
+array instead of ele
+
+int solve(int &bitmask, int n, int ele)
+{
+	if(bitmask == (pow(2, n) - 1))
+	{
+	  return 1;
+	}
+	
+	
+	 int ways = 0;
+	
+	//find positions were we can place current element
+	for(int i=0; i<n; i++){
+		
+		if(i != ele){
+			int mask = 1 << i;
+	        int ans = bitmask & mask;
+			if(ans == 0)
+			{
+				//set ith bit
+				bitmask = bitmask | mask;
+	       
+				ways += solve(bitmask, n, ele-1);
+				
+				//unset the ith bit
+				mask = ~mask;
+				bitmask = bitmask & mask;
+			}
+		}
+	}
+	
+	return ways;
+}
+
+int countDerangements(int n) {
+    int bitmask = 0;
+
+	return solve(bitmask, n, n-1);
+}

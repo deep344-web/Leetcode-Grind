@@ -1,0 +1,78 @@
+Problem statement :
+We have n jobs, where every job is scheduled to be done from startTime[i] to endTime[i], obtaining a profit of profit[i]. You're given the startTime, endTime and profit arrays, return the maximum profit you can take such that there are no two jobs in the subset with overlapping time range.
+
+If you choose a job that ends at time X you will be able to start another job that starts at time X. 
+
+Code : 
+
+//recursive code
+  int solve(int ind, vector<vector<int>> &jobs){
+        if(ind == jobs.size())
+            return 0;
+        
+        
+        int exc = solve(ind+1, jobs);
+        
+        int next = findNext(jobs, ind);
+        int inc = jobs[ind][2];
+        if(next != -1){
+           inc += solve(next, jobs);   
+        }
+        
+        return max(exc, inc);
+        
+    }
+    
+    int findNext(vector<vector<int>> &jobs, int ind){
+        
+        int low = ind+1, high = jobs.size()-1, ans = -1;
+        
+        while(low <= high){
+            int mid = (low + high)/2;
+            
+            if(jobs[mid][0] >= jobs[ind][1]){
+                ans = mid;
+                high = mid-1;
+            }
+            
+            else
+                low = mid+1;
+        
+        }
+        
+        return ans;
+        
+    }
+    
+    
+    
+    //bottom up approach with binary search O(nlogn)
+    int jobScheduling(vector<int>& startTime, vector<int>& endTime, 
+    vector<int>& profit) {
+        int n = startTime.size();
+        vector<vector<int>> jobs;
+        for(int i=0; i<n; i++){
+            jobs.push_back({startTime[i], endTime[i], profit[i]});
+        }
+        
+        sort(jobs.begin(), jobs.end());
+        
+        
+        int dp[n+1];
+        dp[n] = 0;
+        for(int i=n-1; i >= 0; i--){
+             
+           int exc = dp[i+1];
+        
+            int next = findNext(jobs, i);
+            int inc = jobs[i][2];
+            if(next != -1){
+              inc += dp[next];   
+        }
+        
+            dp[i] = max(exc, inc);
+        }
+        
+        return dp[0];
+     
+    }
