@@ -1,0 +1,54 @@
+* Binary search is searching algo which works in O(logn) time complexity given the 
+elements in array are sorted. 
+
+* Binary search can be applied on problems where the arrays are sorted.
+* It can also be applied on problems where the answer is monotonically increasing
+and decreasing even though the array given is not sorted.
+
+Pseudo code for binary search :)
+//array sorted in ascending order
+int BinarySearch(int *arr, int n, int ele){
+    int l = 0, r = n-1;
+
+     while(l <= r){
+         int mid = l + (r-l)/2;
+
+         if(arr[mid] == ele)
+         return mid;
+
+         else if(arr[mid] > ele)
+         {
+             high = mid-1;
+         }
+
+         else
+            low = mid+1;
+     }
+
+     return -1;
+
+}
+
+
+//array sorted in descending order
+int BinarySearch(int *arr, int n, int ele){
+    int l = 0, r = n-1;
+
+     while(l <= r){
+         int mid = l + (r-l)/2;
+
+         if(arr[mid] == ele)
+         return mid;
+
+         else if(arr[mid] > ele)
+         {
+             low = mid+1;
+         }
+
+         else
+            high = mid-1;
+     }
+
+     return -1;
+
+}

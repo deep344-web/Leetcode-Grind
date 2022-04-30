@@ -1,0 +1,50 @@
+Problem statement :
+Given a sorted array and a value x, the ceiling of x is the smallest element in 
+array greater than or equal to x, and the floor is the greatest element smaller 
+than or equal to x. Assume than the array is sorted in non-decreasing order. Write
+cefficient functions to find floor and ceiling of x. 
+
+Code : 
+int findFloor(long long int arr[], int N, long long int K) {
+    
+     int low = 0, high = N-1, res = -1;
+     
+     while(low <= high){
+         int mid = low + (high - low)/2;
+         
+         if(arr[mid] <= K){
+             res = mid;
+             low = mid+1;
+         }
+         
+         else
+         {
+             high = mid-1;
+         }
+     }
+     
+     return res;
+}
+
+
+int findCeil(long long int arr[], int N, long long int K) {
+    
+     int low = 0, high = N-1, res = -1;
+     
+     while(low <= high){
+         int mid = low + (high - low)/2;
+         
+         if(arr[mid] >= K){
+             res = mid;
+             high = mid-1;
+         }
+         
+         else
+         {
+             low = mid+1;
+         }
+     }
+     
+     return res;
+}
+

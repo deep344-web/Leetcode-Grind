@@ -1,0 +1,71 @@
+Problem statement : 
+You are given N number of books. Every ith book has Ai number of pages.
+
+You have to allocate contiguous books to M number of students. There can be many ways or permutations to do so. In each permutation, one of the M students will be allocated the maximum number of pages. Out of all these permutations, the task is to find that particular permutation in which the maximum number of pages allocated to a student is the minimum of those in all the other permutations and print this minimum value.
+
+Each book will be allocated to exactly one student. Each student has to be allocated at least one book.
+
+Note: Return -1 if a valid assignment is not possible, and allotment should be in contiguous order (see the explanation for better understanding).
+
+
+Approach :  maximum no of books is kind of barrier that no student can be allocated
+books more than this. So our search space for answer is kind of monotonic because 
+if we find a number which represents maximum no of books to be allocated, now if 
+this much books we can't allocate to n students then it is obvious that answers 
+smaller than this number will also not be possible. 
+Eg : [10, 20, 30, 40] students = 2
+now if I keep barrier of 40 then i need atleast 3 students which is not possible, so I need to increase my barrier. Lets say I got answer as 70 then it is possible
+that I can minimise my answer. So I need to decrease my search space every time.
+
+
+
+Code : 
+ 
+    bool isValid(int *arr, int N, int M, int max_pages){
+        
+        int sum = 0, students = 1;
+        for(int i=0; i<N; i++){
+            if(arr[i] > max_pages)
+            return false;
+            
+            sum += arr[i];
+            if(sum > max_pages)
+            {
+                sum = arr[i];
+                students++;
+            }
+            
+            if(students > M)
+            return false;
+        }
+        
+        return true;
+    }
+    
+    int findPages(int A[], int N, int M) 
+    {
+        if(N < M)
+        return -1;
+        
+        int max_ele = A[0], sum = 0;
+        for(int i=0; i<N; i++){
+            max_ele = max(max_ele, A[i]);
+            sum += A[i];
+        }
+        
+        int low = max_ele, high = sum, res = sum;
+        
+        while(low <= high){
+            int mid = low + (high - low)/2;
+            
+            if(isValid(A, N, M, mid)){
+                res = min(res, mid);
+                high = mid-1;
+            }
+            
+            else
+              low = mid+1;
+        }
+        
+        return res;   
+    }

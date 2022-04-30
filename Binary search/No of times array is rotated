@@ -1,0 +1,38 @@
+Problem statement : 
+Given an ascending sorted rotated array Arr of distinct integers of size N. The 
+array is right rotated K times. Find the value of K. or the questions asks to find
+minimum element in array.
+
+Approach : If the left part is sorted then our answer will lie in right part and 
+same is true right part. But if both parts are sorted then answer will lie in 
+left part.
+
+Code : 
+ int findMin(vector<int>& a) {
+        
+        int n = a.size();
+        int low = 0, high = a.size()-1;
+       
+        while(low <= high){
+            int mid = low + (high - low)/2;
+            
+            int prev = mid >= 1 ? a[mid-1] : INT_MAX;
+            int next = mid <= n-2 ? a[mid+1] : INT_MAX; 
+            
+            if(a[mid] < prev && a[mid] < next)
+                return a[mid];
+            
+            //right part sorted
+            if(a[mid] <= a[high]){
+                high = mid-1;
+            }
+            
+            //left part sorted
+            else 
+            {
+                low = mid+1;
+            }
+        }
+        
+        return -1;
+    }

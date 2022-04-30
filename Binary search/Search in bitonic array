@@ -1,0 +1,79 @@
+Problem statement : 
+Given a bitonic sequence A of N distinct elements, write a program to find a 
+given element B in the bitonic sequence in O(logN) time.
+
+
+
+ int findPeakElement(int *nums, int n) {
+     
+        int low = 0, high = n-1;
+        
+        while(low <= high){
+            int mid = low + (high - low)/2;
+            
+            int prev = mid > 0 ? nums[mid-1] : INT_MIN;
+            int next = mid < n-1 ? nums[mid+1] : INT_MIN;
+            
+            if(nums[mid] >= prev && nums[mid] >= next)
+                return mid;
+            
+            
+            else if(prev > nums[mid])
+                high = mid-1;
+            
+            
+            else
+                low = mid+1;
+            
+        }
+        
+        return -1;
+        
+        
+        
+    }
+int solve(int* A, int n1, int B) {
+    int peak = findPeakElement(A, n1);
+
+    int low = 0, high = peak;
+    while(low <= high){
+        int mid = low + (high - low)/2;
+
+        if(A[mid] == B)
+        return mid;
+
+      //first part is sorted
+        else if(A[mid] < B)
+           low = mid+1;
+
+    //second part is sorted
+        else{
+            high = mid-1;
+        }
+        
+        
+    }
+
+low = peak;
+high = n1-1;
+    while(low <= high){
+        int mid = low + (high - low)/2;
+
+        if(A[mid] == B)
+        return mid;
+
+      //first part is sorted
+        else if(A[mid] < B)
+           high = mid-1;
+
+    //second part is sorted
+        else{
+            low = mid+1;
+        }
+        
+        
+    }
+
+    return -1;
+
+}
