@@ -1,0 +1,45 @@
+Problem statement:
+You are given a 0-indexed integer array candies. Each element in the array denotes a pile of candies of size candies[i]. You can divide each pile into any number of sub piles, but you cannot merge two piles together.
+
+You are also given an integer k. You should allocate piles of candies to k children such that each child gets the same number of candies. Each child can take at most one pile of candies and some piles of candies may go unused.
+
+Return the maximum number of candies each child can get.
+
+approach : same as book allocation problem
+
+Code : 
+bool isValid(int candies,long long int k, vector<int> v){
+        long long int kids = 0;
+        for(int i=0; i<v.size(); i++){
+            kids += (v[i]/candies);
+            if(kids >= k)
+                return true;
+        }
+        
+        if(kids < k)
+            return false;
+        
+        return true;
+    }
+    
+    int maximumCandies(vector<int>& candies, long long k) {
+       sort(candies.begin(), candies.end());
+        
+        int low = 1, high = candies[candies.size()-1], res = 0;
+        while(low <= high)
+        {
+            int mid = low + (high - low)/2;
+            
+            if(isValid(mid, k, candies)){
+            
+                res = mid;
+                low = mid+1;
+            }
+            
+            else
+                high = mid-1;
+            
+        }
+        
+        return res;
+    }

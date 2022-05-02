@@ -1,0 +1,53 @@
+Problem statement : 
+Dilpreet wants to paint his dog's home that has n boards with different lengths. 
+The length of ith board is given by arr[i] where arr[] is an array of n integers. 
+He hired k painters for this work and each painter takes 1 unit time to paint 1 
+unit of the board. 
+
+The problem is to find the minimum time to get this job done if all painters start
+together with the constraint that any painter will only paint continuous boards,
+say boards numbered {2,3,4} or only board {1} or nothing but not boards {2,4,5}.
+
+Approach : same as book allocation problem
+
+
+Code : 
+ bool isvalid(int arr[], int n , int k, long long int max_boards){
+        int painters = 1;
+        int sum = 0;
+        
+        for(int i=0; i<n; i++){
+            sum += arr[i];
+            
+            if(sum > max_boards){
+            
+                painters++;
+                sum = arr[i];
+            }
+            if(painters > k || sum > max_boards)
+            return false;
+        }
+        
+        return true;
+    }
+    long long minTime(int A[], int N, int M)
+    {
+       long long int low = 0, high = 0, res = -1, mid;
+       for(int i=0; i<N ; i++){
+           high += A[i];
+       }    
+       
+       while(low <= high){
+           mid = low + (high - low)/2;
+           
+           if(isvalid(A , N , M , mid)){
+               high = mid - 1;
+               res = mid;
+           }
+           
+           else
+           low = mid+1;
+       }
+        return res;
+    }
+       

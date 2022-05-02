@@ -1,0 +1,76 @@
+Problem statement:
+Design a standard heater with a fixed warm radius to warm all the houses. Every house can be warmed, as long as the house is within the heater's warm radius range. 
+
+Given the positions of houses and heaters on a horizontal line, return the minimum radius standard of heaters so that those heaters could cover all houses.
+
+Notice that all the heaters follow your radius standard, and the warm radius will the same.
+
+
+Code : 
+  int findFloor(vector<int> &arr, int K) {
+    
+     int low = 0, high = arr.size()-1, res = -1;
+     
+     while(low <= high){
+         int mid = low + (high - low)/2;
+         
+         if(arr[mid] <= K){
+             res = arr[mid];
+             low = mid+1;
+         }
+         
+         else
+         {
+             high = mid-1;
+         }
+     }
+     
+     return res;
+}
+
+
+int findCeil(vector<int> &arr, int K) {
+    
+     int low = 0, high = arr.size()-1, res = -1;
+     
+     while(low <= high){
+         int mid = low + (high - low)/2;
+         
+         if(arr[mid] >= K){
+             res = arr[mid];
+             high = mid-1;
+         }
+         
+         else
+         {
+             low = mid+1;
+         }
+     }
+     
+     return res;
+}
+    
+    int findRadius(vector<int>& houses, vector<int>& heaters) {
+
+        sort(heaters.begin(), heaters.end());
+        
+        
+        int rad = INT_MIN, low, high, mid, floor, ceil, rad1, rad2;
+        for(int i=0; i<houses.size(); i++){
+             low = 0;
+             high = heaters.size()-1;
+            
+              floor = findFloor(heaters, houses[i]);
+              ceil  = findCeil(heaters, houses[i]);
+            
+             rad1 = floor == -1 ? INT_MAX : abs(floor - houses[i]);
+             rad2 = ceil == -1 ? INT_MAX : abs(ceil - houses[i]);
+            
+             rad = max(rad, min(rad1, rad2));
+            
+        }   
+      
+        
+        return rad;
+}
+

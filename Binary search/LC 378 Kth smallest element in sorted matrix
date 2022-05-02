@@ -1,0 +1,99 @@
+Problem statement : 
+Given an n x n matrix where each of the rows and columns is sorted in ascending 
+order, return the kth smallest element in the matrix.
+
+Note that it is the kth smallest element in the sorted order, not the kth distinct
+element.
+
+Code :
+
+TC : O(klogk)
+SC : O(K)
+class ele{
+    public :
+    int val;
+    int col;
+    int row; 
+    
+    ele(int v, int c, int r){
+           val = v;
+           col = c;
+           row = r;
+    }
+    
+};
+
+struct Compare {
+    bool operator()(ele const& e1, ele const& e2)
+    {
+        return e1.val > e2.val;
+    }
+}; 
+int kthSmallest(vector<vector<int>>& matrix, int k) {
+        
+        int n = matrix.size();
+       priority_queue<ele, vector<ele>, Compare> pq;
+        
+        for(int i=0; i<matrix.size(); i++){
+            pq.push(ele(matrix[i][0], 0, i));
+        } 
+        
+        int cnt = k;
+        while(!pq.empty()){
+            ele e = pq.top();
+            cnt--;
+            pq.pop();
+            
+            if(cnt == 0)
+               return e.val;
+            
+            if(e.col < n-1){
+                pq.push(ele(matrix[e.row][e.col+1], e.col+1, e.row));
+            }
+        }
+        
+        return -1;
+    }
+
+
+
+
+TC : O((m+n)logd)) where d is difference of max and min element
+int countOfLessEqualsEle(int mid, vector<vector<int>> mat){
+    int i = 0, j = mat.size()-1, cnt = 0;
+    
+    while(i >= 0 && i < mat.size() && j >= 0 && j < mat.size()){
+        if(mat[i][j] <= mid){
+            cnt += (j+1);
+            i++;
+        }    
+        
+        else
+            j--;
+    }
+    
+     return cnt;
+}
+
+
+int kthSmallest(vector<vector<int>>& matrix, int k) {
+        int n = matrix.size();
+        int low = matrix[0][0], high = matrix[n-1][n-1], res = -1;
+        
+        while(low <= high){
+            int mid = low + (high - low)/2;
+            
+            if(countOfLessEqualsEle(mid, matrix) >= k){
+                res = mid;
+                high = mid-1;
+            }
+            
+            else
+                low = mid+1;
+            
+        }
+        
+        
+        return res;
+    }
+

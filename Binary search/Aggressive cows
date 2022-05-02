@@ -1,0 +1,55 @@
+Problem statement : 
+Farmer John has built a new long barn, with N stalls. The stalls are located 
+along a straight line at positions x1,...,xN.
+
+His C cows don't like this barn layout and become aggressive towards each other once put into a stall. To prevent the cows from hurting each other, FJ wants to assign the cows to the stalls, such that the minimum distance between any two of them is as large as possible. What is the largest minimum distance?
+
+Approach : same as book allocation problem 
+
+Code : 
+bool isvalid(int arr[], int n , int cows , int min_dis){
+	int c = 1;
+	int dis = 0, prev = arr[0];
+	for(int i=1; i<n ; i++){
+		dis = arr[i] -  prev;
+		
+		if(dis >= min_dis){
+			c++;
+			prev = arr[i];
+		}
+		 
+		 if(c == cows)
+		 return true;
+	}
+	
+	if(c >= cows)
+	return true;
+	
+	return false;
+	
+}
+int largest_min(int arr[], int n , int cows){
+	if(n < cows)
+	return -1;
+	
+	int low , high, mid, res = -1;
+	sort(arr , arr+n);
+	
+	low = 1;
+	high = arr[n-1] - arr[0];
+	
+	while(low <= high){
+		mid = low + (high - low)/2;
+		
+		if(isvalid(arr , n, cows , mid))
+		{
+			res = mid;
+			low = mid+1;
+		}
+		else
+		high = mid-1;
+	}
+	
+	return mid;
+	
+}

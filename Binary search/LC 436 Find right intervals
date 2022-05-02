@@ -1,0 +1,44 @@
+Problem statement:
+You are given an array of intervals, where intervals[i] = [starti, endi] and each 
+starti is unique. The right interval for an interval i is an interval j such that 
+startj >= endi and startj is minimized. Note that i may equal j.
+
+Return an array of right interval indices for each interval i. If no right interval
+exists for interval i, then put -1 at index i.
+
+Code: 
+ vector<int> findRightInterval(vector<vector<int>>& intervals) {
+        vector<vector<int>> v ;
+        for(int i=0; i<intervals.size(); i++){
+            v.push_back({intervals[i][0], intervals[i][1], i});
+        }
+        
+        sort(v.begin(), v.end());
+        
+        vector<int> ans;
+        for(int i=0; i<intervals.size(); i++){
+            int end = intervals[i][1];
+            
+            int low = 0, high = intervals.size()-1;
+            int min_start = 0, min_start_ind = -1;
+            while(low <= high){
+                int mid = low + (high-low)/2;
+                
+                if(v[mid][0] >= end){
+                    min_start = v[mid][0];
+                    min_start_ind = v[mid][2];
+                    high = mid-1;
+                }
+                
+                else{
+                    low = mid+1;
+                }
+            }
+            
+            ans.push_back(min_start_ind);
+        
+        }
+        
+        return ans;
+        
+    }
