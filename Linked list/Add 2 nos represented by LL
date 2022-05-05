@@ -1,0 +1,83 @@
+*Add 2 no represented by linked list
+struct Node* addTwoLists(struct Node* first, struct Node* second)
+    {
+          Node *f = reverse(first);
+          Node *s = reverse(second);
+          Node *Ans = NULL;
+          Node *start = NULL;
+          
+          int carry = 0;
+          while(f != NULL && s != NULL){
+              int sum = f->data + s->data + carry;
+              carry = sum /10;
+              
+             Node *node = new Node(sum % 10);
+             if(Ans == NULL)
+             {
+                 Ans = node;
+                 start = Ans;
+                 node->next = NULL;
+             }
+             else
+             { Ans->next = node;
+                 Ans = node;
+             }
+             
+             f = f->next;
+             s = s->next;
+          }
+          
+          if(f == NULL)
+          {
+              while(s != NULL){
+                  int sum = s->data + carry;
+                  carry = sum /10;
+                       
+             Node *node = new Node(sum % 10);
+             if(Ans == NULL)
+             {
+                 Ans = node;
+                 start = Ans;
+                 node->next = NULL;
+             }
+             else{
+                 Ans->next = node;
+                 Ans = node;
+             }
+             
+           
+             s = s->next;
+              }
+          }
+          else
+          {
+              while(f != NULL){
+                   int sum = f->data + carry;
+                  carry = sum /10;
+                       
+             Node *node = new Node(sum % 10);
+             if(Ans == NULL)
+             {
+                 Ans = node;
+                 start = Ans;
+                 node->next = NULL;
+             }
+             else
+             {
+                 Ans->next = node;
+                 Ans = node;
+             }
+             
+           
+             f = f->next;
+              }
+          }
+          start = reverse(start);
+          if(carry != 0)
+          {
+              Node *node = new Node(carry);
+              node->next = start;
+              start = node;
+          }
+          return start;     
+    }

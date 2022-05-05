@@ -1,0 +1,80 @@
+Problem statement : 
+Given a Linked List of size N, where every node represents a sub-linked-list and contains two pointers:
+(i) a next pointer to the next node,
+(ii) a bottom pointer to a linked list where this node is head.
+Each of the sub-linked-list is in sorted order.
+Flatten the Link List such that all the nodes appear in a single level while maintaining the sorted order. 
+Note: The flattened list will be printed using the bottom pointer instead of next pointer.
+
+Code : 
+Node* merge (Node* node1 , Node* node2)
+  {
+        Node *start = NULL ;
+  
+         Node *ptr1 = node1 , *ptr2 = node2 , *preptr ;
+ 
+  
+  while(ptr1 != NULL && ptr2 != NULL)
+  {
+      if(ptr1-> data <= ptr2->data){
+          if(start == NULL){
+           start = ptr1;
+          preptr = start;
+       
+          }    
+          else{
+             start->bottom = ptr1;
+          }
+          start = ptr1;
+        
+          ptr1 = ptr1->bottom;
+          
+      }
+      else
+      {
+         if(start == NULL){
+           start = ptr2;
+          preptr = start;
+      
+          }    
+          else{
+             start->bottom = ptr2;
+          }
+          start = ptr2;
+          ptr2 = ptr2->bottom;
+     }
+  }
+  
+ 
+    while(ptr2 != NULL)
+         {
+             start->bottom = ptr2;
+             start = start->bottom;
+            
+             ptr2 = ptr2->bottom;
+         }
+ 
+  
+      while(ptr1 != NULL)
+      {
+         start->bottom = ptr1;
+         start = start->bottom;
+          ptr1 = ptr1->bottom;
+      }
+ 
+  
+    return preptr;
+    
+  }
+Node *flatten(Node *root)
+{
+   Node *temp ;
+  while(root->next != NULL)
+   {
+       Node *ptr = root;
+       temp = merge(root , root->next);
+       temp->next = ptr->next->next;
+       root = temp;
+  }
+
+}

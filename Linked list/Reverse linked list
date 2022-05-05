@@ -1,0 +1,29 @@
+ 
+ * Reverse Linked list
+ 
+ struct Node* reverseList(struct Node *head)
+    {
+        Node *ptr = head, *temp, *preptr = NULL;
+        while(ptr != NULL)
+        {
+            temp = ptr->next;
+            ptr->next = preptr;
+            preptr = ptr;
+            ptr = temp;
+        }
+        
+        return preptr;
+    }
+
+
+
+
+
+*Delete node without head pointer
+
+     void deleteNode(ListNode* node) {
+      
+        node->val = node->next->val;
+        node->next = node->next->next;
+    }
+

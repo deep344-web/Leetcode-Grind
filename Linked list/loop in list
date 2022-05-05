@@ -1,0 +1,114 @@
+All the approaches use Floyd's Cycle detection method.
+
+* Detect loop
+
+bool hasCycle(ListNode *head) {
+        ListNode *f = head, *s = head;
+        while(f != NULL && f->next != NULL)
+        {
+            f = f->next->next;
+            s = s->next;
+            
+            if(f == s)
+                return true;
+        }
+        
+        return false;
+    }
+
+
+*Find first node of loop
+
+intuition = https://www.geeksforgeeks.org/find-first-node-of-loop-in-a-linked-list/
+
+Code : 
+Node* start(ListNode *head) {
+        ListNode *f = head, *s = head;
+        while(f != NULL && f->next != NULL)
+        {
+            f = f->next->next;
+            s = s->next;
+            
+            if(f == s)
+                break;
+        }
+
+        if(s != f)
+        return NULL;
+
+        s = head;
+        while(s != f){
+            s = s->next;
+            f = f->next;
+        }
+        
+        return s;
+    }
+
+
+
+
+* Remove loop
+
+Node* start(Node *head) {
+        Node *f = head, *s = head;
+        while(f != NULL && f->next != NULL)
+        {
+            f = f->next->next;
+            s = s->next;
+            
+            if(f == s)
+                break;
+        }
+
+        if(s != f)
+        return NULL;
+
+        s = head;
+        while(s != f){
+            s = s->next;
+            f = f->next;
+        }
+        
+        return s;
+    }
+ 
+    void removeLoop(Node* head)
+    {
+            Node *startNode = start(head);
+            if(startNode){
+            Node *temp = startNode;
+            
+            while(temp->next != startNode)
+            {
+                temp = temp->next;
+            }
+            temp->next = NULL;
+        }
+    }
+
+*Find length of loop
+
+int count(ListNode *head) {
+        ListNode *f = head, *s = head;
+        while(f != NULL && f->next != NULL)
+        {
+            f = f->next->next;
+            s = s->next;
+            
+            if(f == s){
+                int cnt = 1;
+                ListNode *temp = s;
+                while(temp->next != s)
+                {
+                    cnt++;
+                    temp = temp->next;
+                }
+
+                return cnt;
+            }
+        }
+
+        return 0;
+    }
+

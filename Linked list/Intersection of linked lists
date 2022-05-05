@@ -1,0 +1,34 @@
+Problem statement:
+Given two singly linked lists of size N and M, write a program to get the point 
+where two linked lists intersect each other.
+
+Approach : lets take an example 
+1 -> 2 ---------
+                |
+                  8 -> 7 -> 6
+                |
+2 -> 8 -> 1 -> 3-    
+
+Here if we move both dummy nodes then d1 will reach last earlier because list 1 is
+smaller. The no of nodes left for d2 to travel will be no of nodes which are lesser
+in first list. Now if we start that d1 from the second list then we will cover those
+extra nodes and by the time d2 will also reach end. now we will start d2 from list 1
+and ultimately both pointers will reach intersection point together. 
+
+
+
+Code : 
+int intersectPoint(Node* head1, Node* head2)
+{
+    Node *p1 = head1, *p2 = head2;
+    while(p1 != p2){
+        p1 = p1->next == NULL ? head2 : p1->next;
+        p2 = p2->next == NULL ? head1 : p2->next;
+    }
+    
+    return p1 == NULL ? -1 : p1->data;
+}
+
+
+
+ 

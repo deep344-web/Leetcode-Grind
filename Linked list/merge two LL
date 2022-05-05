@@ -1,0 +1,80 @@
+* Merge 2 sorted linked lists without any space
+
+struct Node* SortedMerge(struct Node* a, struct Node* b)
+{
+    struct Node *new_head = NULL, *ptr = NULL, *i = a, *j = b;
+    
+    while(i != NULL && j != NULL)
+    {
+        if(i->data <= j->data)
+        {
+            if(ptr == NULL)
+            {
+                new_head = i;
+                ptr = i;
+            }
+            
+            else
+            {
+                ptr->next = i;
+                ptr = i;
+            }
+            
+            i = i->next;
+        }
+        else
+        {
+             if(ptr == NULL)
+            {
+                new_head = j;
+                ptr = j;
+            }
+            
+            else
+            {
+                ptr->next = j;
+                ptr = j;
+            }
+            
+            j = j->next;
+        }
+    }
+    
+    
+    while(i != NULL)
+    {
+          if(ptr == NULL)
+            {
+                new_head = i;
+                ptr = i;
+            }
+            
+            else
+            {
+                ptr->next = i;
+                ptr = i;
+            }
+            
+            i = i->next;
+    }
+    
+    while(j != NULL)
+    {
+        if(ptr == NULL)
+            {
+                new_head = j;
+                ptr = j;
+            }
+            
+            else
+            {
+                ptr->next = j;
+                ptr = j;
+            }
+            
+            j = j->next;
+    }
+    
+ 
+   return new_head;
+}
