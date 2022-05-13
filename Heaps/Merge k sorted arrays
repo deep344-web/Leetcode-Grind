@@ -1,0 +1,52 @@
+Problem statement :
+Given K sorted arrays arranged in the form of a matrix of size K*K. The task is to 
+merge them into one sorted array.
+
+Code :
+class Ele{
+    public :
+    int ele;
+    int row;
+    int col;
+    
+    Ele(int e, int r, int c){
+        ele = e;
+        row = r;
+        col = c;
+    }
+};
+
+class Compare
+{
+public:
+    bool operator() (Ele e, Ele p)
+    {
+        return e.ele > p.ele;
+    }
+};
+
+vector<int> mergeKArrays(vector<vector<int>> arr, int K)
+    {
+        vector<int> ans;
+        
+        priority_queue<Ele, vector<Ele>, Compare> pq;
+        
+        for(int i=0; i<K; i++)
+        {
+            pq.push(Ele(arr[i][0], i, 0));
+        }
+        
+        while(!pq.empty()){
+            Ele e = pq.top();
+            ans.push_back(e.ele);
+            pq.pop();
+            
+            if(e.col < K-1)
+            {
+                pq.push(Ele(arr[e.row][e.col+1], e.row, e.col+1));
+            }
+            
+        }
+        
+        return ans;
+    }

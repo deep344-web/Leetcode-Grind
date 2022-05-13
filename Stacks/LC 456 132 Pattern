@@ -1,0 +1,44 @@
+problem statement :
+Given an array of n integers nums, a 132 pattern is a subsequence of three integers
+nums[i], nums[j] and nums[k] such that i < j < k and nums[i] < nums[k] < nums[j].
+
+Return true if there is a 132 pattern in nums, otherwise, return false.
+
+Approach : we need to form s1 < s3 < s2.  Here mini will be our s1 and current 
+element will be s2. we will see if in our stack we have s3 such that s3 > s1. If so
+then check if s2 > s3 i.e current element is greater than element at top of stack if
+yes then we found a 132 pattern. Now all the elements which we popped out of stack
+were of no use as all the mini before current mini are either greater or equal to
+current mini and that means those popped out values can't be used for those mini 
+also.
+
+
+Code :
+  bool find132pattern(vector<int>& nums) {
+        int n = nums.size();
+        int mini[n];
+        mini[0] = nums[0];
+        
+        for(int i=1; i<n; i++){
+            mini[i] = min(mini[i-1], nums[i]);
+        }
+        
+        stack<int> s;
+        for(int i = n-1; i >= 1; i--){
+            if(nums[i] > mini[i-1])
+            {
+                while(!s.empty() && s.top() <= mini[i-1])
+                    s.pop();
+            
+            
+            if(!s.empty() && s.top() < nums[i])
+                return true;
+            
+            }
+            
+            s.push(nums[i]);
+        }
+        
+        return false;
+        
+    }

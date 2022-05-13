@@ -1,0 +1,26 @@
+Problem statement :
+A celebrity is a person who is known to all but does not know anyone at a party. If you go to a party of N people, find if there is a celebrity in the party or not.
+A square NxN matrix M[][] is used to represent people at the party such that if an element of row i and column j  is set to 1 it means ith person knows jth person. Here M[i][i] will always be 0.
+
+Code :
+ int celebrity(vector<vector<int> >& M, int n) 
+    {
+         int i = 0 , j= n-1;
+         while(i < j)
+         {
+             if(M[i][j] == 1)
+             i++;
+             else
+             j--;
+             
+        }
+        if(i > j)
+        i = i-1;
+        
+        for(int k=0 ; k<n ; k++)
+        {
+            if(k != i && (M[k][i] == 0 || M[i][k] == 1))
+            return -1;
+        }
+        return i;
+    }

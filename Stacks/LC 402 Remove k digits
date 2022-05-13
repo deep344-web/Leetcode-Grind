@@ -1,0 +1,39 @@
+Problem statement :
+Given string num representing a non-negative integer num, and an integer k, return 
+the smallest possible integer after removing k digits from num.
+
+Try to remove the elements from right side.
+
+Code :
+string removeKdigits(string num, int k) {
+        stack<char> s;
+        s.push(num[0]);
+        
+        for(int i=1; i<num.length(); i++){
+            
+            while(k > 0 && !s.empty() && s.top() > num[i])
+            {
+                k--;
+                s.pop();
+            }
+            
+            if(s.empty() && num[i] == '0')
+                continue;
+            
+            s.push(num[i]);
+            
+        }
+        
+        while(!s.empty() && k--)
+            s.pop();
+
+        string ans = "";
+        while(!s.empty()){
+            ans += s.top();
+            s.pop();
+                
+        }
+        
+        reverse(ans.begin(), ans.end());
+        return ans == "" ? "0" : ans;
+    }

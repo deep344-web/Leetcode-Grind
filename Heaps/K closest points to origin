@@ -1,0 +1,29 @@
+Problem statement: 
+Given an array of points where points[i] = [xi, yi] represents a point on the 
+X-Y plane and an integer k, return the k closest points to the origin (0, 0).
+
+Code :
+  vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {
+        vector<vector<int>> v;
+        priority_queue<pair<int, int>> pq;
+        
+        for(int i=0; i<points.size(); i++)
+        {
+            int x = points[i][0];
+            int y = points[i][1];
+            int dis = x*x + y*y;
+            
+            pq.push({dis, i});
+            if(pq.size() > k)
+                pq.pop();
+        }
+        
+        while(pq.size() > 0)
+        {
+            int r = pq.top().second;
+            v.push_back({points[r][0], points[r][1]});
+            pq.pop();
+        }
+        
+        return v;
+    }

@@ -1,0 +1,65 @@
+Problem statement :
+Given a binary tree. The task is to check whether the given tree follows the max 
+heap property or not.
+Note: Properties of a tree to be a max heap - Completeness and Value of node greater
+than or equal to its child.
+
+Code:
+ bool isHeap(struct Node* tree) {
+        
+        if(tree == NULL)
+        return true;
+        
+        queue<Node *> q;
+        q.push(tree);
+  
+        while(!q.empty()){
+               
+            bool f = false;
+            int size = q.size();
+               
+        for(int i=0; i<size; i++){
+            Node* node = q.front();
+            q.pop();
+         
+            if(node->left)
+            {
+                if(f == true)
+                  return false;
+                  
+                else if(node->left->data > node->data)
+                  return false;
+                
+                else
+                  q.push(node->left); 
+                  
+            }
+            
+            else
+            {
+                if(f == false)
+                  f = true;
+            }
+            
+            if(node->right){
+                if(f == true)
+                    return false;
+                    
+                else if(node->right->data > node->data)
+                    return false;
+               
+                else 
+                   q.push(node->right);  
+            }
+            
+            else{
+                  if(f == false)
+                    f = true;
+              }
+            
+        }
+            
+    }
+       
+       return true;
+    } 

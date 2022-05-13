@@ -1,0 +1,46 @@
+Problem statement :
+Given a string s, remove duplicate letters so that every letter appears once and only once. You must make sure your result is the smallest in lexicographical order among all possible results.
+
+Lexicographical order means previous is smaller than current.
+
+Code :
+  string removeDuplicateLetters(string s) {
+        int n = s.length();
+        int occ[26];
+        for(int i=0; i<n; i++)
+        {
+            occ[s[i] - 'a'] = i;
+        }
+        
+        stack<char> st;
+        st.push(s[0]);
+        bool instack[26] = {false};
+        instack[s[0] - 'a'] = true;
+        
+        for(int i=1; i<n; i++)
+        {
+            if(instack[s[i] - 'a'])
+                continue;
+            
+            while(!st.empty() && st.top() > s[i] && occ[st.top() - 'a'] > i)
+            {
+                instack[st.top() - 'a'] = false;
+                st.pop();
+            }
+            
+            st.push(s[i]);
+            instack[s[i] - 'a'] = true;
+        }
+        
+        string ans = "";
+        while(!st.empty())
+        {
+            ans += st.top();
+            st.pop();
+        }
+        
+        reverse(ans.begin(), ans.end());
+        
+        return ans;
+        
+    }

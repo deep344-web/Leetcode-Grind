@@ -1,0 +1,67 @@
+Problem statement :
+Given a binary matrix M of size n X m. Find the maximum area of a rectangle formed 
+only of 1s in the given matrix.
+
+Code :
+ int getMaxArea(int *a,  int n)
+    {
+         stack<int> st, s;
+        vector<int> nsl;
+        
+        for(int i=0; i<n; i++){
+            while(!st.empty() && a[st.top()] >= a[i])
+              st.pop();
+              
+              if(st.empty())
+            nsl.push_back(-1);
+            
+            else
+            nsl.push_back(st.top());
+            
+            st.push(i);
+        }
+        
+    
+         vector<int> nsr;
+         for(int i=n-1; i >= 0; i--){
+            while(!s.empty() && a[s.top()] >= a[i])
+              s.pop();
+              
+              if(s.empty())
+            nsr.push_back(n);
+            
+            else
+            nsr.push_back(s.top());
+            
+            s.push(i);
+        }
+        
+        reverse(nsr.begin(), nsr.end());
+        
+        
+        int max_area = 0;
+        for(int i=0; i<n; i++){
+        
+            max_area = max(max_area, (nsr[i] - nsl[i] - 1) * a[i]);
+        }
+        
+        return max_area;
+    }
+    int maxArea(int M[MAX][MAX], int n, int m) {
+        int sum[m];
+        int max_area = 0;
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++)
+            {
+                if(i == 0)
+                sum[j] = M[i][j];
+                
+                else
+                 sum[j] = M[i][j] == 0 ? 0 : M[i][j] + sum[j];
+            }
+        
+            max_area = max(max_area, getMaxArea(sum, m));
+        }
+        
+        return max_area;
+    }

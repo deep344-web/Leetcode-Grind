@@ -1,0 +1,48 @@
+Problem statement :
+Given a sorted array, arr[] of N integers, and a value X. Find the K closest 
+elements to X in arr[].
+Keep the following points in mind:
+
+* If X is present in the array, then it need not be considered.
+* If there are two elements with the same difference with X, the greater element is
+given priority.
+* If sufficient elements are not present on the right side then take elements from
+left and vice versa.
+
+Code :
+class Compare
+{
+public:
+ bool operator() (pair<int, int> p1, pair<int, int> p2)
+    {
+        if(p1.first < p2.first)
+           return true;
+        else if(p1.first > p2.first)
+           return false;
+        
+        else
+        return p1.second > p2.second;
+    }
+};
+
+
+    vector<int> printKClosest(vector<int> arr, int n, int k, int x) {
+        // code here
+       priority_queue<pair<int , int>, vector<pair<int, int>>, Compare> pq;
+          for(int i=0 ; i<n ; i++){
+              if(abs(arr[i] - x) != 0)
+              pq.push({abs(arr[i]-x), arr[i]});
+              
+              if(pq.size() > k)
+              pq.pop();
+          }
+          
+          vector<int> v;
+          while(!pq.empty()){
+              v.push_back(pq.top().second);
+              pq.pop();
+          }
+          reverse(v.begin(), v.end());
+          return v;
+        
+    }

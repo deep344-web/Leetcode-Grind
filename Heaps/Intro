@@ -1,0 +1,11 @@
+Heaps are mostly used to solve problems that can be solved by sorting. 
+* If we are asked to find largest element kind of problem then use - Min Heap
+* If we are asked to find smallest element kind of problem then use - Max Heap
+
+Heap can be formed in c++ using priority_queue class of STL
+
+syntax for max heap
+priority_queue<int> pq;
+
+syntax for min heap
+priority_queue<int, vector<int>, greater<int>> pq;
