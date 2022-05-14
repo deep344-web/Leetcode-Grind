@@ -1,0 +1,83 @@
+Given a binary tree of size  N, a node and a positive integer k., Your task is to 
+complete the function kthAncestor(), the function should return the kth ancestor of 
+the given node in the binary tree. If there does not exist any such ancestor then 
+return -1.
+
+//using vector
+void func(Node *root, int k , int node, vector<Node *> vec, int &ans){
+    if(root == NULL)
+    return;
+    
+    if(root->data == node){
+        while(k > 1 && vec.size() > 0){
+            vec.pop_back();
+            k--;
+        }
+        
+        if(vec.size() == 0)
+          ans = -1;
+          
+        else
+        ans = vec[vec.size()-1]->data;
+        
+        return;
+    }
+    vec.push_back(root);
+    
+    func(root->left, k, node, vec, ans);
+    func(root->right , k , node, vec, ans);
+    
+    vec.pop_back();
+    
+}
+
+
+int kthAncestor(Node *root, int k, int node)
+{
+   vector<Node *> vec;
+   
+   int ans = 0;
+   func(root, k, node, vec, ans);
+   
+   return ans;
+}
+
+//without using any vector 
+Node* solve(Node *root, int &k, int node){
+    if(root == NULL)
+    return NULL;
+    
+    if(root->data == node)
+    return root;
+    
+    Node *p = solve(root->left, k, node);
+    Node *q = solve(root->right, k, node);
+    
+    if(p != NULL || q != NULL)
+    {
+        k--;
+        
+        if(k == 0)
+        {
+            k = INT_MAX;
+            return root;
+        }
+        
+        else
+        return p != NULL ? p : q;
+    }
+    
+    else
+    return NULL;
+}
+
+
+int kthAncestor(Node *root, int k, int node)
+{
+   Node *n = solve(root, k, node);
+   
+   if(n == NULL || n->data == node)
+   return -1;
+  
+   return n->data;
+}

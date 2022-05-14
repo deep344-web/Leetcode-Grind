@@ -1,0 +1,27 @@
+Problem statement :
+Given a binary tree of size N, find its reverse level order traversal. ie- the 
+traversal must begin from the last level.
+
+Code :
+vector<int> reverseLevelOrder(Node *root)
+{
+    vector<int> v;
+    queue<Node *>q;
+    q.push(root);
+    while(!q.empty()){
+       
+        Node *node = q.front();
+        v.push_back(node->data);
+        q.pop();
+                 
+        if(node->right != NULL)
+           q.push(node->right);
+        
+        if(node->left != NULL)
+           q.push(node->left);
+          
+     }
+     
+     reverse(v.begin(), v.end());
+     return v;
+}

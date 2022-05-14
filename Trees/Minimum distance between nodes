@@ -1,0 +1,48 @@
+Given a binary tree and two node values your task is to find the minimum distance 
+between them.
+
+Node* lca(Node* root ,int n1 ,int n2 )
+    {
+        if(root == NULL)
+        return NULL;
+        
+       if(root->data == n1 || root->data == n2)
+       return root;
+       
+       Node *l = lca(root->left, n1, n2);
+       
+       Node *r = lca(root->right, n1, n2);
+       
+       if(l && r){
+           return root;
+       }
+       
+       if(l)
+       return l;
+       
+       else 
+       return r;       
+}
+    
+void distance (Node *root, int a, int dis, int &d){
+        if(root == NULL)
+        return;
+        
+        if(root->data ==  a)
+        {
+            d = dis;
+            return;
+        }
+        
+        distance(root->left, a, dis + 1, d);
+        distance(root->right, a, dis+1, d);
+}
+
+int findDist(Node* root, int a, int b) {
+        Node *l = lca(root, a , b);
+        int d1= 0, d2 = 0;
+        distance(l, a, 0, d1);
+        distance(l, b, 0, d2);
+        
+        return d1 + d2;
+}

@@ -1,0 +1,32 @@
+Problem statement: 
+Given a binary tree, find out whether it contains a duplicate sub-tree of size two 
+or more, or not.
+
+
+Code :
+bool val = false;
+string func(Node *root, map<string, int> &map1){
+        if(root == NULL)
+            return "";
+        
+        if(root->right == NULL && root->left == NULL)
+            return to_string(root->data);
+       
+        string str = "";
+        str += func(root->left, map1);
+        str += to_string(root->data);
+        str += func(root->right, map1);
+        
+        if(map1.find(str) != map1.end()){
+            val = true;
+        }
+        
+         map1[str]++;
+        return str;
+    }
+    
+int dupSub(Node *root) {
+    map<string, int> map1;
+    func(root, map1);
+    return val;
+}

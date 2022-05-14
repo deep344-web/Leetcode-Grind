@@ -1,0 +1,39 @@
+
+//Recursive
+void func(Node *node)
+{
+    if(node == NULL)
+    return;
+
+    cout<<node->data<<" ";
+    func(node->left);
+    func(node->right);
+}
+
+
+//Iterative
+vector <int> preorder(Node* root)
+{
+    stack <Node *> s;
+    Node *ptr = root;
+    
+    s.push(root);
+    vector <int> ans;
+    while(!s.empty())
+    {
+        if(ptr != NULL)
+        {
+            ans.push_back(ptr->data);
+            s.push(ptr);
+            ptr = ptr->left;
+        }
+        
+        else
+        {
+            ptr = s.top()->right;
+            s.pop();
+        }
+    }
+
+     return ans;
+}

@@ -1,0 +1,18 @@
+Given a binary tree, task is to find subtree with maximum sum in tree.
+
+Code :
+int sum (TreeNode<int> *root , int &ans)
+{
+    if(root == NULL)
+        return 0;
+    
+    int curr_sum = root->data + sum(root->left , ans) + sum(root->right , ans);
+     ans = max(ans , curr_sum);
+    
+    return curr_sum;
+}
+int largestSubtreeSum(TreeNode<int> *root) {
+	int ans = -1e9;
+    sum(root , ans);
+    return ans;
+}

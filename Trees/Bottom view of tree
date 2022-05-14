@@ -1,0 +1,37 @@
+Given a binary tree, print the bottom view from left to right.
+A node is included in bottom view if it can be seen when we look at the tree from 
+bottom.
+
+ vector <int> bottomView(Node *root) {
+       
+        queue<pair<Node *, int>> q;
+        q.push({root, 0});
+        map<int, int> map1;
+        vector<int> ans;
+        
+        while(!q.empty()){
+            pair<Node*, int> pair1 = q.front();
+            
+            int val = pair1.second;
+            int ptr_data = pair1.first->data;
+            
+            
+            map1[val] = ptr_data;
+            
+            q.pop();
+            
+            if(pair1.first->left != NULL)
+            q.push({pair1.first->left, val-1});
+            
+            if(pair1.first->right != NULL)
+            q.push({pair1.first->right, val+1});
+            
+        }
+        
+        map<int, int> :: iterator itr;
+        for(itr = map1.begin(); itr != map1.end(); itr++){
+            ans.push_back(itr->second);
+        }
+        
+        return ans;
+    }

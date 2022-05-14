@@ -1,0 +1,19 @@
+Given a Binary Tree, write a function to populate next pointer for all nodes. The 
+next pointer for every node should be set to point to inorder successor.
+
+Node *prev = NULL;
+void populateNext(Node *root){
+        if(root == NULL)
+        return;
+        
+        populateNext(root->left);
+        
+        if(prev != NULL && root != NULL)
+            prev->next = root;
+        
+        if(root != NULL)
+        prev = root;
+        
+        populateNext(root->right);
+        
+}

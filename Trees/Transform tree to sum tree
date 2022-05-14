@@ -1,0 +1,26 @@
+Given a Binary Tree of size N , where each node can have positive or negative values
+Convert this to a tree where each node contains the sum of the left and right sub 
+trees of the original tree. The values of leaf nodes are changed to 0.
+
+int sum(Node *root){
+        if(root == NULL)
+        return 0;
+        
+        if(root->left == NULL && root->right == NULL)
+       {
+          int val =  root->data;
+          root->data = 0;
+          return val;
+       }
+    
+        int val = root->data;
+        int l = sum(root->left);
+        int r = sum(root->right);
+        root->data = l + r;
+        
+        return (root->data + val);
+}
+
+void toSumTree(Node *node){
+        sum(node);
+}

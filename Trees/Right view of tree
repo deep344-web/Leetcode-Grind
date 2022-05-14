@@ -1,0 +1,33 @@
+Given a Binary Tree, find Right view of it. Right view of a Binary Tree is set of 
+nodes visible when tree is viewed from right side.
+
+
+vector<int> rightView(Node *root)
+{
+       queue<Node *>q;
+       vector<int> ans;
+       if(root == NULL)
+         return ans;
+   
+        q.push(root);
+   
+   while(!q.empty()){
+       int size = q.size();
+       
+       ans.push_back(q.front()->data);
+       
+       while(size--){
+           Node *ptr = q.front();
+           q.pop();
+           
+           if(ptr->right != NULL)
+             q.push(ptr->right);
+           
+           if(ptr->left != NULL)
+             q.push(ptr->left);   
+           
+       }
+   }
+   
+   return ans;
+    }

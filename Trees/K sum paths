@@ -1,0 +1,31 @@
+Problem statement :
+Given a binary tree and an integer K. Find the number of paths in the tree which have their sum equal to K. A path may start from any node and end at any node in the downward direction. Also try to print all the paths.
+
+Approach :  Instead of considering which all nodes can be root of paths, we are
+considering how many paths with sum = k can be formed with given node as end node of
+path. This code is just counting the no of paths, we can also print paths by making an another loop inside the for loop which will store all the elements from last to ith element.  
+
+Code :
+ vector<int> v;
+    int mod = 1e9 + 7;
+    int sumK(Node *root,int k)
+    {
+        if(root == NULL)
+        return 0;
+        
+        v.push_back(root->data);
+        int cnt = 0;
+        cnt = (cnt + sumK(root->left, k)) % mod;
+        cnt = (cnt + sumK(root->right, k)) % mod;
+        
+        int sum = 0;
+        for(int i=v.size()-1; i >= 0; i--){
+            sum += v[i];
+            if(sum == k)
+              cnt = (cnt + 1) % mod;
+              
+        }
+        
+        v.pop_back();
+        return cnt;
+    }

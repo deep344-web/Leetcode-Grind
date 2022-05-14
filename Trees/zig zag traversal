@@ -1,0 +1,34 @@
+Zig-Zag Traversal is level order traversal but in oppsite manner.
+
+
+vector <int> zigZagTraversal(Node* root)
+    {
+    	vector<int> ans;
+    	queue<Node *> q;
+    	q.push(root);
+    	bool flag = true;
+    	
+    	while(!q.empty()){
+    	    int v_size = ans.size();
+    	    int size = q.size();
+    	    int  i = size;
+    	    
+    	    while(i--){
+    	        ans.push_back(q.front()->data);
+    	        if(q.front()->left != NULL)
+    	        q.push(q.front()->left);
+    	        
+    	        if(q.front()->right != NULL)
+    	        q.push(q.front()->right);
+    	        
+    	        q.pop();
+    	    }
+    	    
+    	    if(!flag)
+    	    reverse(ans.begin()+ v_size, ans.begin() + v_size + size);
+    	    
+    	    flag = !flag;
+    	}
+    	
+    	return ans;
+    }

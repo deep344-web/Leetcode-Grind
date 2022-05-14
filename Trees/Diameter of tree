@@ -1,0 +1,23 @@
+The diameter of a tree (sometimes called the width) is the number of nodes on the 
+longest path between two end nodes. 
+
+Code :
+class Solution {
+  public:
+    int func(Node * root, int &ans){
+        if(root == NULL)
+        return 0;
+                
+        int l = func(root->left, ans);
+        int r = func(root->right, ans);
+        
+        ans = max(ans, l + r + 1);   
+        return max(l, r) + 1;
+        
+    }
+
+    int diameter(Node* root) {
+        int ans = INT_MIN;
+        func(root, ans);
+        return ans; 
+    }

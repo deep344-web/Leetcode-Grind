@@ -1,0 +1,33 @@
+Given 2 Arrays of Inorder and preorder traversal. Construct a tree and print the 
+Postorder traversal.
+
+int ind = -1;
+Node* solve(int l, int r, int *in, int *pre)
+{
+        if(l > r)
+        return NULL;
+        
+        int val = pre[++ind];
+         Node *node = new Node(val);
+        
+        int par = -1;
+        for(int i=l; i <= r; i++)
+        {
+            if(in[i] == val)
+            {
+                par = i;
+            }
+        }
+        
+        node->left = solve(l, par-1, in, pre);
+        
+        node->right = solve(par+1, r, in , pre);
+        
+        return node;
+        
+    }
+
+    Node* buildTree(int in[],int pre[], int n)
+    {
+        return solve(0, n-1, in, pre);
+    }

@@ -1,0 +1,27 @@
+Inorder traversal of a BST is sorted in increasing order
+
+ void  BST(Node* root , int &f , Node* &prev) 
+    {
+          if(root == NULL )
+          return;
+          
+          BST(root->left , f , prev);
+          if(prev != NULL && root->data <= prev->data)
+          {
+              f = 0;
+              return;
+          }
+          prev = root;
+          BST(root->right , f , prev);
+          
+          
+    }
+    
+    bool isBST(Node *root ){
+        
+        int f = 1;
+        Node *prev = NULL;
+        BST(root ,f , prev );
+        
+        return f;
+    }

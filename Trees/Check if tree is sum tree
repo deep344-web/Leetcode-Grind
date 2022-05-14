@@ -1,0 +1,26 @@
+Given a Binary Tree. Return true if, for every node X in the tree other than the 
+leaves, its value is equal to the sum of its left subtree's value and its right 
+subtree's value. Else return false.
+
+bool val = true;
+    int sum(Node *root){
+        if(root == NULL)
+            return 0;
+            
+        if(root->left == NULL && root->right == NULL)
+          return root->data;
+       
+        int l = sum(root->left);
+        int r = sum(root->right);
+        
+        if(root->data  !=  l + r)
+        val = false;
+        
+        return (root->data + l+r);
+    }
+    
+    bool isSumTree(Node* root)
+    {
+         sum(root);
+         return val;
+    }

@@ -1,0 +1,36 @@
+Given a Binary Tree, convert it to Binary Search Tree in such a way that keeps the 
+original structure of Binary Tree intact.
+
+Code :
+ void solve(Node *root, vector<int> &v){
+        if(root == NULL)
+        return;
+        
+        v.push_back(root->data);
+        solve(root->left, v);
+        solve(root->right, v);
+        
+    }
+    
+    void convert(Node *root, vector<int> &v)
+    {
+        if(root == NULL)
+        return;
+        
+        convert(root->left, v);
+        root->data = v.back();
+        v.pop_back();
+        
+        convert(root->right, v);
+    }
+    
+    Node *binaryTreeToBST (Node *root)
+    {
+        vector<int> v;
+        solve(root, v);
+        
+        sort(v.begin(), v.end(), greater<int>());
+        
+        convert(root, v);
+        return root;
+    }

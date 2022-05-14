@@ -1,0 +1,63 @@
+Convert Binary tree to doubly linked list in inorder traversal
+
+//Iterative 
+ Node * bToDLL(Node *root)
+    {
+        Node *node = root, *ptr = NULL , *preptr = NULL;
+        stack<Node *>s;
+        
+        while(node != NULL || !s.empty()){
+            if(node != NULL){
+                s.push(node);
+                node = node->left;
+            }
+            
+            else{
+                Node *curr = s.top();
+                s.pop();
+                node = curr->right;
+                
+                if(preptr == NULL){
+                    ptr = curr;
+                    preptr = ptr;
+                }
+                else{
+                    preptr->right = curr;
+                    curr->left = preptr;
+                    preptr = curr;
+                }       
+            }
+        }
+        
+        return ptr;
+    }
+
+
+//recursive
+Node *prev = NULL;
+     Node *head = NULL;
+    
+    void solve(Node * root){
+        if(root == NULL)
+        return;
+        
+        solve(root->left);
+    
+        root->left = prev;
+        
+        if(prev != NULL)
+            prev->right = root;
+    
+        else
+              head = root;
+        
+        prev = root;
+        
+        solve(root->right);
+    }
+    
+    Node * bToDLL(Node *root)
+    {
+        solve(root);
+        return head;
+    }
