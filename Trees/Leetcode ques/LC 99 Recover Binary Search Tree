@@ -1,0 +1,39 @@
+Problem statement :
+You are given the root of a binary search tree (BST), where the values of exactly two nodes of the tree were swapped by mistake. Recover the tree without changing its structure.
+
+Code :
+ void solve(TreeNode *root, TreeNode * &prev, TreeNode *&a, TreeNode * &b)
+    {
+        if(root == NULL)
+            return;
+        
+        solve(root->left, prev, a, b);
+        if(prev != NULL)
+        {
+            if(prev->val > root->val){
+                if(a == NULL)
+                {
+                    a = prev;
+                    b = root;
+                }
+                
+                else
+                {
+                    b = root;
+                }
+            }
+        }
+        
+        prev = root;
+        
+        solve(root->right, prev, a, b);
+    }
+    
+    
+    void recoverTree(TreeNode* root) {
+        TreeNode *a = NULL, *b = NULL, *prev = NULL;
+        solve(root, prev, a, b);
+        
+        swap(a->val, b->val);
+        
+    }

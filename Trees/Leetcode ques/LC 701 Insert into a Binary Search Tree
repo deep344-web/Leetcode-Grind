@@ -1,0 +1,29 @@
+Problem statement :
+You are given the root node of a binary search tree (BST) and a value to insert into the tree. Return the root node of the BST after the insertion. It is guaranteed that the new value does not exist in the original BST.
+
+Code :
+TreeNode* insertIntoBST(TreeNode* root, int val) {
+
+        TreeNode *ptr = root, *preptr = ptr;
+        while(ptr != NULL)
+        {
+            preptr = ptr;
+           if(ptr->val > val)
+               ptr = ptr->left;
+           
+            else
+                ptr = ptr->right;
+        }
+        
+        TreeNode *n = new TreeNode(val);
+        if(preptr == NULL)
+            return n;
+        
+        if(preptr->val > val)
+            preptr->left = n;
+        
+        else
+            preptr->right = n;
+        
+        return root;
+    }

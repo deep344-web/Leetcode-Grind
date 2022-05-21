@@ -1,0 +1,53 @@
+Problem statement :
+Given the root of a binary tree, determine if it is a complete binary tree.
+
+In a complete binary tree, every level, except possibly the last, is completely filled, and all nodes in the last level are as far left as possible. It can have between 1 and 2h nodes inclusive at the last level h.
+
+Hint : Level order traversal
+
+Code :
+ bool isCompleteTree(TreeNode* tree) {
+        if(tree == NULL)
+        return true;
+        
+        queue<TreeNode *> q;
+        q.push(tree);
+       
+       bool f = false;
+       while(!q.empty()){
+        
+              TreeNode *n = q.front();
+              q.pop();
+              if(n->left)
+              {
+                  if(f == true)
+                  return false;
+                  
+                  else
+                    q.push(n->left);
+              }
+              
+              else
+              {
+                  if(f == false)
+                    f = true;
+              }
+              
+              if(n->right)
+              {
+                  if(f == true)
+                    return false;
+                    
+                  else
+                    q.push(n->right);
+              }
+              
+              else{
+                  if(f == false)
+                    f = true;
+              }
+          
+       }
+       
+       return true;
+    }

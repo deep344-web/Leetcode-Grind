@@ -1,0 +1,39 @@
+Problem statement :
+Given the root of a binary tree, return the maximum width of the given tree.
+
+The maximum width of a tree is the maximum width among all levels.
+
+The width of one level is defined as the length between the end-nodes (the leftmost and rightmost non-null nodes), where the null nodes between the end-nodes that would be present in a complete binary tree extending down to that level are also counted into the length calculation.
+
+Code :
+  int widthOfBinaryTree(TreeNode* root) {
+        deque<pair<TreeNode *, unsigned long int>> dq;
+        dq.push_back({root, 0});
+        
+        int width = 0;
+        
+        while(!dq.empty()){
+            int size = dq.size();
+            
+            int w = dq.back().second - dq.front().second + 1;
+            width = max(width, w);  
+            
+            for(int i=0; i<size; i++)
+            {
+                TreeNode *n = dq.front().first;
+            unsigned long int pos = (unsigned long int) (2*dq.front().second);
+                    
+                dq.pop_front();
+                
+                if(n->left)
+                dq.push_back({n->left, pos});
+                
+                if(n->right)
+                dq.push_back({n->right, pos + 1});
+                
+            }
+        }
+        
+        return width;
+        
+    }

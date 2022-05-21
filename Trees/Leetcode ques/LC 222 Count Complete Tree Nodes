@@ -1,0 +1,47 @@
+Problem statement :
+Given the root of a complete binary tree, return the number of the nodes in the tree.
+
+Code :
+  int leftHeight(TreeNode *root)
+    {
+        TreeNode *node = root;
+        int h = 0;
+        while(node != NULL)
+        {
+            h++;
+            node = node->left;
+        }
+        
+        return h;
+    }
+    
+     int rightHeight(TreeNode *root)
+    {
+        TreeNode *node = root;
+        int h = 0;
+        while(node != NULL)
+        {
+            h++;
+            node = node->right;
+        }
+        
+        return h;
+    }
+    
+    int countNodes(TreeNode* root) {
+       if(root == NULL)
+           return 0;
+        
+        int l = leftHeight(root->left);
+        int r = rightHeight(root->right);
+        
+        if(l == r)
+           return pow(2, l+1) - 1;
+        
+        else
+           return (countNodes(root->left) + countNodes(root->right) + 1);
+    }
+
+
+    Time complexity : O(logn ^ 2)
+    

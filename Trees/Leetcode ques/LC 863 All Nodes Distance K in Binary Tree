@@ -1,0 +1,63 @@
+Problem statement :
+Given the root of a binary tree, the value of a target node target, and an integer
+k, return an array of the values of all nodes that have a distance k from the 
+target node.
+
+Hint : Here the path can be upward or downward so we can convert this tree to graph
+and then find distance of all nodes from target node using BFS.
+
+Code :
+void build(TreeNode *root, TreeNode *par, 
+map<TreeNode*, vector<TreeNode *>> &g)
+{
+if(root == NULL)
+return;
+
+if(par != NULL)
+g[root].push_back(par);
+
+if(root->left != NULL)
+g[root].push_back(root->left);
+
+if(root->right != NULL)
+g[root].push_back(root->right);
+
+build(root->left, root, g);
+build(root->right, root, g);    
+}
+
+vector<int> distanceK(TreeNode* root, TreeNode* target, int k){
+vector<int> ans;
+map<TreeNode*, vector<TreeNode *>> g;
+build(root, NULL, g);
+
+if(g.find(target) == g.end())
+return ans;
+
+queue<pair<TreeNode *, int>> q;
+q.push({target, 0});
+
+map<TreeNode *, int> seen;
+seen[target]++;
+
+while(!q.empty())
+{
+pair<TreeNode *, int> p = q.front();
+
+q.pop();
+
+if(p.second == k)
+ ans.push_back(p.first->val);
+
+for(int i=0; i<g[p.first].size(); i++)
+{
+ if(seen.find(g[p.first][i]) == seen.end())
+ {
+     seen[g[p.first][i]]++;
+     q.push({g[p.first][i], p.second+1});
+ }
+}
+}
+
+return ans;
+}

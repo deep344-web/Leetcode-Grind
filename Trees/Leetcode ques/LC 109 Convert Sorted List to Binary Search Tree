@@ -1,0 +1,35 @@
+Problem statement :
+Given the head of a singly linked list where elements are sorted in ascending order,
+convert it to a height balanced BST.
+
+Code :
+TreeNode* solve(ListNode* &head, ListNode *&tail)
+    {
+        if(head == tail)
+            return NULL;
+        
+        ListNode *fast = head, *slow = head;
+
+        while(fast != tail && fast->next != tail)
+        {
+            fast = fast->next->next;
+            slow = slow->next;
+        }
+    
+        
+        TreeNode *node = new TreeNode(slow->val);  
+        
+        
+        
+        node->left = solve(head, slow);
+        node->right = solve(slow->next, tail);
+        
+        return node;
+        
+    }
+    
+    
+    TreeNode* sortedListToBST(ListNode* head) {
+         ListNode *tail = NULL; 
+         return solve(head, tail);
+    }
