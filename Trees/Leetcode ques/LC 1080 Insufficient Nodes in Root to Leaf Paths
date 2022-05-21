@@ -1,0 +1,37 @@
+Problem statement :
+Given the root of a binary tree and an integer limit, delete all insufficient nodes 
+in the tree simultaneously, and return the root of the resulting binary tree.
+
+A node is insufficient if every root to leaf path intersecting this node has a sum 
+strictly less than limit.
+
+bool solve(TreeNode *root, int sum, int limit){
+          if(root == NULL)
+              return true;
+        
+          if(root->left == NULL && root->right == NULL)
+              return (sum + root->val) < limit ? true : false;
+        
+           bool l = solve(root->left, sum + root->val, limit);
+           bool r = solve(root->right, sum + root->val, limit);
+        
+           if(l)
+               root->left = NULL;
+        
+           if(r)
+               root->right = NULL;
+        
+            if(l && r)
+                return true;
+        
+           else
+               return false;
+    }
+    
+    
+    TreeNode* sufficientSubset(TreeNode* root, int limit) {
+      if(solve(root, 0, limit))
+          return NULL;
+        
+        return root;
+    }
