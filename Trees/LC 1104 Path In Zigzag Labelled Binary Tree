@@ -1,0 +1,33 @@
+Problem statement :
+In an infinite binary tree where every node has two children, the nodes are labelled in row order.
+
+In the odd numbered rows (ie., the first, third, fifth,...), the labelling is left to right, while in the even numbered rows (second, fourth, sixth,...), the labelling is right to left.
+
+Given the label of a node in this tree, return the labels in the path from the root of the tree to the node with that label.
+
+Code :
+vector<int> pathInZigZagTree(int label) {
+
+      vector<int> res;
+      res.push_back(label);
+      int node = label/2;
+      int level = ceil(log2(node+1));
+
+    while(level > 0)
+    {
+        int total_nodes_at_curr_level = pow(2, level-1);
+        int nodes_before_curr_level = pow(2, level-1) - 1;
+        int start_node = nodes_before_curr_level + 1;
+        int end_node = start_node + total_nodes_at_curr_level - 1;
+        node = start_node + end_node - node;
+        res.push_back(node);
+        node /= 2;
+
+        //level of next current node can be found using this formula
+        level = ceil(log2(node+1));
+    }
+    
+    reverse(res.begin(), res.end());
+    return res;
+    
+}

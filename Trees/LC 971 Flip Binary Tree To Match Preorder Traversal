@@ -1,0 +1,46 @@
+problem statement :
+You are given the root of a binary tree with n nodes, where each node is uniquely assigned a value from 1 to n. You are also given a sequence of n values voyage, which is the desired pre-order traversal of the binary tree.
+
+Any node in the binary tree can be flipped by swapping its left and right subtrees.
+
+Code :
+class Solution {
+public:
+    int i = 0;
+    bool solve(TreeNode *root, vector<int> &res, 
+               vector<int> voyage){
+        if(root == NULL)
+            return true;
+    
+        if(root->val != voyage[i])
+            return false;
+        
+        i++;
+        if(root->left && root->left->val != voyage[i])
+        {
+
+            res.push_back(root->val);
+            TreeNode *temp = root->left;
+            root->left = root->right;
+            root->right = temp;
+        }
+    
+        bool l = solve(root->left, res, voyage);
+        bool r = solve(root->right, res, voyage);
+        
+        return (l && r);
+    }
+    
+    
+    vector<int> flipMatchVoyage(TreeNode* root, vector<int>& voyage) {
+    
+        vector<int> res;
+        if(solve(root, res, voyage))
+            return res;
+        
+        res.clear();
+        res.push_back(-1);
+        return res;
+    
+    }
+};

@@ -1,0 +1,26 @@
+Given the root of a binary tree, return the sum of values of nodes with an 
+even-valued grandparent. If there are no nodes with an even-valued 
+grandparent, return 0.
+
+A grandparent of a node is the parent of its parent if it exists.
+
+Code :
+ void solve(TreeNode *root, int &sum, TreeNode* grandPa, TreeNode *par){
+        if(root == NULL)
+            return;
+        
+        if(grandPa != NULL && grandPa->val % 2 == 0)
+            sum += root->val;
+        
+        solve(root->left, sum, par, root);
+        solve(root->right, sum, par, root);
+        
+}
+    
+    
+int sumEvenGrandparent(TreeNode* root) {
+        int sum = 0;
+        solve(root, sum, NULL, NULL);
+        
+        return sum;
+}

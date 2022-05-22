@@ -1,0 +1,41 @@
+Problem statement :
+Given the root of a binary tree, return the sum of values of its deepest 
+leaves.
+
+Code :
+ int depth(TreeNode* root){
+        if(root == NULL)
+            return 0;
+        
+        int l = depth(root->left);
+        int r = depth(root->right);
+        
+        return 1 + max(l, r);
+    }
+    
+    void solve(TreeNode* root, int max_depth, int &sum)
+    {
+        if(root == NULL)
+            return;
+        
+        if(root->left == NULL && root->right == NULL)
+        {
+            if(max_depth == 1)
+                sum += root->val;
+            
+            return;
+        }
+        
+        solve(root->left, max_depth-1, sum);
+        solve(root->right, max_depth-1, sum);
+        
+    }
+    
+    
+    int deepestLeavesSum(TreeNode* root) {
+        int dep = depth(root);
+        int sum = 0;
+        solve(root, dep, sum);
+        
+        return sum;
+    }

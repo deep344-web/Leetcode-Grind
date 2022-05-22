@@ -1,0 +1,35 @@
+Problem statement :
+Given the root of a binary tree, the level of its root is 1, the level of 
+its children is 2, and so on.
+
+Return the smallest level x such that the sum of all the values of nodes 
+at level x is maximal.
+
+Code :
+vector<int> sums;
+    
+    void solve(TreeNode *root, int lev){
+        if(root == NULL)
+            return;
+        
+        if(sums.size() < lev+1)
+        sums.resize(lev+1);
+        
+        sums[lev] += root->val;
+        
+        solve(root->left, lev+1);
+        solve(root->right, lev+1);
+
+    }
+    
+    
+    int maxLevelSum(TreeNode* root) {
+       solve(root, 0);
+        
+        int maxi = 0;
+    
+        for(int i = 0; i < sums.size(); i++)
+            maxi = sums[maxi] < sums[i] ? i : maxi;
+            
+        return maxi+1;
+    }
