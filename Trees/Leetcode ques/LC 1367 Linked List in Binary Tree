@@ -1,0 +1,95 @@
+Problem statement :
+Given a binary tree root and a linked list with head as the first node. 
+
+Return True if all the elements in the linked list starting from the head 
+correspond to some downward path connected in the binary tree otherwise 
+return False. In this context downward path means a path that starts at some node and 
+goes downwards.
+
+
+Approach : KMP Algorithm
+
+Code :
+class Solution {
+public:
+    bool solve(TreeNode *root, vector<int> list, 
+               vector<int> lps, int ind){
+        
+        if(ind == list.size())
+            return true;
+        
+        if(root == NULL)
+            return false;
+        
+        if(root->val == list[ind]){
+           
+            bool l = solve(root->left, list, lps, ind+1);
+            bool r = solve(root->right, list, lps, ind+1);
+                
+            return l || r;
+        }
+        
+        else
+        {
+            while (ind > 0 && list[ind] != root->val) {
+                ind = lps[ind-1];
+            }
+            
+            if(list[ind] == root->val)
+                ind += 1;
+            
+            bool l = solve(root->left, list, lps, ind);
+            bool r = solve(root->right, list, lps, ind);
+                
+            return l || r;
+         
+        }
+        
+}
+    
+    
+    vector<int> LPS(vector<int> v){
+       
+        vector<int> lps(v.size(), 0);
+        int i = 1, len = 0;
+        while(i < v.size())
+        {
+            if(v[i] == v[len])
+            {
+                len += 1;
+                lps[i] = len;
+                i++;
+            }
+            
+            else
+            {
+                if(len == 0)
+                {
+                    lps[i] = 0;
+                    i++;
+                }
+                
+                else
+                {
+                    len = lps[len-1];
+                }
+            }
+        }
+        
+        return lps;
+    }
+    
+    bool isSubPath(ListNode* head, TreeNode* root) {
+        vector<int> v;
+        ListNode *node = head;
+        while(node != NULL)
+        {
+            v.push_back(node->val);
+            node = node->next;
+        }
+        
+        vector<int> lps = LPS(v);
+        return solve(root, v, lps, 0);
+   
+    }
+};

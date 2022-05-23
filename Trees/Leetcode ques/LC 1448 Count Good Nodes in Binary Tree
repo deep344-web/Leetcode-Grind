@@ -1,0 +1,37 @@
+Problem statement :
+Given a binary tree root, a node X in the tree is named good if in the 
+path from root to X there are no nodes with a value greater than X.
+
+Return the number of good nodes in the binary tree.
+
+Code :
+class Solution {
+public:
+ 
+    int solve(TreeNode* root, int maxi)
+    {
+        if(root == NULL)
+            return 0;
+        
+        int cnt = 0;
+        if(maxi <= root->val)
+            cnt += 1;
+        
+        maxi = max(maxi, root->val);
+        
+        cnt += solve(root->left, maxi);
+        cnt += solve(root->right, maxi);
+        
+        return cnt;
+        
+    }
+    
+    
+    int goodNodes(TreeNode* root) {
+    
+        if(root == NULL)
+            return 0;
+        
+        return solve(root, root->val);
+    }
+};

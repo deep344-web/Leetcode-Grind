@@ -1,0 +1,28 @@
+https://leetcode.com/problems/maximum-product-of-splitted-binary-tree/
+
+class Solution {
+public:
+    long long int max_prod = 0, total = 0;
+  
+    int solve(TreeNode *root)
+    {
+       if(root == NULL)
+           return 0;
+        
+        int curr_sum = root->val + solve(root->left) + solve(root->right);
+        
+        max_prod = max(max_prod, curr_sum * (total - curr_sum));
+        
+        return curr_sum;
+        
+    }
+    
+    
+    
+    int maxProduct(TreeNode* root) {
+        total = solve(root);   
+        solve(root);
+        
+        return max_prod % (int)(1e9 + 7);
+    }
+};
