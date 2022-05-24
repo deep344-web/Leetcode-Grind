@@ -1,0 +1,27 @@
+Given a Binary search tree. Your task is to complete the function which will return the Kth largest element without doing any modification in Binary Search Tree.
+
+Code :
+ class Solution
+{
+    public:
+   
+    void klargest (Node *root , vector <int>& ans , int &K){
+        if(K==0 || root == NULL){
+            return ;
+        }
+        klargest(root->right , ans, K);
+    
+    if(K>0){   
+        
+        ans.push_back(root->data);
+        K--;
+    }
+        klargest(root->left , ans , K);
+    }
+
+int kthLargest(Node *root, int K){
+     vector <int> ans;
+     klargest(root , ans , K);
+     return ans[ans.size()-1];
+    }
+};
