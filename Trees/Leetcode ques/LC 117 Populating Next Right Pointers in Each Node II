@@ -1,0 +1,52 @@
+Problem statement : 
+Populate each next pointer to point to its next right node. If there is no 
+next right node, the next pointer should be set to NULL.
+
+Question is same as LC 116 with a difference that tree can be imperfect. So we
+need to come up with different approach if we want constant space. Otherwise
+we can do simple level order traversal and use O(width of tree) space.
+
+Code :
+class Solution {
+public:
+ Node* connect(Node* root) {
+       if(root == NULL)
+           return root;
+        
+        Node *cur = root, preptr, ptr, head;
+        while(cur != NULL)
+        {
+            ptr = cur;
+            preptr = NULL;
+            head = NULL;
+            
+            while(ptr != NULL)
+            {
+               if(ptr->left)
+               {
+                   if(preptr != NULL)
+                       preptr->next = ptr->left;
+                   
+                   preptr = ptr->left;
+               }
+                
+                if(ptr->right)
+                {
+                    if(preptr != NULL)
+                        preptr->next = ptr->right;
+                    
+                    preptr = ptr->right;
+                }
+                
+                if(head == NULL)
+                head = ptr->left != NULL ? ptr->left : ptr->right;
+                
+                ptr = ptr->next;
+           }
+            
+            cur = head;
+        }
+        
+        return root;
+    }
+};

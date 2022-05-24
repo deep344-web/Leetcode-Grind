@@ -1,0 +1,52 @@
+Problem statement :
+You are given the root of a binary tree and an integer distance. A pair of 
+two different leaf nodes of a binary tree is said to be good if the length of
+the shortest path between them is less than or equal to distance.
+
+Return the number of good leaf node pairs in the tree.
+
+Code :
+class Solution {
+public:
+
+vector<int> solve(TreeNode* root, int dis, int &cnt){
+        vector<int> vec;
+        
+        if(root == NULL)
+            return vec;
+        
+        if(root->left == NULL && root->right == NULL)
+        {   
+            vec.push_back(1);
+            return vec;
+        }
+        
+        vector<int> l = solve(root->left, dis, cnt);
+        vector<int> r = solve(root->right, dis, cnt);
+        
+       
+        for(int i=0; i<l.size(); i++)
+        {    
+            for(int j=0; j<r.size(); j++)
+            {
+                if(l[i] + r[j] <= dis)
+                    cnt += 1; 
+            }   
+            
+            vec.push_back(l[i] + 1);
+        }
+        
+        for(int i=0; i<r.size(); i++)
+            vec.push_back(r[i] + 1);
+    
+        return vec;    
+        
+}
+    
+int countPairs(TreeNode* root, int distance) {
+        int cnt = 0;
+        solve(root, distance, cnt);
+        
+        return cnt;
+    }
+};
