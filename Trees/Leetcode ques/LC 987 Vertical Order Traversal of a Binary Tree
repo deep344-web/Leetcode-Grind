@@ -1,0 +1,53 @@
+Code :
+class Solution {
+public:
+    static bool comp(pair<int, int> p1, pair<int, int> p2){
+        if(p1.first != p2.first)
+            return p1.first < p2.first;
+        
+        else
+            return p1.second < p2.second;
+    }
+    
+    vector<vector<int>> verticalTraversal(TreeNode* root) {
+        map<int, vector<pair<int, int>>> mp;
+        queue<pair<TreeNode *, pair<int, int>>>q;
+        vector<vector<int>> ans;
+        q.push({root, {0, 0}});
+        
+        while(!q.empty())
+        {
+            TreeNode *node = q.front().first;
+            int row = q.front().second.first;
+            int col = q.front().second.second;
+            
+            q.pop();
+            mp[col].push_back({row, node->val});
+            
+            if(node->left)
+                q.push({node->left, {row+1, col-1}});
+            
+            if(node->right)
+                q.push({node->right, {row+1, col+1}});
+        }
+        
+        for(auto i = mp.begin(); i != mp.end(); i++){
+            vector<pair<int, int>> vec = i->second;
+            
+            sort(vec.begin(), vec.end(), comp);
+            
+            vector<int> res;
+            
+            for(pair<int, int> j : vec){
+                res.push_back(j.second);
+            }
+            
+            if(res.size() > 0){
+                ans.push_back(res);
+            }
+        }
+        
+        return ans;
+        
+    }
+};

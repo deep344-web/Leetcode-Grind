@@ -1,0 +1,32 @@
+Code: 
+class Solution {
+public:
+    // vector<int> = {isBST, max, min, sum}
+    int max_sum = 0;
+    vector<int> solve(TreeNode *root)
+    {
+        if(root == NULL)
+            return {1, INT_MIN, INT_MAX, 0};
+        
+       
+        vector<int> l = solve(root->left);
+        vector<int> r = solve(root->right);
+        
+        int isBST = 0;
+        int sum = l[3] + r[3] + root->val;
+        if(l[0] == 1 && r[0] == 1 && root->val > l[1] && root->val < r[2])
+            isBST = 1;
+        
+        if(isBST == 1)
+            max_sum = max(max_sum, sum);
+
+    return {isBST, max(root->val, r[1]), min(root->val, l[2]), sum};
+    }
+    
+    
+    int maxSumBST(TreeNode* root) {
+    
+        solve(root);    
+        return max_sum;
+    }
+};
