@@ -1,0 +1,63 @@
+Problem statement :
+Given two BSTs containing N1 and N2 distinct nodes respectively and given a value x. Your task is to complete the function countPairs(), that returns the count of all pairs from both the BSTs whose sum is equal to x.
+
+Code :
+class Solution
+{
+public:
+    int countPairs(Node* root1, Node* root2, int x)
+    {
+        stack<Node *> s1, s2;
+        Node *p = root1, *q = root2;
+        int cnt = 0;
+        
+        while(p != NULL || q != NULL || s1.empty() == false || s2.empty() == false){
+            
+            while(p != NULL)
+            {
+                s1.push(p);
+                p = p->left;
+            }
+            
+            while(q != NULL)
+            {
+                s2.push(q);
+                q = q->right;
+            }
+            
+            if(s1.empty() || s2.empty())
+            break;
+            
+            else
+            {
+                Node *a = s1.top(), *b = s2.top();
+                
+                int sum = a->data + b->data;
+                if(sum == x)
+                {
+                    s1.pop();
+                    s2.pop();
+                    p = a->right;
+                    q = b->left;
+                    cnt++;
+                }
+                else if(sum < x)
+                {
+                    p = a->right;
+                    s1.pop();
+                }
+                
+                else
+                {
+                    q = b->left;
+                    s2.pop();
+                }
+                
+            }
+            
+        }
+        
+        return cnt;
+
+    }
+};

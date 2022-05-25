@@ -11,4 +11,4 @@ void small(Node *root , int &k , int &ans){
         }
         small(root->right , k , ans);
         
-    }
+}

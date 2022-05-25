@@ -4,24 +4,33 @@ Code :
  class Solution
 {
     public:
-   
-    void klargest (Node *root , vector <int>& ans , int &K){
-        if(K==0 || root == NULL){
-            return ;
-        }
-        klargest(root->right , ans, K);
-    
-    if(K>0){   
+    int kthLargest(Node *root, int K)
+    {
+        stack<Node*> s;
+        Node *p = root;
+      
+      while(p != NULL || !s.empty())
+      {
+          if(p != NULL)
+         {
+             s.push(p);
+             p = p->right; 
+         }
+         
+         else{
+            struct Node *node = s.top();
+            s.pop();
+            K--;
+            if(K == 0)
+            {
+                return node->data;
+            }
         
-        ans.push_back(root->data);
-        K--;
-    }
-        klargest(root->left , ans , K);
-    }
-
-int kthLargest(Node *root, int K){
-     vector <int> ans;
-     klargest(root , ans , K);
-     return ans[ans.size()-1];
+            p = node->left;
+            
+         }
+      }
+      
+      return -1;
     }
 };

@@ -1,0 +1,55 @@
+Given a Binary Search Tree of size N, find the Median of its Node values.
+
+Code :
+int count(struct Node *root){
+    if(root == NULL)
+      return 0;
+    
+    return 1 + count(root->left) + count(root->right);
+}
+
+
+float findMedian(struct Node *root)
+{
+      int totalNodes = count(root);
+      
+      if(totalNodes == 0)
+      return (float) 0;
+      
+      int k = (totalNodes + 1)/2 + 1;
+      
+      stack<struct Node*> s;
+      struct Node *p = root, *prev = NULL;
+      
+      while(p != NULL || !s.empty())
+      {
+          if(p != NULL)
+         {
+             s.push(p);
+             p = p->left; 
+         }
+         
+         else{
+            struct Node *node = s.top();
+            s.pop();
+            k--;
+            if(k == 0)
+            {
+                p = node;
+                break;
+            }
+            
+            prev = node;
+            p = node->right;
+            
+         }
+      }
+      
+      if(totalNodes % 2 == 0)
+      return (float)(p->data + prev->data)/2;
+      
+      else
+      return (float)prev->data;
+      
+      
+}
