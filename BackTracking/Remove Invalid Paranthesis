@@ -1,0 +1,4 @@
+Problem statement : 
+Given a string s that contains parentheses and letters, remove the minimum number of invalid parentheses to make the input string valid. Return all the possible results.
+
+Code :

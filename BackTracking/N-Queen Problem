@@ -1,0 +1,49 @@
+Problem statement :
+The n-queens puzzle is the problem of placing n queens on a (n×n) chessboard such that no two queens can attack each other.
+Given an integer n, find all distinct solutions to the n-queens puzzle. Each solution contains distinct board configurations of the n-queens’ placement, where the solutions are a permutation of [1,2,3..n] in increasing order, here the number in the ith place denotes that the ith-column queen is placed in the row with that number. For eg below figure represents a chessboard [3 1 4 2].
+
+Code :
+class Solution{
+public:
+void solve(int col, int n, vector<int> &config, vector<vector<int>> &ans, 
+             vector<int> &row, vector<int> &lower_diagonal, 
+             vector<int> &upper_diagonal){
+                 
+    if(col == n)
+    {
+        ans.push_back(config);
+        return;
+    }
+    
+    for(int r = 0; r < n; r++){
+       
+       if(row[r] == -1 && lower_diagonal[r+col] == -1 && upper_diagonal[n-1+col-r] == -1)
+         {
+             row[r] = 1;
+             lower_diagonal[r+col] = 1;
+             upper_diagonal[n-1+col-r] = 1;
+             config[col] = r+1;
+             solve(col+1, n, config, ans, row, lower_diagonal, upper_diagonal);
+             config[col] = -1;
+             row[r] = -1;
+             lower_diagonal[r+col] = -1;
+             upper_diagonal[n-1+col-r] = -1;
+             
+         }
+    }
+    
+}
+
+vector<vector<int>> nQueen(int n) {
+        
+        //row of each queen
+        vector<vector<int>> ans;
+        vector<int> config(n, -1), row(n, -1), upper_diagonal(2*n, -1), 
+        lower_diagonal(2*n, -1); 
+        
+        solve(0, n, config, ans, row, upper_diagonal, lower_diagonal);
+        
+        
+        return ans;
+    }
+};

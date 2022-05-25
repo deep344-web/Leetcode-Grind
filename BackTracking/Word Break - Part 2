@@ -1,0 +1,38 @@
+Problem statement :
+Given a string s and a dictionary of words dict of length n, add spaces in s to construct a sentence where each word is a valid dictionary word. Each dictionary word can be used more than once. Return all such possible sentences.
+
+Code :
+class Solution{
+public:
+ void fun (string s , map<string , int>map1 , vector<string> &ans, string curr)
+{
+   if(s.length() == 0)
+   {
+       curr = curr.substr(1);
+      ans.push_back(curr);
+      return;
+   }
+   
+   for(int i=0 ; i<s.length(); i++){
+       string temp = s.substr(0, i+1);
+       if(map1.find(temp) != map1.end()){
+           fun(s.substr(i+1), map1 , ans , curr + " " + temp);
+       }
+   }
+   
+}
+    vector<string> wordBreak(int n, vector<string>& dict, string s)
+    {
+        map <string , int> dic;
+        for(int i=0 ; i<dict.size() ; i++){
+            dic[dict[i]]++;
+        }
+        
+        vector<string> ans;
+        string curr;
+        fun(s , dic ,ans , curr);
+        
+        return ans;
+      
+    }
+};
