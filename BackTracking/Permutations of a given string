@@ -1,0 +1,30 @@
+Problem statement :
+Given a string S. The task is to print all permutations of a given string in lexicographically sorted order.
+
+Code :
+class Solution
+{
+	public:
+	void func(string s, int left, vector<string>& ans){
+	    if(left >= s.length()){
+	        ans.push_back(s);
+	        
+	        return;
+	    }
+	    
+	    for(int i=left; i < s.length(); i++){
+	        swap(s[left], s[i]);
+	        func(s, left + 1 , ans);	        
+	        swap(s[left], s[i]);
+	        
+	    }
+	}
+	
+vector<string>find_permutation(string S)
+		{
+		   vector<string> vec;
+		   func(S, 0, vec);
+		   sort(vec.begin(), vec.end());
+		   return vec;
+		}
+};

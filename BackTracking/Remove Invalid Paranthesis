@@ -2,3 +2,57 @@ Problem statement :
 Given a string s that contains parentheses and letters, remove the minimum number of invalid parentheses to make the input string valid. Return all the possible results.
 
 Code :
+class Solution {
+public:
+    map<string , int> visited;
+    vector<string> ans;
+    int getMin(string S){
+        stack<char> s;
+        for(int i=0; i<S.length(); i++){
+            if(S[i] == '(')
+                s.push(S[i]);
+            
+            else if(S[i] == ')')
+            {
+                if(!s.empty() && s.top() == '(')
+                    s.pop();
+                
+                else
+                    s.push(S[i]);
+            }
+        }
+        
+        return s.size();
+    }
+    
+    void solve(string s, int removals){
+        if(visited.find(s) != visited.end())
+            return;
+        
+        visited[s]++;
+        
+        if(removals == 0)
+        {
+            if(getMin(s) == 0)
+              ans.push_back(s);
+            
+            return;
+        }
+        
+        for(int i=0; i<s.length(); i++){
+            if(s[i] == '(' || s[i] == ')'){
+                string pre = s.substr(0, i);
+                string suf = s.substr(i+1);
+                solve(pre+suf, removals-1);
+            }
+        }
+    }
+    
+    
+    
+    vector<string> removeInvalidParentheses(string s) {
+        int minRemovals = getMin(s);
+        solve(s, minRemovals);
+        return ans;
+    }
+};

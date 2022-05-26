@@ -1,0 +1,38 @@
+Problem statement :
+Given an undirected graph and an integer M. The task is to determine if the graph can be colored with at most M colors such that no two adjacent vertices of the graph are colored with the same color. Here coloring of a graph means the assignment of colors to all vertices. Print 1 if it is possible to colour vertices and 0 otherwise.
+
+Code :
+bool fun(bool graph[101][101], int m , int V , vector<int>&color , int node){
+    if(node >= V){
+        return true;
+    }
+    
+    for(int i=1 ; i <= m ; i++){
+        
+        bool possible = true;
+        for(int j=0 ; j<101 ; j++){
+            if(graph[node][j]  && color[j] == i)
+            possible = false;
+        }
+        
+        if(!possible)
+        continue;
+        
+        color[node] = i;
+        if(fun(graph , m , V, color , node+1))
+        return true;
+        
+      color[node] = -1;
+    }
+    
+    return false;
+}
+
+bool graphColoring(bool graph[101][101], int m, int V)
+{
+    vector<int> color(V , -1);
+    return fun(graph, m , V , color , 0);
+
+}
+
+

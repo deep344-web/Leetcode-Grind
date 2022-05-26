@@ -1,0 +1,40 @@
+Problem statement :
+Given an N x M matrix, with a few hurdles(denoted by 0) arbitrarily placed, calculate the length of the longest possible route possible from source(xs,ys) to a destination(xd,yd) within the matrix. We are allowed to move to only adjacent cells which are not hurdles. The route cannot contain any diagonal moves and a location once visited in a particular path cannot be visited again.If it is impossible to reach the destination from the source return -1.
+
+Code :
+class Solution {
+public:
+
+int x[4] = {0, 0, 1, -1};
+int y[4] = {1, -1, 0, 0};
+int vis[12][12];
+int ans = INT_MIN;
+
+void solve(vector<vector<int>> &matrix, int i, int j, int xd, int yd, int n,  int m, int cur)
+{
+     if(i == xd && j == yd)
+        {
+            ans = max(ans, cur);
+            return;
+        }
+        
+      if(i < 0 || i == n || j < 0 || j == m || matrix[i][j] == 0 || vis[i][j] == 1)
+        return;
+    
+        vis[i][j] = 1;
+        
+        for(int dir = 0; dir < 4; dir++){
+             int u = i + x[dir];
+             int v = j + y[dir];
+             solve(matrix, u, v, xd, yd, n, m, cur+1);
+        }
+        
+        vis[i][j] = 0;
+}
+
+int longestPath(vector<vector<int>> &matrix, int xs, int ys, int xd, int yd){
+        memset(vis, 0, sizeof(vis));
+        solve(matrix, xs, ys, xd, yd, matrix.size(), matrix[0].size(), 0);
+        return ans < 0 ? -1 : ans;
+    }
+};

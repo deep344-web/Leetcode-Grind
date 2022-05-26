@@ -1,0 +1,45 @@
+Problem statement :
+Given a number K and string str of digits denoting a positive integer, build the largest number possible by performing swap operations on the digits of str at most K times.
+
+Code :
+class Solution
+{
+    public:
+    //Function to find the largest number after k swaps.
+    void solve(string s, int ind, int k, string &ans){
+        
+        if(k == 0 || ind == s.length()){
+            return;
+        }
+        
+        int max_char_ind = ind;
+        for(int i = ind+1; i < s.length(); i++)
+        {
+            if(s[max_char_ind] < s[i])
+                max_char_ind = i;
+        }
+        
+        if(s[max_char_ind] != s[ind])
+            k -= 1;
+        
+        for(int i=s.length()-1; i >= ind; i--){
+            if(s[i] == s[max_char_ind])
+            {
+                swap(s[ind], s[i]);
+                if(ans < s)
+                ans = s;
+                
+                solve(s, ind+1, k, ans);
+                swap(s[ind], s[i]);
+            }
+            
+        }
+      
+}  
+    string findMaximumNum(string str, int k)
+    {
+       string ans = str;
+       solve(str, 0, k, ans);
+       return ans;
+    }
+};
