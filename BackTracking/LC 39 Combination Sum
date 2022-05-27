@@ -1,0 +1,35 @@
+Problem statement :
+Given an array of distinct integers candidates and a target integer target, return a list of all unique combinations of candidates where the chosen numbers sum to target. 
+
+Code :
+class Solution {
+public:
+    vector<vector<int>> res;
+    vector<int> cur;
+    void solve(int ind, int target, vector<int> &arr){
+        if(target == 0)
+        {
+            res.push_back(cur);
+            return;
+        }
+        
+        if(ind < 0)
+            return;
+        
+        
+        solve(ind-1, target, arr);
+        
+        if(arr[ind] <= target){
+            cur.push_back(arr[ind]);
+            solve(ind, target-arr[ind], arr);
+            cur.pop_back();
+        }
+    }
+    
+    
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        solve(candidates.size()-1, target, candidates);
+        
+        return res;
+    }
+};

@@ -1,0 +1,54 @@
+Problem statement :
+A valid IP address consists of exactly four integers separated by single dots. Each integer is between 0 and 255 (inclusive) and cannot have leading zeros.Given a string s containing only digits, return all possible valid IP addresses that can be formed by inserting dots into s. You are not allowed to reorder or remove any digits in s. 
+
+Code :
+class Solution {
+public:
+    vector<string> res;
+    vector<string> cur;
+    
+    void solve(string s, int ind){
+        
+        if(cur.size() > 4)
+            return;
+        
+        if(ind == s.length())
+        {
+            if(cur.size() == 4){
+            
+                string ip = cur[0];
+                for(int i=1; i<cur.size(); i++)
+                    ip += '.' + cur[i];
+                
+                res.push_back(ip);
+            }
+            return;
+        }
+        
+        int num = 0;
+        int end = ind+3 <= s.length() ? ind+3 : s.length();
+        if(s[ind] == '0')
+        {
+            cur.push_back(to_string(num));
+            solve(s, ind + 1);
+            cur.pop_back();
+        }
+        
+        else{
+            for(int i = ind; i < end; i++){
+                num = num*10 + (s[i] - '0');
+            
+                if(num >= 0 && num <= 255){
+                    cur.push_back(to_string(num));
+                    solve(s, i + 1);
+                    cur.pop_back();
+                }
+            }
+        }
+    }
+
+    vector<string> restoreIpAddresses(string s) {
+        solve(s, 0);
+        return res;
+    }
+};

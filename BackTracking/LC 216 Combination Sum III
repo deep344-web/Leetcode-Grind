@@ -1,0 +1,33 @@
+Problem statement :
+Find all valid combinations of k numbers that sum up to n such that the following conditions are true:
+* Only numbers 1 through 9 are used.
+* Each number is used at most once.
+Return a list of all possible valid combinations.
+
+Code :
+class Solution {
+public:
+    vector<vector<int>> res;
+    vector<int> cur;
+    
+    void solve(int cnt, int sum, int ele){
+        if(ele == 0){
+            if(sum == 0 && cnt == 0)
+                res.push_back(cur);
+            
+            return;
+        }
+            
+        solve(cnt, sum, ele-1);
+        if(ele <= sum){
+            cur.push_back(ele);
+            solve(cnt-1, sum-ele, ele-1);
+            cur.pop_back();
+        }
+}
+
+vector<vector<int>> combinationSum3(int k, int n) {
+        solve(k, n, 9);      
+        return res;
+    }
+};

@@ -1,0 +1,65 @@
+Problem statement :
+Given an m x n grid of characters board and a string word, return true if word exists in the grid. The word can be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring. The same letter cell may not be used more than once.
+
+Code :
+class Solution {
+public:
+    int x[4] = {0, 0, -1, 1};
+    int y[4] = {1, -1, 0, 0};
+    
+    bool isValid(int i, int j, int n, int m, int ind, vector<vector<char>> &board,    vector<vector<int>> &vis, string &word){
+        
+        //out of bound condition
+        if(i < 0 || j < 0 || i == n || j == m)
+            return false;
+            
+        //character is not matching
+        if(word[ind] != board[i][j])
+            return false;
+        
+        //char is already visited
+        if(vis[i][j] == 1)
+           return false;
+        
+        return true;
+    }
+    
+    bool solve(vector<vector<char>> &board, vector<vector<int>> &vis, string &word,   int ind, int row, int col, int n, int m){
+        
+        if(ind >= word.size())
+            return true;
+        
+        if(!isValid(row, col, n, m, ind, board, vis, word))
+            return false;
+        
+        vis[row][col] = 1;
+        
+        for(int dir = 0; dir < 4; dir++){
+            int u = row + x[dir];
+            int v = col + y[dir];
+            
+            if(solve(board, vis, word, ind+1, u, v, n, m))
+                return true;
+        }
+        
+        vis[row][col] = 0;
+        return false;
+    }
+    
+    bool exist(vector<vector<char>>& board, string word) {
+        int n = board.size(), m = board[0].size();
+        vector<vector<int>> vis(n, vector<int>(m, 0));
+        
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                if(board[i][j] == word[0])
+                {
+                   if(solve(board, vis, word, 0, i, j, n, m)) 
+                       return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+};

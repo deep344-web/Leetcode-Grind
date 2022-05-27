@@ -1,0 +1,35 @@
+Problem statement :
+Given a collection of numbers, nums, that might contain duplicates, return all possible unique permutations in any order.
+
+ Code :
+ class Solution {
+public:
+    vector<vector<int>> res;
+    vector<int> cur;
+  void solve(vector<int> &nums, vector<bool> &fre){
+        
+        if(cur.size() == nums.size())
+        {
+            res.push_back(cur);
+            return;
+        }
+        
+        for(int i = 0; i < nums.size(); i++){
+            if(fre[i] || (i > 0 && nums[i] == nums[i-1] && !fre[i-1]))
+                continue;
+            
+            fre[i] = true;
+            cur.push_back(nums[i]);
+            solve(nums, fre);
+            cur.pop_back();
+            fre[i] = false;
+        }
+    }
+  
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        vector<bool> fre(nums.size(), false);
+        solve(nums, fre);
+        return res;
+    }
+};
