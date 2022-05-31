@@ -1,0 +1,37 @@
+Code : 
+
+class Solution {
+public:
+    int dp[16];
+    int maxBitwiseOr(int ind, vector<int>& nums){
+        if(ind < 0)
+            return 0;
+        
+        if(dp[ind] != -1)
+            return dp[ind];
+        
+        int exc = maxBitwiseOr(ind-1, nums);
+        int inc = nums[ind] | maxBitwiseOr(ind-1, nums);
+        
+        return dp[ind] = max(exc, inc);
+    }
+    
+    int countOr(int ind, int currOr, int maxOr, vector<int>& nums){
+        if(ind < 0)
+            return currOr == maxOr ? 1 : 0;
+        
+        int exc = countOr(ind-1, currOr, maxOr, nums);
+        int inc = countOr(ind-1, currOr | nums[ind], maxOr, nums);
+        
+        return exc + inc;
+    }
+    
+    
+    int countMaxOrSubsets(vector<int>& nums) {
+        memset(dp, -1, sizeof(dp));
+        int maxBitOr = maxBitwiseOr(nums.size()-1, nums);
+        
+        
+        return countOr(nums.size()-1, 0, maxBitOr, nums);
+    }
+};

@@ -1,0 +1,40 @@
+Problem statement :
+Given a string s, you can transform every letter individually to be lowercase or uppercase to create another string. Return a list of all possible strings we could create. Return the output in any order.
+
+Code :
+class Solution {
+public:
+    vector<string> res;
+    void solve(string s, int ind){
+        
+        if(ind < 0){
+            res.push_back(s);
+            return;
+        }
+        
+        solve(s, ind-1);
+        
+        if(isalpha(s[ind]))
+        {
+            if(isupper(s[ind]))
+            {
+                s[ind] = tolower(s[ind]);
+                solve(s, ind-1);
+                s[ind] = toupper(s[ind]);
+            }
+            
+            else{
+                s[ind] = toupper(s[ind]);
+                solve(s, ind-1);
+                s[ind] = tolower(s[ind]);
+            }
+            
+        }
+        
+    }
+      
+vector<string> letterCasePermutation(string s) {
+        solve(s, s.length()-1);
+        return res;
+    }
+};

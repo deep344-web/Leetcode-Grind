@@ -1,0 +1,46 @@
+Code : DP + Bitmask + Backtracking
+
+class Solution {
+public:
+    int solve(int ind, int s, int m, int &bitmask, vector<vector<int>>& students, vector<vector<int>>& mentors, vector<vector<int>> &dp){
+        
+        if(ind < 0)
+            return 0;
+        
+       if(dp[ind][bitmask] != -1)
+           return dp[ind][bitmask];
+        
+        int max_Score = -1e9;
+        
+        for(int i=0; i<m; i++)
+        {
+            if(bitmask & (1 << i))
+            {
+                int score = 0;
+                for(int j=0; j<students[ind].size(); j++){
+                    if(students[ind][j] == mentors[i][j])
+                        score++;
+                }
+            
+                //unset the ith bit
+                bitmask = bitmask & (~(1 << i));
+                
+                max_Score = max(max_Score, score + solve(ind-1, s, m, bitmask, students, mentors, dp));
+                
+                //set the ith bit
+                bitmask = ((1 << i) | bitmask);
+            }
+        }
+        
+        return dp[ind][bitmask] = max_Score;
+    }
+    
+    
+    int maxCompatibilitySum(vector<vector<int>>& students, vector<vector<int>>& mentors) {
+        
+        int m = mentors.size(), s = students.size();
+        int bitmask = pow(2, m) - 1;
+        vector<vector<int>> dp(m, vector<int>(bitmask+1, -1));
+        return solve(s-1, s, m, bitmask, students, mentors, dp);
+    }
+};

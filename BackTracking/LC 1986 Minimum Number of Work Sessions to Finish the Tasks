@@ -1,0 +1,45 @@
+Code : DP + Bitmask + Backtracking
+
+class Solution {
+public:
+    int solve(int bitmask, int time, int sessionTime, vector<int> &tasks, vector<vector<int>> &dp){
+        if(bitmask == 0)
+        return 0;
+        
+        if(dp[time][bitmask] != -1)
+            return dp[time][bitmask];
+        
+        int sessions = 1e9;
+        
+        for(int i=0; i<tasks.size(); i++){
+            //check if task is pending yet and it can be done in current session
+            if(bitmask & (1 << i)){
+                
+                //unset the bit
+                bitmask = bitmask & (~(1 << i));
+                
+                int rec_call;
+                if(tasks[i] <= time)
+                   rec_call = solve(bitmask, time - tasks[i], sessionTime, tasks, dp);
+                
+                else
+                   rec_call = 1 + solve(bitmask, sessionTime - tasks[i], sessionTime, tasks, dp); 
+                
+                sessions =  min(sessions, rec_call);
+                
+                //set the bit
+                bitmask = ((1 << i) | bitmask);
+            }
+        }
+        
+        return dp[time][bitmask] = sessions;
+    }
+    
+    
+    int minSessions(vector<int>& tasks, int sessionTime) {
+        int n = tasks.size();
+        int bitmask = pow(2, n) - 1;
+        vector<vector<int>> dp(sessionTime + 1, vector<int>(bitmask + 1, -1));
+        return 1 + solve(bitmask, sessionTime, sessionTime, tasks, dp);
+    }
+};
