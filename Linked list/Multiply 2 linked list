@@ -1,0 +1,21 @@
+
+Code :
+long long  multiplyTwoLists (Node* l1, Node* l2)
+{
+    
+    long long int n1 = 0 , n2 = 0 , n = 1000000007;
+    Node *ptr = l1;
+    while(ptr != NULL){
+        n1 = (((n1%n)*10)%n) + ptr->data;
+        ptr= ptr->next;
+    }
+    ptr = l2;
+    while(ptr != NULL){
+        n2 = (((n2%n)*10)%n) + ptr->data;
+        ptr= ptr->next;
+    }
+    
+    long long int ans = ((n1 %n)*(n2%n))%n;
+    
+    return ans;
+}

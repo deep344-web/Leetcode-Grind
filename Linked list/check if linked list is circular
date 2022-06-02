@@ -1,0 +1,16 @@
+Check if the given linked list is circular or not.
+
+bool isCircular(Node *head)
+{
+    Node *ptr = head->next;
+    
+   while(ptr != NULL && ptr != head){
+       ptr = ptr->next;
+   }
+   
+   if(ptr == NULL)
+    return 0;
+   
+   else
+    return 1;
+}

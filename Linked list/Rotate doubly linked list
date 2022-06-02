@@ -1,0 +1,25 @@
+Rotate doubly linked list counter clock wise by N nodes.
+
+struct node *update(struct node *start, int p)
+{
+    int c = 0;
+    node *mid = start, *last = start;
+
+    while (c < p - 1)
+    {
+        mid = mid->next;
+        c++;
+    }
+    while (last->next != NULL)
+    {
+        last = last->next;
+    }
+
+    last->next = start;
+    start->prev = last;
+    node *st = mid->next;
+    mid->next = NULL;
+    st->prev = NULL;
+    start = st;
+    return start;
+}

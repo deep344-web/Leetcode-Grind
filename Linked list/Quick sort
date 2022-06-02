@@ -1,0 +1,67 @@
+Quick sort on linked lists
+
+
+node * partition (node* head , node *tail )
+{
+    node *pivot , *pivot_index;
+    node *first = head , *last = head;
+   
+    pivot = tail;
+    first = head;
+    while(last != tail->next)
+    {
+        if(last->data <= pivot->data)
+        {
+            int temp = last->data;
+            last->data = first->data;
+            first->data = temp;
+            pivot_index = first;
+            first = first->next;
+            
+        }
+        last = last->next;
+    }
+    
+    return pivot_index;
+    
+}
+
+node * quicksort(struct node *head ,struct node *tail)
+{
+    if(head == NULL || head == tail)
+    return head;
+
+    node *part = partition(head , tail);
+    
+    node *ptr = head;
+    while(ptr->next != part && ptr != part)
+    ptr = ptr->next;
+    
+    if(ptr != part){
+    ptr->next = NULL;
+     node *q1 =  quicksort(head , ptr);
+    //  node *p = q1;
+      while(q1->next != NULL && q1 != NULL)
+      q1 = q1->next;
+    
+    q1->next = part;  
+      
+    }
+    if(part->next != NULL)
+    {
+  part->next = quicksort(part->next , tail);
+    }
+  return head;
+    
+}
+
+void quickSort(struct node **headRef ) {
+    
+    node *ptr = *headRef;    
+    while(ptr->next != NULL)
+    ptr = ptr->next;
+
+    node *head = *headRef;    
+    quicksort(head , ptr);
+       
+}

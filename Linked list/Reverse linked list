@@ -27,3 +27,23 @@
         node->next = node->next->next;
     }
 
+
+*Reverse doubly linked list
+
+struct Node* reverseDLL(struct Node * head)
+{
+    struct Node* ptr = head;
+    while(ptr != NULL )
+    {
+        struct Node *nex = ptr->next;
+        ptr->next = ptr->prev;
+        ptr->prev = nex;
+        head = ptr;
+        ptr = nex;
+        
+    }
+    
+    return head;
+    
+    
+}

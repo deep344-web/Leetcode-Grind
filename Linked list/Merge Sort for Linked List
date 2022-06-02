@@ -1,0 +1,108 @@
+Merge sort on linked list
+
+class Solution{
+  public:
+  Node* merge (Node* node1 , Node* node2)
+  {
+        Node *head = NULL , *temp;
+  
+  Node *ptr1 = node1 , *ptr2 = node2 , * preptr = NULL;
+  int k =0;
+  
+  while(ptr1 != NULL && ptr2 != NULL)
+  {
+      if(ptr1-> data <= ptr2->data){
+          if(k == 0){
+           head = ptr1;
+           k++;
+          }    
+          else{
+              preptr->next = ptr1;
+          }
+          preptr = ptr1;
+          temp = ptr1;
+          ptr1 = ptr1->next;
+          
+      }
+      else
+      {
+         if(k == 0)
+          {
+              head = ptr2;
+              k++;
+          }
+          else
+          preptr->next = ptr2;
+          
+          preptr = ptr2;
+          temp = ptr2;
+          ptr2 = ptr2->next;
+     }
+  }
+  
+  
+  if(ptr1 == NULL)
+  {
+         while(ptr2 != NULL)
+         {
+             temp->next = ptr2;
+             temp = ptr2;
+             ptr2 = ptr2->next;
+         }
+  }
+  else
+  {
+      while(ptr1 != NULL)
+      {
+          temp->next = ptr1;
+          temp = ptr1;
+          ptr1 = ptr1->next;
+      }
+  }
+  
+    return head;
+    
+  }
+  
+  void Split(Node* head, Node** a, Node** b) 
+{ 
+    Node* fast = head->next; 
+    Node* slow = head;
+    
+    while(fast != NULL && fast->next != NULL)
+    {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    
+  
+    *a = head; 
+    *b = slow->next; 
+    slow->next = NULL; 
+} 
+
+ void MergeSort(Node **headRef)
+{
+    Node* head = *headRef; 
+    
+    if ((head == NULL) || (head->next == NULL)) { 
+        return; 
+    } 
+  
+    Node* a, * b;
+    Split(head, &a, &b); 
+  
+    MergeSort(&a); 
+    MergeSort(&b); 
+  
+    *headRef = merge(a, b); 
+}
+   
+    Node* mergeSort(Node* head) {
+       
+       MergeSort(&head);
+    
+       return head;
+        
+    }
+};

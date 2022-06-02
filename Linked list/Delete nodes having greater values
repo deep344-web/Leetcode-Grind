@@ -1,0 +1,47 @@
+Problem statement :
+Given a singly linked list, remove all the nodes which have a greater value on their right side.
+
+class Solution
+{
+    public:
+    Node *reverse(Node *head){
+        Node *ptr =head, *preptr = NULL, *temp;
+
+        while(ptr != NULL){
+            temp = ptr->next;
+            ptr->next = preptr;
+            preptr = ptr;
+            ptr = temp;
+        }
+        
+        
+        head = preptr;
+        return head;
+    }
+    
+    Node *compute(Node *head)
+    {
+       head = reverse(head);
+       int max = INT_MIN;
+       
+       Node *ptr = head , *preptr = head;
+       while(ptr != NULL){
+           if(ptr->data >= max)
+           {
+               max = ptr->data;
+               preptr = ptr;
+               ptr = ptr->next;
+           }
+           else
+           {
+               preptr->next = ptr->next;
+               ptr = ptr->next;
+           }
+       }
+       
+       head = reverse(head);
+       
+       return head;
+    }
+    
+};
