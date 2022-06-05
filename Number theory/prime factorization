@@ -15,3 +15,42 @@ void primeFactors(int N){
     if(N != 1)
     cout<<N<<" "<<1<<endl;
 }
+
+we can also use seive to find prime factors of number. First we need to create seive and then we can use it.
+
+int arr[100000];
+
+void seive(){
+    for(int i=0; i<100000; i++)
+       arr[i] = -1;
+
+    for(int i=2; i<100000; i++){
+        if(arr[i] == -1)
+        {
+            for(int j = i; j < 100000; j += i){
+                if(arr[j] == -1)
+                arr[j] = i;
+            }
+        }
+    }  
+
+}
+
+vector<int> factors(int n){
+    vector<int> fact;
+    fact.push_back(1);
+    while(n != 1){
+        if(arr[n] == -1)
+        {
+            fact.push_back(n);
+            n /= n;
+        }
+
+        else{
+            fact.push_back(arr[n]);
+            n /= arr[n];'
+        }
+    }
+    
+    return fact;
+}

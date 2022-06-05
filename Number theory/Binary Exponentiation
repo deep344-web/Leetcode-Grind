@@ -1,0 +1,24 @@
+Find power of a number in log N time.
+For example we need to find a ^ n, so going with brute force approach the time complexity will be O(N) time.  Here we will use an efficient approach to solve this. Suppose we need to find 4^6, it is similar to finding 16^ 3. so when we have even powers we reduce the multiplications to half. Now let us take example of odd powers, for ex : 4^7 then we can get answer as 4 * (16 ^ 3).
+
+So same concept is used here.
+
+int power(int a, int b){
+    int res = 1;
+    while(b)
+    {
+        if(b % 2){
+            res *= a;
+            b -= 1;
+        }
+
+        else
+        {
+            a = a*a;
+            b = b/2;
+        }
+
+    }
+
+    return res;
+}

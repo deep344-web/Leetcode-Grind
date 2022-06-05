@@ -1,0 +1,26 @@
+So we need to compute power of matrix. Multiplying 2 matrices have complexity of O(N^3) and here we have to compute power so complexity will be 
+O(N^3 * M) . we can use same technique of binary exponentiation here to reduce the time complexity to O(N ^ 3 * Log(n)). 
+
+
+int mat[N][N];
+void power(int mat , int pow){
+    int res = identity matrix;
+    while(pow)
+    {
+        if(pow % 2){
+            res *= mat;
+            pow -= 1;
+        }
+
+        else
+        {
+            mat = mat*mat;
+            pow = pow/2;
+        }
+
+    }
+
+    return res;
+}
+
+function for multiplication of matrix will be basic one.

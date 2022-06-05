@@ -1,0 +1,39 @@
+Code :
+class Solution {
+public:
+    vector<int> nodesBetweenCriticalPoints(ListNode* head) {
+        //vector<int> criticalPoints;
+        ListNode *ptr = head->next, *preptr = head;
+        int start = -1, curr = -1, prev = -1
+        int cnt = 1;
+        while(ptr != NULL)
+        {
+            cnt++;
+            if(ptr->next && ptr->next->val > ptr->val && preptr->val > ptr->val)
+                criticalPoints.push_back(cnt);
+            
+            if(ptr->next && ptr->next->val < ptr->val && preptr->val < ptr->val)
+                criticalPoints.push_back(cnt);
+            
+            preptr = ptr;
+            ptr = ptr->next;
+        }
+        
+        vector<int> ans(2, -1); 
+        if(criticalPoints.size() < 2)
+            return ans;
+        
+        int size = criticalPoints.size();
+        ans[0] = INT_MAX;
+        ans[1] = criticalPoints[size-1] - criticalPoints[0];
+        for(int i=1; i<size; i++)
+        {
+            ans[0] = min(ans[0], criticalPoints[i] - criticalPoints[i-1]);
+        }
+        
+        return ans;
+    }
+};
+
+
+Here I have used space but we can solve it without space by using 3 variables in place of vector for storing critical points positions i.e start, prev, curr. This will just need some minor variation :-) 

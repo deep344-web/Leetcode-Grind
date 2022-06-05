@@ -1,0 +1,41 @@
+Given the head of a linked list, we repeatedly delete consecutive sequences of nodes that sum to 0 until there are no such sequences. After doing so, return the head of the final linked list.  You may return any such answer.
+
+Code :
+class Solution {
+public:
+    ListNode* removeZeroSumSublists(ListNode* head) {
+        ListNode *dummy = new ListNode(0);
+        dummy->next = head;
+        
+        unordered_map<int, ListNode *> fre;
+        unordered_map<ListNode *, int> nodes;
+        fre[0] = dummy;
+        ListNode *ptr = head;
+        
+        int sum = 0;
+        while(ptr != NULL)
+        {
+            sum += ptr->val;
+            if(fre.find(sum) != fre.end())
+            {
+                ListNode *node = fre[sum]->next;
+                while(node != ptr)
+                {
+                    fre.erase(nodes[node]);
+                    node = node->next;
+                }
+                fre[sum]->next = ptr->next;
+            }
+            
+            else
+            {
+                fre[sum] = ptr;
+                nodes[ptr] = sum;
+            }
+            ptr = ptr->next;
+        }
+        
+        return dummy->next;
+        
+    }
+};

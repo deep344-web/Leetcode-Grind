@@ -1,0 +1,11 @@
+In order to find nth term of recurrence relation we need to do N operations. But by using concept of matrix exponentiation we can do it in O(log n) time.
+
+Lets take example of fabonacci numbers i.e F(n) = F(n-1) + F(n-2)
+[F1  F2]  * [A     B]  = [F2  F3]
+                [C    D]
+
+
+(F1 * A) + (F2 * C) = F2
+(F1 * B) + (F2 * D) = F3
+
+so if we take A = 0 , B = 1, C = 1, D = 1 then we will be able to get the next fabonacci number. We can raise the power of magic matrix to (n-1) in order to find numbers [Fn    Fn+1]. Now in order to compute nth power of this 2*2 matrix the time complexity will be O(8 * log N) which approximately O(log n) and in order to compute nth fabonacci number we just need to multiply nth power of magic matrix with [F1  F2] which will also be constant. Hence we find nth term in O(log n) time.

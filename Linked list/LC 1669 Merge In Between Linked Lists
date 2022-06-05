@@ -1,0 +1,39 @@
+You are given two linked lists: list1 and list2 of sizes n and m respectively Remove list1's nodes from the ath node to the bth node, and put list2 in their place.
+
+Code :
+class Solution {
+public:
+    ListNode* mergeInBetween(ListNode* list1, int a, int b, ListNode* list2) {
+        ListNode *start = NULL, *end = NULL, *ptr;
+        ListNode *dummy = new ListNode(-1);
+        dummy->next = list1;
+        ptr = dummy;
+        int cnt = -1;
+
+        while(ptr != NULL)
+        {
+            cnt++;
+    
+            if(cnt == a)
+                start = ptr;
+            
+            if(cnt == b+1)
+                end = ptr->next;
+            
+            if(start && end)
+                break;
+            
+            ptr = ptr->next;
+        }
+        
+        ptr = list2;
+        while(ptr->next != NULL)
+            ptr = ptr->next;
+        
+
+        start->next = list2;
+        ptr->next = end;
+        
+        return dummy->next;
+    }
+};
