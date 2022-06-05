@@ -1,0 +1,83 @@
+class Node{
+    public :
+    
+    int key;
+    int value;
+    Node *prev;
+    Node *next;
+    
+    Node(int a, int b)
+    {
+        key = a;
+        value = b;
+        prev = NULL;  
+        next = NULL;
+    }
+};
+
+class LRUCache {
+
+    int cap = 0;
+    Node *head, *tail;
+    unordered_map<int , Node*> cache;
+    
+    public:
+    LRUCache(int capacity) {
+        cap = capacity;
+        head = new Node(0, 0);
+        tail = new Node(0, 0);
+        head->next = tail;
+        tail->prev = head;
+    }
+    
+    int get(int key) {
+        if(cache.find(key) == cache.end())
+            return -1;
+        
+        Node *node = cache[key];
+        int val = node->value;
+        
+        deleteNode(node);
+        insertNode(key, val);
+        
+        return val;
+    }
+    
+    void deleteNode(Node *node){
+        cache.erase(node->key);
+        
+        Node *pre = node->prev;
+        Node *nex = node->next;
+        delete(node);
+        pre->next = nex;
+        nex->prev = pre;
+        
+    }
+    
+    void insertNode(int key, int val){
+        Node *node = new Node(key, val);
+        Node *nex = head->next;
+        head->next = node;
+        node->next = nex;
+        node->prev = head;
+        nex->prev = node;
+        
+        cache[key] = node;
+    }
+    
+    void put(int key, int value) {
+        if(cache.find(key) != cache.end()){
+            deleteNode(cache[key]);
+            insertNode(key, value);
+        }
+        
+        else if(cache.size() < cap)
+           insertNode(key, value);   
+        
+        else
+        {
+           deleteNode(tail->prev);
+           insertNode(key, value);
+        }
+    }
+};

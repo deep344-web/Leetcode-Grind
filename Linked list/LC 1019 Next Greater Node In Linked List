@@ -1,0 +1,43 @@
+For each node in the list, find the value of the next greater node. That is, for each node, find the value of the first node that is next to it and has a strictly larger value than it.
+
+Code :
+class Solution {
+public:
+     ListNode* reverseList(ListNode *head)
+    {
+        ListNode *ptr = head, *temp, *preptr = NULL;
+        while(ptr != NULL)
+        {
+            temp = ptr->next;
+            ptr->next = preptr;
+            preptr = ptr;
+            ptr = temp;
+        }
+        
+        return preptr;
+    }
+    
+    vector<int> nextLargerNodes(ListNode* head) {
+        head = reverseList(head);
+        stack<int> s;
+        ListNode *ptr = head;
+        vector<int> ans;
+        while(ptr != NULL){
+            while(!s.empty() && s.top() <= ptr->val)
+                s.pop();
+            
+            if(s.empty())
+                ans.push_back(0);
+            
+            else
+                ans.push_back(s.top());
+            
+            s.push(ptr->val);
+            ptr = ptr->next;
+        }
+        
+        reverse(ans.begin(), ans.end());
+        
+        return ans;
+    }
+};

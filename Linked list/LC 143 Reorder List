@@ -1,0 +1,34 @@
+class Solution {
+public:
+   
+    void reorderList(ListNode* head) {
+        deque<ListNode *> q;
+        ListNode *ptr = head, *prev = NULL;
+        while(ptr != NULL)
+        {
+            q.push_back(ptr);
+            ptr = ptr->next;
+        }
+        
+        while(q.size() > 1)
+        {
+            q.front()->next = q.back();
+            if(prev)
+                prev->next = q.front();
+                
+            prev = q.back();
+            q.pop_front();
+            q.pop_back();
+        }
+        
+        if(!q.empty())
+        {
+            if(prev)
+                prev->next = q.front();
+            prev = q.front();
+        }
+        
+        if(prev)
+            prev->next = NULL;
+    }
+};

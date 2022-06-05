@@ -1,0 +1,33 @@
+Given the head of a sorted linked list, delete all nodes that have duplicate numbers, leaving only distinct numbers from the original list. Return the linked list sorted as well.
+
+Code :
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        ListNode *ptr = head, *preptr = NULL, *headRef = NULL;
+        while(ptr != NULL)
+        {
+            if(preptr)
+                preptr->next = ptr;
+        
+            bool dup = false;
+            while(ptr->next && ptr->next->val == ptr->val)
+            {
+               ptr = ptr->next;
+               dup = true; 
+            } 
+                
+            if(!dup)
+            {
+                headRef = preptr == NULL ? ptr : headRef;
+                preptr = ptr;
+            }
+            ptr = ptr->next;
+        }
+        
+        if(preptr)
+            preptr->next = NULL;
+        
+        return headRef;
+    }
+};

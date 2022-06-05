@@ -1,0 +1,16 @@
+* This theorm is used to generate all the numbers which are prime from 1 to N.
+* If we see a prime no then we will mark all its multiple as not prime because they can be divided by the current number. 
+
+void SOE(int N)
+{
+    vector<bool> primes(N, true);
+    primes[0] = false;  primes[1] = false;
+ 
+    for(int i=2; i <= N; i++){
+        if(primes[i] == true){
+            for(int j = i*i; j <= N; j += i)
+                primes[j] = false;
+        }
+    }
+    
+}
