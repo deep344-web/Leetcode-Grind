@@ -1,0 +1,4 @@
+In order to find prime numbers between a given range L and R we need an efficient approach because in some cases R can be very large and we will not be able to generate all prime numbers from 1 to R. 
+
+So we will first generate all prime numbers upto sqrt(R) and then we will mark all the multiples of these prime numbers as non prime that are in range L to R.
+

@@ -1,17 +1,19 @@
 To check if number N is prime or not we can iterate over all the numbers upto N and see if any number divides N then it is not prime.
 
-TC : O(N)
+                                                                                    TC : O(N)
 
+                                                                                             we can reduce this complexity by iterating till
+                                                                                             sqrt(N) because all the no.s dividing N will come in pairs like for 12 factors are (1, 12) (3, 4) (2, 6)  so here when we are checking for 2 we can also check for 6 at same time. This will reduce the complexity.
 
-we can reduce this complexity by iterating till sqrt(N) because all the no.s dividing N will come in pairs like for 12 factors are (1, 12) (3, 4) (2, 6)  so here when we are checking for 2 we can also check for 6 at same time. This will reduce the complexity.
-
-bool CheckPrime(int N){
-    if(N == 1)
-    return false;
-
-    for(int i = 2; i*i <= N; i++){
-        if(N % i == 0)
+bool CheckPrime(int N)
+{
+    if (N == 1)
         return false;
+
+    for (int i = 2; i * i <= N; i++)
+    {
+        if (N % i == 0)
+            return false;
     }
 
     return true;

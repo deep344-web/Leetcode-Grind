@@ -1,0 +1,19 @@
+Euclid Algorithm or GCD(Greatest common divisor)
+
+Points to remember : 
+*  GCD(A, B) =  GCD(B, A)
+*  GCD(A, 0) = GCD(0, A) = A
+*  GCD(A, B) = GCD(A-B, B) = GCD(A, B-A)
+
+int func(int a, int b){
+    if(b == 0)
+    return a;
+
+    return gcd(b, a%b);
+}
+
+
+Extended Euclid Algorithm
+To solve the following eqn we use this algorithm. 
+                ax + by = GCD(a, b)
+

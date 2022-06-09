@@ -1,0 +1,37 @@
+Fermat little theorm is used to find whether a number is prime or not. If P is prime number and a is any positive 2 <= a <= P-2 which is not the divisor of P then if this following eqn holds true then P is prime number : 
+               a ^ (P-1)  congurent 1 (mod p). 
+               It means (a^(P-1)) % P = 1.  
+
+Now this theorm will give us probabilty of a number being prime or not and not the guarantee. Sometimes even if P is composite number the theorm might give answer as true. So we can apply this theorm for more than one times on number and for any composite number the theorm will not give us positive answer all the times. 
+
+int binaryExponentiation(int a, int b, int mod){
+    int res = 1;
+    while(b)
+    {
+        if(b % 2){
+            res *= a;
+            b -= 1;
+        }
+
+        else
+        {
+            a = a*a;
+            b = b/2;
+        }
+
+    }
+
+    return res % mod;
+}
+
+bool PrimeOrNot(int n, int iter = 5){
+    for(int i=0; i<iter; i++){
+        int a = 2 + rand() % (n - 3);
+        if(binaryExponentiation(a, n-1, n) != 1)
+           return false;
+    }
+
+    return true;
+}
+
+Time complexity = O(log n)
