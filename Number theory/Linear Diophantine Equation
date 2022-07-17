@@ -1,0 +1,13 @@
+The equation of the form 
+         ax + by = c ----> (1) 
+is called LDE and we need to find solution for this equation i.e value of x and y. 
+
+We know how to find solution of equation ax1 + by1 = GCD(a, b) ----->  (2)
+So using that we can find solution of eqn 1. 
+x = x1 * (c / GCD(a, b))
+y = y1 * (c / GCD(a, b))
+
+* Now we need to take care of some edge cases like if  a = 0 and b = 0 then we have two cases  :
+(1)  If c = 0 then we have infinte solutions.
+(2)  If c != 0 then we have no solutions.
+(3) We will always have solution for eqn 2 but for eqn 1 we will have integer solutions only when c is divisible by GCD(a, b), otherwise we will not have integer solutions. 

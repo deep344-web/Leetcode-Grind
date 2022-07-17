@@ -16,4 +16,22 @@ int func(int a, int b){
 Extended Euclid Algorithm
 To solve the following eqn we use this algorithm. 
                 ax + by = GCD(a, b)
+we need to find value of x and y
+(Full explanation is in video)
 
+int EA(int a, int b, int &x, int &y){
+    if(b == 0){
+        x = 1;
+        y = 0;
+        return a;
+    }
+
+    int x1, y1;
+    int d = EA(b, a % b, x1, y1);
+    x = y1;
+    y = x1 - y1 * (a / b);
+
+    return d;
+}
+
+ 
