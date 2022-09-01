@@ -1,6 +1,5 @@
 Problem statement : 
-Given two strings X and Y of lengths m and n respectively, find the length of the
-smallest string which has both, X and Y as its sub-sequences.
+Given two strings X and Y of lengths m and n respectively, find the length of the smallest string which has both, X and Y as its sub-sequences.
 
 Approach : As we have to find smallest string, so we need to first find what all 
 chars are already same in both strings and that will occur once in our final 

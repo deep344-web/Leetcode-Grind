@@ -1,4 +1,4 @@
-Problem statement :
+ Problem statement :
 Given a binary tree and an integer K. Find the number of paths in the tree which have their sum equal to K. A path may start from any node and end at any node in the downward direction. Also try to print all the paths.
 
 Approach :  Instead of considering which all nodes can be root of paths, we are

@@ -1,7 +1,6 @@
 Problem statement : 
 Given an integer array arr of size N, the task is to divide it into two sets S1
- and S2 such that the absolute difference between their sums is minimum and find
-  the minimum difference.
+ and S2 such that the absolute difference between their sums is minimum and find the minimum difference.
 
 Approach : Same as Partion equal subset sum problem. Here we can find that if we 
 can find subset with sum = half of total sum, and yes the difference will 

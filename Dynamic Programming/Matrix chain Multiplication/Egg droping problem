@@ -38,7 +38,6 @@ Code :
         if(t[eggs][floors] != -1)
             return t[eggs][floors];
         
-
         int low = 1, high = floors, ans = INT_MAX;
         while(low <= high){
             

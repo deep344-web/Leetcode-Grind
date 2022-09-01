@@ -39,7 +39,6 @@ Code :
             if(dp[i][p]){
               if(solve(p+1, j, k-1, s))
                   ans = true;
-
             }
         }
         
